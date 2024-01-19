@@ -1,0 +1,118 @@
+﻿@page
+@model SoftwareEnginner_ClubBaist.Pages.SignUpModel
+@{
+    ViewData["Title"] = "SignUp ";
+}
+
+@section SignUpContent
+{
+    <section class="divHeader">
+        <form name="form" class="form" method="post">
+            <p class="form-title">Sign Up to your account</p>
+
+            <div class="input-container">
+                <input asp-for="UserName" placeholder="Enter UserName" type="text" value="@Model.UserName">
+
+            </div>
+
+            <div class="input-container">
+                <input asp-for="Password" placeholder="Enter Password" type="password">
+
+
+            </div>
+            <div class="input-container">
+                <input asp-for="ConfirmPassword" placeholder="Enter Confirm Password" type="password">
+
+
+            </div>
+            <div class="input-container">
+                <input asp-for="FirstName" placeholder="Enter Firstname" type="text" value="@Model.FirstName">
+
+            </div>
+            <div class="input-container">
+                <input asp-for="LastName" placeholder="Enter Lastname" type="text" value="@Model.LastName">
+
+
+            </div>
+            <div class="input-container">
+                <input asp-for="PostalCode" placeholder="Enter Postal Code" type="text" value="@Model.PostalCode">
+
+
+            </div>
+            <div class="input-container">
+                <input asp-for="Address" placeholder="Enter Address" type="text" value="@Model.Address">
+
+
+            </div>
+            <div class="input-container">
+                <input asp-for="Occupation" placeholder="Enter Occupation" type="text" value="@Model.Occupation">
+
+
+            </div>
+            <div class="input-container">
+                <input asp-for="CompanyName" placeholder="Enter Company Name" type="text" value="@Model.CompanyName">
+
+
+            </div>
+            <div class="input-container">
+                <input asp-for="Email" placeholder="Enter Email" type="text" value="@Model.Email">
+
+
+            </div>
+            <div class="input-container">
+                <input asp-for="DateOfBirth" placeholder="Enter Date of Birth ex)YYYY-MM-DD" type="text" value="@Model.DateOfBirth">
+
+
+            </div>
+            <div class="input-container">
+                <input asp-for="Phone" placeholder="Enter Phone" type="text" value="@Model.Phone">
+
+
+            </div>
+
+
+            <div class="input-container">
+
+                <select class="customerSelect" name="MembershipType">
+                    <option value="" class="selectionProgramCode">Select Student ID</option>
+                    <option value="Bronze" class="selectionProgramCode">Bronze</option>
+
+                    <option value="Silver" class="selectionProgramCode">Silver</option>
+                    <option value="Gold" class="selectionProgramCode">Gold</option>
+
+                </select>
+
+            </div>
+            <br></br>
+
+
+            <input type="submit" value="Sign UP" class="submit" />
+            <section class="messages">
+
+
+                <h3 class="modelMessage">@Model.Message</h3>
+            </section>
+            <section class="messages">
+                <br />
+
+                <span asp-validation-for="UserName" class="modelMessage"></span>
+                <span asp-validation-for="Password" class="modelMessage"></span>
+                <span asp-validation-for="ConfirmPassword" class="modelMessage"></span>
+                <span asp-validation-for="FirstName" class="modelMessage"></span>
+                <span asp-validation-for="LastName" class="modelMessage"></span>
+                <span asp-validation-for="PostalCode" class="modelMessage"></span>
+
+                <span asp-validation-for="Email" class="modelMessage"></span>
+                <span asp-validation-for="DateOfBirth" class="modelMessage"></span>
+                <span asp-validation-for="Phone" class="modelMessage"></span>
+                <span asp-validation-for="MembershipType" class="modelMessage"></span>
+            </section>
+
+        </form>
+    </section>
+
+
+
+
+
+}

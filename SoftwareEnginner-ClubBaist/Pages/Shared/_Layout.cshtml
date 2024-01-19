@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+
+    <link rel="stylesheet" href="~/css/StyleSheet.css" />
+    @RenderSection("HomeContent", required: false)
+    @RenderSection("LoginScript", required: false)
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navList = document.querySelector('.nav-list');
+
+            menuToggle.addEventListener('click', function () {
+                if (navList.style.display === 'flex') {
+                    navList.style.display = 'none';
+                } else {
+                    navList.style.display = 'flex';
+                }
+            });
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768) {
+                    navList.style.display = 'flex';
+                }
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Your Logo</div>
+        <div class="menu-toggle">&#9776;</div>
+        <ul class="nav-list">
+            <li><a href="~/Index">Home</a></li>
+            <li><a href="~/Login">Login</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+    <main>
+        @RenderBody()
+        @RenderSection("indexContent", required: false)
+        @RenderSection("LoginContent", required: false)
+        @RenderSection("SignUpContent", required: false)
+    </main>
+    <footer>
+
+        <p style="text-align:center;"> created by Mike Wonhyuk Cho</p>
+    </footer>
+</body>
+</html>
