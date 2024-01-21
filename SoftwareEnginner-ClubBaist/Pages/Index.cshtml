@@ -14,14 +14,17 @@
 
 @section indexContent
 {
-    <div class="divHeader">
-        <h1>Welcome @Model.Username !</h1>
 
-
-    </div>
 
     @if (Model.clubMembers != null)
     {
+        <div class="divHeader">
+            <h1>Welcome @Model.Username !</h1>
+            
+           
+
+
+        </div>
         <div class="divHeader">
             <h2>Approve Or Reject for New Member</h2>
 
@@ -77,7 +80,9 @@
     else
     {
         <div class="divHeader">
-            <h1>@Model.Username Member Status : </h1>
+            <h1>Welcome Home @Model.Username!</h1>
+
+            <p>Your Current Status : @Model.Status </p>
 
 
         </div>

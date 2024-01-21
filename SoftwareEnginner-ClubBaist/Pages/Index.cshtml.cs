@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Runtime.InteropServices;
 
 namespace SoftwareEnginner_ClubBaist.Pages
 {
@@ -11,6 +12,8 @@ namespace SoftwareEnginner_ClubBaist.Pages
         public string Submit { get; set; } = string.Empty;
         [BindProperty]
         public string ApproveUserName { set; get; } = string.Empty;
+
+        public string Status { set; get; } = String.Empty;
         public void OnGet()
         {
             GetSessionStringAndSetMember();
@@ -49,7 +52,24 @@ namespace SoftwareEnginner_ClubBaist.Pages
             else
             {
                 Username = DisplayMemberFirstName(setUserName);
+                string statusResult = DisplayStatus(setUserName);
+                if(statusResult.ToUpper() == "TRUE")                
+                    Status = "Apporeve";
+                else if(statusResult.ToUpper() == "FALSE")
+                    Status = "Rejecdted";
+                else if(statusResult.ToUpper() == "WAITING")
+                    Status = "Waiting On Satus";
+                else
+                {
+                    Status = string.Empty;
+                }
             }
+        }
+        private string DisplayStatus(string username)
+        {
+            TechService.ClubMember memeber = new TechService.ClubMember();
+            string status = memeber.MemberStatus(username);
+            return status;
         }
         public void RejectMembers(string username)
         {

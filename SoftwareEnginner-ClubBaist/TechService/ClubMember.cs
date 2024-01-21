@@ -18,6 +18,61 @@ namespace SoftwareEnginner_ClubBaist.TechService
             _connectionString = databaseUsersConfiguration.GetConnectionString("BAIST3150");
         }
 
+        #region Member Status Reject/ Waiting Stauts/ Approved
+
+        public string MemberStatus(string username)
+        {
+            string status = "";
+    
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                using (SqlCommand command = new SqlCommand("MemberStatusNow", conn))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    try
+                    {
+                        command.Parameters.AddWithValue("@UserName", username).SqlDbType = SqlDbType.NVarChar;
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                while (reader.Read())
+                                {
+                                    status = reader["IsRegistered"].ToString()!;
+                                    if (status == "")
+                                        status = "Waiting";
+                                    //lastName = (string)reader["LastName"];
+                                }
+                            }
+                            else
+                            {
+                                status = "";
+                            }
+                        }
+
+
+                    }
+                    catch (Exception ex)
+                    {
+
+                        Console.WriteLine(ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+
+
+                }
+            }
+            return status;
+
+        }
+        #endregion
         #region Reject Member
         public void RejectMember(string username)
         {
@@ -68,7 +123,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
                     try
                     {
                         command.Parameters.AddWithValue("@UserName", username).SqlDbType = SqlDbType.NVarChar;
-                        
+
 
                         command.ExecuteNonQuery();
 
@@ -77,7 +132,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
-                      
+
                     }
                     finally
                     {
@@ -87,7 +142,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
 
                 }
             }
-        
+
         }
 
         #endregion
@@ -99,7 +154,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
         {
             string firstName = "";
             string lastName = "";
-           
+
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
@@ -109,8 +164,8 @@ namespace SoftwareEnginner_ClubBaist.TechService
 
                     try
                     {
-                        command.Parameters.AddWithValue("@UserName",username).SqlDbType = SqlDbType.NVarChar;
-                    
+                        command.Parameters.AddWithValue("@UserName", username).SqlDbType = SqlDbType.NVarChar;
+
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
                             if (reader.HasRows)
@@ -151,7 +206,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
 
         public List<Models.ClubMember> GetMemberForApprove()
         {
-            List<Models.ClubMember> beforeApprove  = new List<Models.ClubMember>();
+            List<Models.ClubMember> beforeApprove = new List<Models.ClubMember>();
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
@@ -215,7 +270,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
 
         #endregion
 
- 
+
 
 
         #region Login Member
@@ -317,7 +372,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
                 }
             }
             return true;
-          
+
         }
         #endregion
     }
