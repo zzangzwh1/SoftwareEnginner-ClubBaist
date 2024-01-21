@@ -17,6 +17,7 @@
     <div class="divHeader">
         <h1>Welcome @Model.Username !</h1>
 
+
     </div>
 
     @if (Model.clubMembers != null)
@@ -35,35 +36,35 @@
                         <section class="divHeader">
                             <form name="form" class="form" method="post">
                                 <h5 class="form-title">Member Information</h5>
-                                <div class="input-container">
-                                    <label>UserID: @member.UserName</label>
+                                <div class="text-container">
+                                    <label for="_UserName">User ID:</label><input type="text" id="_UserName" class="label-like-input" name="ApproveUserName" value="@member.UserName" readonly />
                                 </div>
-                                <div class="input-container">
-                                    <label>Name : @member.FirstName @member.LastName</label>
+                                <div class="text-container">
+                                    <label for="_Name">Name : </label> <input type="text" id="_Name" class="label-like-input" value="@member.FirstName @member.LastName" readonly />
                                 </div>
-                                <div class="input-container">
-                                    <label>JOB: @member.Occupation, @member.CompanyName</label>
+                                <div class="text-container">
+                                    <label for="_JOB">JOB: </label> <input type="text" id="_JOB" class="label-like-input" value="@member.Occupation, @member.CompanyName" readonly />
                                 </div>
-                                <div class="input-container">
-                                    <label>Address: @member.Address, @member.PostalCode</label>
+                                <div class="text-container">
+                                    <label for="_Address">Address:</label> <input type="text" id="_Address" class="label-like-input" value="@member.Address, @member.PostalCode" readonly />
                                 </div>
-                                <div class="input-container">
-                                    <label>Email: @member.Email </label>
+                                <div class="text-container">
+                                    <label for="_Email">Email: </label> <input type="text" id="_Email" class="label-like-input" value="@member.Email" readonly />
                                 </div>
-                                <div class="input-container">
-                                    <label>Date of Birth: @member.DateOfBirth </label>
+                                <div class="text-container">
+                                    <label for="_dBirth">Date of Birth:</label> <input type="text" id="_dBirth" class="label-like-input" value="@member.DateOfBirth " readonly />
                                 </div>
-                                <div class="input-container">
-                                    <label>Phone: @member.Phone </label>
+                                <div class="text-container">
+                                    <label for="_Phone">Phone:</label> <input type="text" id="_Phone" class="label-like-input" value="@member.Phone " readonly />
                                 </div>
-                                <div class="input-container">
-                                    <label>MemberType: @member.MembershipType </label>
+                                <div class="text-container">
+                                    <label for="_memberType">MemberType:</label> <input type="text" id="_memberType" class="label-like-input" value=" @member.MembershipType " readonly />
                                 </div>
                                 <br />
 
-                                <input type="submit" value="Approve" class="submit" /><br />
+                                <input type="submit" value="Approve" name="Submit" class="submit" /><br />
 
-                                <input type="submit" value="Reject" class="submit" /><br />
+                                <input type="submit" value="Reject" name="Submit" class="submit" /><br />
 
                             </form>
                         </section>
@@ -73,20 +74,16 @@
         </div>
 
     }
+    else
+    {
+        <div class="divHeader">
+            <h1>@Model.Username Member Status : </h1>
+
+
+        </div>
+    }
 
 
 
 
 }
-@* @section LoginOrLogout
-{
-    @if(Model.Username is null)
-    {
-        LOGIN
-    }
-    else
-    {
-        <P>LOGOUT Model.Username</P>
-    }
-
-} *@

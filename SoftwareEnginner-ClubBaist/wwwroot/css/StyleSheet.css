@@ -156,6 +156,25 @@
 .modelMessage {
     color: red;
 }
+/*.text-container {
+    justify-content: center;
+    align-items: center;
+    display: grid;
+    text-align: center;
+}*/
+
+/* Custom CSS for label and input */
+.label-like-input {
+    border: none;
+    background: none;
+    padding: 0;
+    font-weight: bold;
+    color: #333;
+    cursor: text;
+    outline: none;
+    text-align:center
+}
+   
 
 @media screen and (max-width: 768px) {
     .nav-list {

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace SoftwareEnginner_ClubBaist.Pages
 {
@@ -8,63 +9,63 @@ namespace SoftwareEnginner_ClubBaist.Pages
     {
         [BindProperty]
         [Required]
-        public string UserName { get; set; }
+        public string UserName { get; set; } = "";
 
         [BindProperty]
         [Required]
         // [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$", ErrorMessage = "Invalid Password, at least 8 long, at least 1 letter, 1 digit,1 special character, 1 Lowercase, 1 uppercase.")]
-        public string Password { get; set; }
+        public string Password { get; set; } = "";
 
 
         [BindProperty]
         [Required]
         [Compare("Password", ErrorMessage = "Passwords do not match.")]
-        public string ConfirmPassword { get; set; }
+        public string ConfirmPassword { get; set; } = "";
 
         [BindProperty]
         [Required]
         [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "Invalid First Name,Only Letter valid")]
-        public string FirstName { get; set; }
+        public string FirstName { get; set; } = "";
 
         [BindProperty]
         [Required]
         [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "Invaliad Last Name, Only Letter valid")]
-        public string LastName { get; set; }
+        public string LastName { get; set; } = "";
 
         [BindProperty]
         [Required]
         [RegularExpression(@"^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$", ErrorMessage = "invliad Postal Code ex)T6G 2T4")]
-        public string PostalCode { get; set; }
+        public string PostalCode { get; set; } = "";
 
         [BindProperty]
-        public string Address { get; set; }
+        public string Address { get; set; } = "";
 
         [BindProperty]
-        public string Occupation { get; set; }
+        public string Occupation { get; set; } = "";
 
         [BindProperty]
-        public string CompanyName { get; set; }
+        public string CompanyName { get; set; } = "";
 
         [BindProperty]
         [Required]
         [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Invalid Email,ex)wcho2@nait.ca")]
-        public string Email { get; set; }
+        public string Email { get; set; } = "";
 
         [BindProperty]
         [Required]
         [RegularExpression(@"^\d{4}-\d{2}-\d{2}$", ErrorMessage = "Invalid Date of Birth ex)YYYY-MM-DD")]
-        public string DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; } = "";
 
         [BindProperty]
         [Required]
         [RegularExpression(@"^[0-9]+$", ErrorMessage = "Invalid Phone ex)7802003879 or 17802003879")]
-        public string Phone { get; set; }
+        public string Phone { get; set; } = "";
 
         [BindProperty]
         [Required(ErrorMessage = "Please Select Membership")]
-        public string MembershipType { get; set; }
+        public string MembershipType { get; set; } = "";
 
-        public string Message { get; set; }
+        public string Message { get; set; } = "";
         public void OnGet()
         {
             Message = "";
@@ -91,11 +92,13 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
             };
 
-            TechService.ClubMember clubMenber = new TechService.ClubMember();
-            bool isRegister = clubMenber.AddClubMember(members);
+         
 
-            if (isRegister)
+            if (ModelState.IsValid)
             {
+
+                TechService.ClubMember clubMenber = new TechService.ClubMember();
+                bool isRegister = clubMenber.AddClubMember(members);
                 Message = "Member is Successfully Added!";
                 EmptyStrings();
             }
@@ -106,7 +109,34 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
 
         }
-        public void EmptyStrings()
+        /*  private bool IsValidPhone(string phone)
+          {
+              if (!Regex.IsMatch(phone, @"^[0-9]+$") || !string.IsNullOrEmpty(phone))
+              {
+                  return false;
+              }
+              else
+              {
+                  return true;
+              }
+          }
+          private bool IsValidDateOfBirth(string dateOfBirth)
+          {
+              return Regex.IsMatch(dateOfBirth, @"^\d{4}-\d{2}-\d{2}$");
+          }
+          private bool IsValidEmail(string email)
+          {
+              return Regex.IsMatch(email, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
+          }
+          private bool IsValidPostalCode(string postalCode)
+          {
+              return Regex.IsMatch(postalCode, @"^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$");
+          }
+          private bool IsValidName(string name)
+          {
+              return Regex.IsMatch(name, @"^[A-Za-z]+$");
+          }*/
+        private void EmptyStrings()
         {
             UserName = "";
             Password = "";

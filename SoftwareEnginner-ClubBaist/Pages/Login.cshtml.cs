@@ -18,7 +18,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
         public string Message { get; set; } = string.Empty;
 
-        public string passUserName { set; get; } = string.Empty;
+       // public string PassUserName { set; get; } = string.Empty;
         public void OnGet()
         {
             if(HttpContext.Session.GetString("member") != null)

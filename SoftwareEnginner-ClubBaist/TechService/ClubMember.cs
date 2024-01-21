@@ -18,6 +18,135 @@ namespace SoftwareEnginner_ClubBaist.TechService
             _connectionString = databaseUsersConfiguration.GetConnectionString("BAIST3150");
         }
 
+        #region Reject Member
+        public void RejectMember(string username)
+        {
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                using (SqlCommand command = new SqlCommand("RejectMember", conn))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    try
+                    {
+                        command.Parameters.AddWithValue("@UserName", username).SqlDbType = SqlDbType.NVarChar;
+
+
+                        command.ExecuteNonQuery();
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+
+
+                }
+            }
+
+        }
+        #endregion
+
+        #region Approved Member by updating isRegister
+
+        public void ApproveMember(string username)
+        {
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                using (SqlCommand command = new SqlCommand("ApproveMember", conn))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    try
+                    {
+                        command.Parameters.AddWithValue("@UserName", username).SqlDbType = SqlDbType.NVarChar;
+                        
+
+                        command.ExecuteNonQuery();
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                      
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+
+
+                }
+            }
+        
+        }
+
+        #endregion
+
+
+        #region GetMemberName
+
+        public string GetMemberName(string username)
+        {
+            string firstName = "";
+            string lastName = "";
+           
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                using (SqlCommand command = new SqlCommand("SetMemberName", conn))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    try
+                    {
+                        command.Parameters.AddWithValue("@UserName",username).SqlDbType = SqlDbType.NVarChar;
+                    
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                while (reader.Read())
+                                {
+                                    firstName = (string)reader["firstname"];
+                                    //lastName = (string)reader["LastName"];
+                                }
+                            }
+                            else
+                            {
+                                firstName = "";
+                            }
+                        }
+
+
+                    }
+                    catch (Exception ex)
+                    {
+
+                        Console.WriteLine(ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+
+
+                }
+            }
+            return firstName;
+
+        }
+
+        #endregion
         #region Get Every Member for Approval
 
         public List<Models.ClubMember> GetMemberForApprove()
@@ -86,6 +215,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
 
         #endregion
 
+ 
 
 
         #region Login Member
@@ -93,6 +223,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
         public string MemberLogin(Models.ClubMember member)
         {
             string firstName = "";
+            string username = "";
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
@@ -113,6 +244,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
                                 while (reader.Read())
                                 {
                                     firstName = (string)reader["firstname"];
+                                    username = (string)reader["UserName"];
                                 }
                             }
                             else
@@ -136,7 +268,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
 
                 }
             }
-            return firstName;
+            return username;
         }
 
         #endregion
@@ -174,6 +306,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
                     {
 
                         return false;
+                        Console.WriteLine(ex.Message);
                     }
                     finally
                     {
@@ -184,6 +317,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
                 }
             }
             return true;
+          
         }
         #endregion
     }
