@@ -19,7 +19,74 @@
 
     </div>
 
+    @if (Model.clubMembers != null)
+    {
+        <div class="divHeader">
+            <h2>Approve Or Reject for New Member</h2>
+
+        </div>
+
+
+        <div class="container">
+            <div class="row g-3">
+                @foreach (var member in Model.clubMembers)
+                {
+                    <div class="col-12 col-mid-6 col-lg-4 ">
+                        <section class="divHeader">
+                            <form name="form" class="form" method="post">
+                                <h5 class="form-title">Member Information</h5>
+                                <div class="input-container">
+                                    <label>UserID: @member.UserName</label>
+                                </div>
+                                <div class="input-container">
+                                    <label>Name : @member.FirstName @member.LastName</label>
+                                </div>
+                                <div class="input-container">
+                                    <label>JOB: @member.Occupation, @member.CompanyName</label>
+                                </div>
+                                <div class="input-container">
+                                    <label>Address: @member.Address, @member.PostalCode</label>
+                                </div>
+                                <div class="input-container">
+                                    <label>Email: @member.Email </label>
+                                </div>
+                                <div class="input-container">
+                                    <label>Date of Birth: @member.DateOfBirth </label>
+                                </div>
+                                <div class="input-container">
+                                    <label>Phone: @member.Phone </label>
+                                </div>
+                                <div class="input-container">
+                                    <label>MemberType: @member.MembershipType </label>
+                                </div>
+                                <br />
+
+                                <input type="submit" value="Approve" class="submit" /><br />
+
+                                <input type="submit" value="Reject" class="submit" /><br />
+
+                            </form>
+                        </section>
+                    </div>
+                }
+            </div>
+        </div>
+
+    }
+
 
 
 
 }
+@* @section LoginOrLogout
+{
+    @if(Model.Username is null)
+    {
+        LOGIN
+    }
+    else
+    {
+        <P>LOGOUT Model.Username</P>
+    }
+
+} *@

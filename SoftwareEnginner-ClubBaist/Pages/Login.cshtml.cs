@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace SoftwareEnginner_ClubBaist.Pages
@@ -8,18 +9,22 @@ namespace SoftwareEnginner_ClubBaist.Pages
     {
         [BindProperty]
         [Required]
-        public string Username { get; set; }
+        public string Username { get; set; } = string.Empty;
 
 
         [BindProperty]
         [Required]
-        public string Password { get; set; }
+        public string Password { get; set; } = string.Empty;
 
         public string Message { get; set; } = string.Empty;
 
-        public string passUserName { set; get; }
+        public string passUserName { set; get; } = string.Empty;
         public void OnGet()
         {
+            if(HttpContext.Session.GetString("member") != null)
+            {
+                HttpContext.Session.Clear();
+            }
         }
         public IActionResult OnPost()
         {
