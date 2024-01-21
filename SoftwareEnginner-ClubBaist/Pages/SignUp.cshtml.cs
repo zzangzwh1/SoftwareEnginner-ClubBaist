@@ -77,7 +77,6 @@ namespace SoftwareEnginner_ClubBaist.Pages
             Models.ClubMember members = new()
             {
                 UserName = UserName,
-
                 Password = Password,
                 FirstName = FirstName,
                 LastName = LastName,
@@ -87,7 +86,6 @@ namespace SoftwareEnginner_ClubBaist.Pages
                 CompanyName = CompanyName,
                 Email = Email,
                 DateOfBirth = DateOfBirth,
-
                 MembershipType = MembershipType,
                 Phone = Phone
 

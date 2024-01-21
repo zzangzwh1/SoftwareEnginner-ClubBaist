@@ -166,9 +166,6 @@ namespace SoftwareEnginner_ClubBaist.TechService
                         command.Parameters.AddWithValue("@Phone", member.Phone).SqlDbType = SqlDbType.NVarChar;
                         command.Parameters.AddWithValue("@MembershipType", member.MembershipType).SqlDbType = SqlDbType.NVarChar;
 
-
-
-
                         command.ExecuteNonQuery();
 
 
