@@ -14,7 +14,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
         [BindProperty]
         [Required(ErrorMessage = "Please Select Date")]
-        public DateTime Bdate { set; get; }
+        public string Bdate { set; get; }
         [BindProperty]
         [Required(ErrorMessage = "Please Select Time")]
         public string Btime { set; get; }
@@ -25,6 +25,13 @@ namespace SoftwareEnginner_ClubBaist.Pages
         [BindProperty]
         public int numCart { set; get; }
         public string SetUserName = "";
+
+        public List<Models.ClubBooking> TeeTimeList = null!;
+        [BindProperty]
+        public DateTime SelectDateForView { set; get; }  
+
+
+        public string Message = "";
         public void OnGet()
         {
             GetSession();
@@ -43,8 +50,33 @@ namespace SoftwareEnginner_ClubBaist.Pages
                 NumOfPlayer = numPlayer,
                 NumOfCarts = numCart
             };
-            InsertClubBooking(Bookings, memberID);
+           bool isBooked = InsertClubBooking(Bookings, memberID);
+            if (isBooked)
+            {
+                Message = "Your Reservation is Successfully Booked";
+            }
+            else
+            {
+                Message = "Currently it is not available Try Again!";
+
+            }
             GetSession();
+        }
+        public void OnPostViewTeeTime()
+        {
+           
+            string result = SelectDateForView.ToString("yyyy-MM-dd");         
+            TeeTimeList = ViewTeemTime(result);
+            GetSession();
+        }
+        public List<Models.ClubBooking> ViewTeemTime(string selectedDate)
+        {
+            TechService.ClubBooking booking = new TechService.ClubBooking();
+
+            List<Models.ClubBooking> bookedItems  = booking.DisplayTeeTimeList(selectedDate);
+            return bookedItems;
+
+
         }
         private int GnerateBookingID()
         {
@@ -52,13 +84,12 @@ namespace SoftwareEnginner_ClubBaist.Pages
             return random.Next(100000000, 999999999);
         }
       
-        private void InsertClubBooking(Models.ClubBooking clubBookings, int memberID)
+        private bool InsertClubBooking(Models.ClubBooking clubBookings, int memberID)
         {
           //  string username = HttpContext.Session.GetString("member")!;
             TechService.ClubBooking booking = new TechService.ClubBooking();
-            booking.InsertIntoClubBooking(clubBookings, memberID);
-            
-            //booking.
+           return booking.InsertIntoClubBooking(clubBookings, memberID);
+    
         }
         private int GetMemberID()
         {
@@ -80,10 +111,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
         }
 
-        public void DisplayTable()
-        {
-
-        }
+    
 
     }
 }

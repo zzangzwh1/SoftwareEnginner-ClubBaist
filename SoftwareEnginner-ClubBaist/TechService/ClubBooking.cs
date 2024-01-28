@@ -15,8 +15,67 @@ namespace SoftwareEnginner_ClubBaist.TechService
             IConfiguration databaseUsersConfiguration = databaseUserBuilder.Build();
             _connectionString = databaseUsersConfiguration.GetConnectionString("BAIST3150");
         }
-        public void InsertIntoClubBooking(Models.ClubBooking booking, int memberID)
+        public List<Models.ClubBooking> DisplayTeeTimeList(string bookingDate)
         {
+           var teeTimeView = new List<Models.ClubBooking>();
+           
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                using (SqlCommand command = new SqlCommand("GetBookedData", conn))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+                        command.Parameters.AddWithValue("@BookingDate", bookingDate);
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+
+                                while (reader.Read())
+                                {
+                                    Models.ClubBooking teeTimeItems = new Models.ClubBooking();
+
+                                    teeTimeItems.FullName = (string)reader["Member Name"];
+                                    teeTimeItems.NumOfPlayer = (int)reader["# of Player"];
+                                    //string phone = (string)reader["Phone"];
+                                    Models.ClubMember member = new Models.ClubMember();
+                                    teeTimeItems.members = member;
+                                    member.Phone = (string)reader["Phone"];
+                                    teeTimeItems.NumOfCarts = (int)reader["# of Carts"];
+                                    teeTimeItems.BookingDate = (string)reader["Date"];
+                                    teeTimeItems.BookingTime = (string)reader["Time"];
+
+                                    teeTimeView.Add(teeTimeItems);
+                                }
+
+
+                            }
+                            else
+                            {
+                                teeTimeView = null!;
+                            }
+
+
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error Occurred - {ex.Message}");
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+            return teeTimeView;
+        }
+        public bool InsertIntoClubBooking(Models.ClubBooking booking, int memberID)
+        {
+            bool isBooked = true;
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
@@ -28,7 +87,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
                     {
                         command.Parameters.AddWithValue("@MemberId", memberID).SqlDbType = SqlDbType.Int;
                         command.Parameters.AddWithValue("@BookingID", booking.BookingID).SqlDbType = SqlDbType.Int;
-                        command.Parameters.AddWithValue("@BookingDate", booking.BookingDate).SqlDbType = SqlDbType.DateTime;
+                        command.Parameters.AddWithValue("@BookingDate", booking.BookingDate).SqlDbType = SqlDbType.NVarChar;
                         command.Parameters.AddWithValue("@BookingTime", booking.BookingTime).SqlDbType = SqlDbType.NVarChar;
                         command.Parameters.AddWithValue("@NumOfPalyer", booking.NumOfPlayer).SqlDbType = SqlDbType.Int;
                         command.Parameters.AddWithValue("@NumOfCarts", booking.NumOfCarts).SqlDbType = SqlDbType.Int;
@@ -40,6 +99,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
+                        isBooked = false;
 
                     }
                     finally
@@ -49,6 +109,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
 
 
                 }
+                return isBooked;
 
             }
         }
