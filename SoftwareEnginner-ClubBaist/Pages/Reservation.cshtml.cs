@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SoftwareEnginner_ClubBaist.TechService;
 using System.ComponentModel.DataAnnotations;
+using SoftwareEnginner_ClubBaist.Models;
 
 namespace SoftwareEnginner_ClubBaist.Pages
 {
@@ -13,16 +14,17 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
         [BindProperty]
         [Required(ErrorMessage = "Please Select Date")]
-        public string Bdate { set; get; }
+        public DateTime Bdate { set; get; }
         [BindProperty]
         [Required(ErrorMessage = "Please Select Time")]
         public string Btime { set; get; }
         [BindProperty]
         [Required(ErrorMessage = "Please Insert Number Of Player")]
         [RegularExpression("^[0-9]+$", ErrorMessage = "Please enter a valid number")]
-        public string numPlayer { set; get; }
+        public int numPlayer { set; get; }
         [BindProperty]
-        public string numCart { set; get; }
+        public int numCart { set; get; }
+        public string SetUserName = "";
         public void OnGet()
         {
             GetSession();
@@ -30,20 +32,51 @@ namespace SoftwareEnginner_ClubBaist.Pages
         public void OnPostBook()
         {
             string s = "";
+            int memberID = GetMemberID();
+
+            int bookingID = GnerateBookingID();
+            Models.ClubBooking Bookings = new()
+            {
+                BookingID = bookingID,
+                BookingDate = Bdate,
+                BookingTime = Btime,
+                NumOfPlayer = numPlayer,
+                NumOfCarts = numCart
+            };
+            InsertClubBooking(Bookings, memberID);
+            GetSession();
         }
-        public void GetSession()
+        private int GnerateBookingID()
         {
-            string setUserName = HttpContext.Session.GetString("member")!;
-            if (string.IsNullOrEmpty(setUserName))
+            Random random = new Random();
+            return random.Next(100000000, 999999999);
+        }
+      
+        private void InsertClubBooking(Models.ClubBooking clubBookings, int memberID)
+        {
+          //  string username = HttpContext.Session.GetString("member")!;
+            TechService.ClubBooking booking = new TechService.ClubBooking();
+            booking.InsertIntoClubBooking(clubBookings, memberID);
+            
+            //booking.
+        }
+        private int GetMemberID()
+        {
+            TechService.ClubBooking booking = new TechService.ClubBooking();
+            string memberName = HttpContext.Session.GetString("member")!;
+            int memberID = booking.GetMemberID(memberName);
+            return memberID;
+        }
+        private void GetSession()
+        {
+            SetUserName = HttpContext.Session.GetString("member")!;
+            if (string.IsNullOrEmpty(SetUserName))
                 IsRegistered = "";
             else
             {
-                ClubBooking booking = new ClubBooking();
-
-                IsRegistered = booking.IsMemberRegistered(setUserName);
+                TechService.ClubBooking booking = new TechService.ClubBooking();
+                IsRegistered = booking.IsMemberRegistered(SetUserName);
             }
-           //CurrentSessionUser = setUserName;
-
 
         }
 
@@ -51,6 +84,6 @@ namespace SoftwareEnginner_ClubBaist.Pages
         {
 
         }
-      
+
     }
 }

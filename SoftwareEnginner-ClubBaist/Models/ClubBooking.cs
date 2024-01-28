@@ -4,6 +4,7 @@ namespace SoftwareEnginner_ClubBaist.Models
 {
     public class ClubBooking
     {
+        public int BookingID { set; get; }
         [Required]
         public DateTime BookingDate { get; set; }
 
