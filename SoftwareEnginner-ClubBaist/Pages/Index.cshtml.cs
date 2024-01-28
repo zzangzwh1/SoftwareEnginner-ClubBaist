@@ -54,11 +54,11 @@ namespace SoftwareEnginner_ClubBaist.Pages
                 Username = DisplayMemberFirstName(setUserName);
                 string statusResult = DisplayStatus(setUserName);
                 if(statusResult.ToUpper() == "TRUE")                
-                    Status = "Apporeve";
+                    Status = "Apporeved";
                 else if(statusResult.ToUpper() == "FALSE")
-                    Status = "Rejecdted";
+                    Status = "Not Approved, Rejected";
                 else if(statusResult.ToUpper() == "WAITING")
-                    Status = "Waiting On Satus";
+                    Status = "Waiting On Status";
                 else
                 {
                     Status = string.Empty;

@@ -13,7 +13,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const menuToggle = document.querySelector('.menu-toggle');
             const navList = document.querySelector('.nav-list');
-
+            //navList.style.display = 'flex';
             menuToggle.addEventListener('click', function () {
                 if (navList.style.display === 'flex') {
                     navList.style.display = 'none';
@@ -21,18 +21,18 @@
                     navList.style.display = 'flex';
                 }
             });
-            window.addEventListener('resize', function () {
-                if (window.innerWidth > 768) {
+           window.addEventListener('resize', function () {
+               if (window.innerWidth > 768) {
                     navList.style.display = 'flex';
-                }
-            });
+               }
+           });
         });
 
     </script>
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo">Your Logo</div>
+        <div class="logo"><a href="~/Index" class="logo">MCB</a></div>
         <div class="menu-toggle">&#9776;</div>
         <ul class="nav-list">
            
@@ -50,7 +50,7 @@
                     }
                 </a>
             </li>
-            <li><a href="#">Services</a></li>
+            <li><a href="~/Reservation">Reservation</a></li>
             <li><a href="#">Contact</a></li>
         </ul>
     </nav>
@@ -60,6 +60,7 @@
         @RenderSection("indexContent", required: false)
         @RenderSection("LoginContent", required: false)
         @RenderSection("SignUpContent", required: false)
+        @RenderSection("ReservationContent", required: false)
     </main>
     <footer>
 

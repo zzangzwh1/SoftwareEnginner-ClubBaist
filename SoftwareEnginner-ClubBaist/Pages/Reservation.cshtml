@@ -1,0 +1,163 @@
+﻿@page
+@model SoftwareEnginner_ClubBaist.Pages.ReservationModel
+@{
+    ViewData["Title"] = "Book";
+}
+
+@section ReservationContent
+{
+    @if (Model.IsRegistered == "True")
+    {
+
+
+        <section class="divHeader">
+            <form name="form" class="form" method="post">
+                <p class="form-title">Make Reservation</p>
+
+                <div class="input-container">
+                    <input type="date" name="Bdate" />
+
+                </div>
+                <div class="input-container">
+                    <label for="mySelect">Choose Time:</label>
+                    <select id="mySelect" name="Btime">
+
+                        @for (int i = 7; i < 20; i++)
+                        {
+                            for (int j = 0; j < 60; j += 8)
+                            {
+                                string time = i.ToString().PadLeft(2, '0');
+                                string mins = j.ToString().PadLeft(2, '0');
+
+                                <option value="@($"{i}{j}")">@time : @mins</option>
+
+                            }
+                        }
+
+                    </select>
+
+                </div>
+
+                <div class="input-container">
+
+                    <input type="text" name="numPlayer" placeholder="Insert Number Of Players" />
+
+                </div>
+                <div class="input-container">
+
+                    <input type="text" name="numCart" placeholder="Insert Number Of Carts" />
+
+                </div>
+                <input type="submit" value="Book" asp-page-handler="Book" class="submit" />
+
+            </form>
+        </section>
+
+        <section class="divHeader">
+            <form name="form" class="form" method="post">
+                <p class="form-title">View Tee TimeList</p>
+                <div class="input-container">
+                    <input type="date" name="SelectDateForView" />
+
+                </div>
+
+
+                <input type="submit" value="View List" class="submit" />
+            </form>
+        </section>
+
+        <div class="table-wrapper">
+            <table class="fl-table">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Header 2</th>
+                        <th>Header 3</th>
+                        <th>Header 4</th>
+                        <th>Header 5</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Content 1</td>
+                        <td>Content 1</td>
+                        <td>Content 1</td>
+                        <td>Content 1</td>
+                        <td>Content 1</td>
+                    </tr>
+                    <tr>
+                        <td>Content 2</td>
+                        <td>Content 2</td>
+                        <td>Content 2</td>
+                        <td>Content 2</td>
+                        <td>Content 2</td>
+                    </tr>
+                    <tr>
+                        <td>Content 3</td>
+                        <td>Content 3</td>
+                        <td>Content 3</td>
+                        <td>Content 3</td>
+                        <td>Content 3</td>
+                    </tr>
+                    <tr>
+                        <td>Content 4</td>
+                        <td>Content 4</td>
+                        <td>Content 4</td>
+                        <td>Content 4</td>
+                        <td>Content 4</td>
+                    </tr>
+                    <tr>
+                        <td>Content 5</td>
+                        <td>Content 5</td>
+                        <td>Content 5</td>
+                        <td>Content 5</td>
+                        <td>Content 5</td>
+                    </tr>
+                    <tr>
+                        <td>Content 6</td>
+                        <td>Content 6</td>
+                        <td>Content 6</td>
+                        <td>Content 6</td>
+                        <td>Content 6</td>
+                    </tr>
+                    <tr>
+                        <td>Content 7</td>
+                        <td>Content 7</td>
+                        <td>Content 7</td>
+                        <td>Content 7</td>
+                        <td>Content 7</td>
+                    </tr>
+                    <tr>
+                        <td>Content 8</td>
+                        <td>Content 8</td>
+                        <td>Content 8</td>
+                        <td>Content 8</td>
+                        <td>Content 8</td>
+                    </tr>
+                    <tr>
+                        <td>Content 9</td>
+                        <td>Content 9</td>
+                        <td>Content 9</td>
+                        <td>Content 9</td>
+                        <td>Content 9</td>
+                    </tr>
+                    <tr>
+                        <td>Content 10</td>
+                        <td>Content 10</td>
+                        <td>Content 10</td>
+                        <td>Content 10</td>
+                        <td>Content 10</td>
+                    </tr>
+                <tbody>
+            </table>
+        </div>
+
+
+    }
+    else
+    {
+        <section class="divHeader">
+            <h1> Your Status is not Registered Please Contact to Admin </h1>
+        </section>
+    }
+}
