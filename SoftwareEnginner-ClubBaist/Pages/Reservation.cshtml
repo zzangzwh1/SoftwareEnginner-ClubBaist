@@ -3,7 +3,12 @@
 @{
     ViewData["Title"] = "Book";
 }
-
+@section ReservationScript
+{
+    <script src="~/libraries/jquery/jquery.js"> </script>
+    <script src="~/libraries/jquery-validate/jquery.validate.js"></script>
+    <script src="~/libraries/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}
 @section ReservationContent
 {
     @if (Model.IsRegistered == "True")
@@ -15,12 +20,13 @@
                 <p class="form-title">Make Reservation</p>
 
                 <div class="input-container">
-                    <input type="date" name="Bdate" />
+                    <label class="lablesForRservation">Select Date: </label>
+                    <input asp-for="Bdate" type="date"  />
 
                 </div>
                 <div class="input-container">
                     <label for="mySelect">Choose Time:</label>
-                    <select id="mySelect" name="Btime">
+                    <select id="mySelect" asp-for="Btime">
 
                         @for (int i = 7; i < 20; i++)
                         {
@@ -44,12 +50,13 @@
 
                 <div class="input-container">
 
-                    <input type="text" name="numPlayer" placeholder="Insert Number Of Players" />
+                    <label class="lablesForRservation">Insert Number of Players: </label>
+                    <input asp-for="numPlayer" type="text"  placeholder="Insert Number Of Players" />
 
                 </div>
                 <div class="input-container">
-
-                    <input type="text" name="numCart" placeholder="Insert Number Of Carts" />
+                    <label class="lablesForRservation">Insert Number of Carts: </label>
+                    <input asp-for="numCart" type="text" placeholder="Insert Number Of Carts" />
 
                 </div>
                 <input type="submit" value="Book" asp-page-handler="Book" class="submit" />
@@ -59,6 +66,15 @@
                     <h3 style="color:red">@Model.Message</h3>
 
                 </div>
+                <section class="messages">
+                    <br />
+
+                    <span asp-validation-for="Bdate" class="modelMessage"></span>
+                    <span asp-validation-for="Btime" class="modelMessage"></span>
+                    <span asp-validation-for="numPlayer" class="modelMessage"></span>
+                    <span asp-validation-for="numCart" class="modelMessage"></span>
+                   
+                </section>
 
             </form>
         </section>
@@ -83,18 +99,18 @@
 
 
 
-                    <table class="fl-table">
-                        <thead>
-                            <tr>
-                                <th>Member Name</th>
-                                <th># Of Player</th>
-                                <th>Phone</th>
-                                <th># Of Carts</th>
-                                <th>Date</th>
-                                <th>Time</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                <table class="fl-table">
+                    <thead>
+                        <tr>
+                            <th>Member Name</th>
+                            <th># Of Player</th>
+                            <th>Phone</th>
+                            <th># Of Carts</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
                         @foreach (var item in Model.TeeTimeList)
                         {
@@ -108,25 +124,10 @@
 
                             </tr>
                         }
-                      @*       <tr>
 
-                            </tr>
-                            <tr>
+                    <tbody>
+                </table>
 
-                            </tr>
-                            <tr>
-
-                            </tr>
-                            <tr>
-
-                            </tr>
-                            <tr>
-
-                            </tr> *@
-
-                        <tbody>
-                    </table>
-               
             }
             else
             {

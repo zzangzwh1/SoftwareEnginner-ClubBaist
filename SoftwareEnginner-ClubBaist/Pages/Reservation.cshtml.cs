@@ -17,13 +17,16 @@ namespace SoftwareEnginner_ClubBaist.Pages
         public string Bdate { set; get; }
         [BindProperty]
         [Required(ErrorMessage = "Please Select Time")]
-        public string Btime { set; get; }
+        public string Btime { set; get; } = "";
+
         [BindProperty]
         [Required(ErrorMessage = "Please Insert Number Of Player")]
-        [RegularExpression("^[0-9]+$", ErrorMessage = "Please enter a valid number")]
-        public int numPlayer { set; get; }
+        [RegularExpression("^[1-4]+$", ErrorMessage = "Number Of Player: Please enter a valid number ex) Minimum 1 Max 4")]
+        public int numPlayer { set; get; } = 1;
         [BindProperty]
-        public int numCart { set; get; }
+        [Required(ErrorMessage = "Please Insert Number Of Cart")]
+        [RegularExpression("^[0-4]+$", ErrorMessage = "Number Of Cart: Please enter a valid number ex) Minimum 1 Max 4")]
+        public int numCart { set; get; } 
         public string SetUserName = "";
 
         public List<Models.ClubBooking> TeeTimeList = null!;
@@ -50,14 +53,14 @@ namespace SoftwareEnginner_ClubBaist.Pages
                 NumOfPlayer = numPlayer,
                 NumOfCarts = numCart
             };
-           bool isBooked = InsertClubBooking(Bookings, memberID);
-            if (isBooked)
+           string isBooked = InsertClubBooking(Bookings, memberID);
+            if (isBooked == "success")
             {
                 Message = "Your Reservation is Successfully Booked";
             }
             else
             {
-                Message = "Currently it is not available Try Again!";
+                Message = isBooked;
 
             }
             GetSession();
@@ -84,7 +87,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
             return random.Next(100000000, 999999999);
         }
       
-        private bool InsertClubBooking(Models.ClubBooking clubBookings, int memberID)
+        private string InsertClubBooking(Models.ClubBooking clubBookings, int memberID)
         {
           //  string username = HttpContext.Session.GetString("member")!;
             TechService.ClubBooking booking = new TechService.ClubBooking();

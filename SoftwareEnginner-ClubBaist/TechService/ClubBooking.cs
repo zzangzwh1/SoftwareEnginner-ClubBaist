@@ -73,9 +73,10 @@ namespace SoftwareEnginner_ClubBaist.TechService
             }
             return teeTimeView;
         }
-        public bool InsertIntoClubBooking(Models.ClubBooking booking, int memberID)
+        public string InsertIntoClubBooking(Models.ClubBooking booking, int memberID)
         {
-            bool isBooked = true;
+            //bool isBooked = true;
+            string result = "success";
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
@@ -93,13 +94,14 @@ namespace SoftwareEnginner_ClubBaist.TechService
                         command.Parameters.AddWithValue("@NumOfCarts", booking.NumOfCarts).SqlDbType = SqlDbType.Int;
 
                         command.ExecuteNonQuery();
-
+                       
 
                     }
                     catch (Exception ex)
                     {
+                        result = ex.Message;
                         Console.WriteLine(ex.Message);
-                        isBooked = false;
+//                        isBooked = false;
 
                     }
                     finally
@@ -109,7 +111,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
 
 
                 }
-                return isBooked;
+                return result;
 
             }
         }
