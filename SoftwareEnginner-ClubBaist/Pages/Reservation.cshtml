@@ -21,14 +21,14 @@
 
                 <div class="input-container">
                     <label class="lablesForRservation">Select Date: </label>
-                    <input asp-for="Bdate" type="date"  />
+                    <input asp-for="Bdate" type="date" value ="@Model.Bdate" />
 
                 </div>
                 <div class="input-container">
                     <label for="mySelect">Choose Time:</label>
                     <select id="mySelect" asp-for="Btime">
 
-                        @for (int i = 7; i < 20; i++)
+                        @for (int i = 7; i < 17; i++)
                         {
                             for (int j = 0; j < 60; j += 8)
                             {
@@ -51,12 +51,12 @@
                 <div class="input-container">
 
                     <label class="lablesForRservation">Insert Number of Players: </label>
-                    <input asp-for="numPlayer" type="text"  placeholder="Insert Number Of Players" />
+                    <input asp-for="numPlayer" type="text"  placeholder="Insert Number Of Players" value="@Model.numPlayer" />
 
                 </div>
                 <div class="input-container">
                     <label class="lablesForRservation">Insert Number of Carts: </label>
-                    <input asp-for="numCart" type="text" placeholder="Insert Number Of Carts" />
+                    <input asp-for="numCart" type="text" placeholder="Insert Number Of Carts" value="@Model.numCart" />
 
                 </div>
                 <input type="submit" value="Book" asp-page-handler="Book" class="submit" />

@@ -57,6 +57,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
             if (isBooked == "success")
             {
                 Message = "Your Reservation is Successfully Booked";
+                SetDefault();
             }
             else
             {
@@ -64,6 +65,13 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
             }
             GetSession();
+        }
+        public void SetDefault()
+        {
+            Bdate = "";
+            Btime = "";
+            numPlayer = 1;
+            numCart = 0;
         }
         public void OnPostViewTeeTime()
         {
