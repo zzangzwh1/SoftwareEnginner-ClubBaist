@@ -26,12 +26,19 @@ namespace SoftwareEnginner_ClubBaist.Pages
         [BindProperty]
         [Required(ErrorMessage = "Please Insert Number Of Cart")]
         [RegularExpression("^[0-4]+$", ErrorMessage = "Number Of Cart: Please enter a valid number ex) Minimum 1 Max 4")]
-        public int numCart { set; get; } 
+        public int numCart { set; get; }
+        [BindProperty]
+        [Required(ErrorMessage = "Please Insert your MemberID")]
+        [RegularExpression("^[0-9]+$", ErrorMessage = "Your MemberID is Number!")]
+        public int SetMemberID { set; get; }
+
+
         public string SetUserName = "";
+
 
         public List<Models.ClubBooking> TeeTimeList = null!;
         [BindProperty]
-        public DateTime SelectDateForView { set; get; }  
+        public DateTime SelectDateForView { set; get; }
 
 
         public string Message = "";
@@ -41,8 +48,9 @@ namespace SoftwareEnginner_ClubBaist.Pages
         }
         public void OnPostBook()
         {
-            string s = "";
-            int memberID = GetMemberID();
+           
+            string username = HttpContext.Session.GetString("member")!;
+            int memberID = VeryfyMemberOrAdmin(username);
 
             int bookingID = GnerateBookingID();
             Models.ClubBooking Bookings = new()
@@ -53,7 +61,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
                 NumOfPlayer = numPlayer,
                 NumOfCarts = numCart
             };
-           string isBooked = InsertClubBooking(Bookings, memberID);
+            string isBooked = InsertClubBooking(Bookings, memberID);
             if (isBooked == "success")
             {
                 Message = "Your Reservation is Successfully Booked";
@@ -66,6 +74,10 @@ namespace SoftwareEnginner_ClubBaist.Pages
             }
             GetSession();
         }
+        private int VeryfyMemberOrAdmin(string memberStauts)
+        {
+            return memberStauts != "Admin" ? GetMemberID() : SetMemberID;
+        }
         public void SetDefault()
         {
             Bdate = "";
@@ -75,8 +87,8 @@ namespace SoftwareEnginner_ClubBaist.Pages
         }
         public void OnPostViewTeeTime()
         {
-           
-            string result = SelectDateForView.ToString("yyyy-MM-dd");         
+
+            string result = SelectDateForView.ToString("yyyy-MM-dd");
             TeeTimeList = ViewTeemTime(result);
             GetSession();
         }
@@ -84,7 +96,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
         {
             TechService.ClubBooking booking = new TechService.ClubBooking();
 
-            List<Models.ClubBooking> bookedItems  = booking.DisplayTeeTimeList(selectedDate);
+            List<Models.ClubBooking> bookedItems = booking.DisplayTeeTimeList(selectedDate);
             return bookedItems;
 
 
@@ -94,13 +106,13 @@ namespace SoftwareEnginner_ClubBaist.Pages
             Random random = new Random();
             return random.Next(100000000, 999999999);
         }
-      
+
         private string InsertClubBooking(Models.ClubBooking clubBookings, int memberID)
         {
-          //  string username = HttpContext.Session.GetString("member")!;
+            //  string username = HttpContext.Session.GetString("member")!;
             TechService.ClubBooking booking = new TechService.ClubBooking();
-           return booking.InsertIntoClubBooking(clubBookings, memberID);
-    
+            return booking.InsertIntoClubBooking(clubBookings, memberID);
+
         }
         private int GetMemberID()
         {
@@ -122,7 +134,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
         }
 
-    
+
 
     }
 }

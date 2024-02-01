@@ -19,9 +19,21 @@
             <form name="form" class="form" method="post">
                 <p class="form-title">Make Reservation</p>
 
+                @if (Model.SetUserName == "Admin")
+                {
+                    <div class="input-container">
+                        <label class="lablesForRservation">Select Date: </label>
+                        <input asp-for="SetMemberID" type="text" value="@Model.SetMemberID" />
+
+                    </div>
+                    <section class="messages">
+                        <br />
+                        <span asp-validation-for="SetMemberID" class="modelMessage"></span>
+                    </section>
+                }
                 <div class="input-container">
                     <label class="lablesForRservation">Select Date: </label>
-                    <input asp-for="Bdate" type="date" value ="@Model.Bdate" />
+                    <input asp-for="Bdate" type="date" value="@Model.Bdate" />
 
                 </div>
                 <div class="input-container">
@@ -51,7 +63,7 @@
                 <div class="input-container">
 
                     <label class="lablesForRservation">Insert Number of Players: </label>
-                    <input asp-for="numPlayer" type="text"  placeholder="Insert Number Of Players" value="@Model.numPlayer" />
+                    <input asp-for="numPlayer" type="text" placeholder="Insert Number Of Players" value="@Model.numPlayer" />
 
                 </div>
                 <div class="input-container">
@@ -73,7 +85,7 @@
                     <span asp-validation-for="Btime" class="modelMessage"></span>
                     <span asp-validation-for="numPlayer" class="modelMessage"></span>
                     <span asp-validation-for="numCart" class="modelMessage"></span>
-                   
+
                 </section>
 
             </form>
@@ -81,7 +93,7 @@
 
         <br />
 
-        <form name="form" class="table-wrapper" method="post">
+        <form name="ViewForm" class="table-wrapper" method="post">
             <div class="divHeader">
                 <p class="form-title">View Tee TimeList</p>
 
@@ -95,9 +107,6 @@
 
             @if (Model.TeeTimeList != null)
             {
-
-                
-
 
                 <table class="fl-table">
                     <thead>
