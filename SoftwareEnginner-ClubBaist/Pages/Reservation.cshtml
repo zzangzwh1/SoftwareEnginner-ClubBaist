@@ -5,9 +5,68 @@
 }
 @section ReservationScript
 {
-    <script src="~/libraries/jquery/jquery.js"> </script>
+    @*  <script src="~/libraries/jquery/jquery.js"> </script>
     <script src="~/libraries/jquery-validate/jquery.validate.js"></script>
     <script src="~/libraries/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+ *@
+    <script type="text/javascript">
+
+        function isValidate(aForm) {
+          
+            let hasValidationError = true;
+            let isSetMemberValid = isSetMemberIDValidate(aForm);
+            let bDate = isBdateValidate(aForm);
+            let numPlayer = isNumPlayerValidate(aForm);
+            if (!isSetMemberValid) {
+
+                return false
+            }
+            else if (!bDate) {
+                return false;
+            }
+            else if (!numPlayer)
+            {
+                return false;
+            }
+           
+            return hasValidationError;
+        }
+        function isSetMemberIDValidate(aForm) {
+            let setMemberID = aForm.SetMemberID;
+
+            if (setMemberID.value === '') {
+                alert("MemberID is required!");
+                return false;
+            } else if (!/^[0-9]+$/.test(setMemberID.value)) {
+                alert("MemberID must be a number!");
+                return false;
+            }           
+
+            return true;
+        }
+        function isBdateValidate(aForm) {
+            let Bdate = aForm.Bdate;
+            if (!Bdate.value) {
+                alert("Date must be a Selected!");
+                return false;
+            }
+            return true;
+        }
+        function isNumPlayerValidate(aForm) {
+            let numPlayer = aForm.numPlayer;
+            if (numPlayer.value ==='') {
+                alert("Number of Player Field is required!");
+                return false;
+            }
+            else if (!/^[1-4]+$/.test(numPlayer.value)) {
+                alert("Must Be Number and Minimum 1 Maximum 4 ");
+                return false;
+            }          
+            return true;
+        }
+       
+
+    </script>
 }
 @section ReservationContent
 {
@@ -16,29 +75,26 @@
 
 
         <section class="divHeader">
-            <form name="form" class="form" method="post">
+            <form name="form" class="form" method="post" onsubmit="return isValidate(this);">
                 <p class="form-title">Make Reservation</p>
 
                 @if (Model.SetUserName == "Admin")
                 {
                     <div class="input-container">
-                        <label class="lablesForRservation">Select Date: </label>
-                        <input asp-for="SetMemberID" type="text" value="@Model.SetMemberID" />
+                        <label class="lablesForRservation">Insert MemberID: </label>
+                        <input name="SetMemberID" type="text" value="@Model.SetMemberID" />
 
                     </div>
-                    <section class="messages">
-                        <br />
-                        <span asp-validation-for="SetMemberID" class="modelMessage"></span>
-                    </section>
+                  
                 }
                 <div class="input-container">
                     <label class="lablesForRservation">Select Date: </label>
-                    <input asp-for="Bdate" type="date" value="@Model.Bdate" />
+                    <input name="Bdate" type="date" value="@Model.Bdate" />
 
                 </div>
                 <div class="input-container">
                     <label for="mySelect">Choose Time:</label>
-                    <select id="mySelect" asp-for="Btime">
+                    <select id="mySelect" name="Btime">
 
                         @for (int i = 7; i < 17; i++)
                         {
@@ -63,12 +119,12 @@
                 <div class="input-container">
 
                     <label class="lablesForRservation">Insert Number of Players: </label>
-                    <input asp-for="numPlayer" type="text" placeholder="Insert Number Of Players" value="@Model.numPlayer" />
+                    <input namew="numPlayer" type="text" placeholder="Insert Number Of Players" value="@Model.numPlayer" />
 
                 </div>
                 <div class="input-container">
                     <label class="lablesForRservation">Insert Number of Carts: </label>
-                    <input asp-for="numCart" type="text" placeholder="Insert Number Of Carts" value="@Model.numCart" />
+                    <input name="numCart" type="text" placeholder="Insert Number Of Carts" value="@Model.numCart" />
 
                 </div>
                 <input type="submit" value="Book" asp-page-handler="Book" class="submit" />
@@ -78,15 +134,15 @@
                     <h3 style="color:red">@Model.Message</h3>
 
                 </div>
-                <section class="messages">
-                    <br />
+                @*     <section class="messages">
+        <br />
 
-                    <span asp-validation-for="Bdate" class="modelMessage"></span>
-                    <span asp-validation-for="Btime" class="modelMessage"></span>
-                    <span asp-validation-for="numPlayer" class="modelMessage"></span>
-                    <span asp-validation-for="numCart" class="modelMessage"></span>
+        <span asp-validation-for="Bdate" class="modelMessage"></span>
+        <span asp-validation-for="Btime" class="modelMessage"></span>
+        <span asp-validation-for="numPlayer" class="modelMessage"></span>
+        <span asp-validation-for="numCart" class="modelMessage"></span>
 
-                </section>
+        </section> *@
 
             </form>
         </section>
@@ -157,4 +213,6 @@
             <h1> Your Status is not Registered Please Contact to Admin </h1>
         </section>
     }
+}
+
 }
