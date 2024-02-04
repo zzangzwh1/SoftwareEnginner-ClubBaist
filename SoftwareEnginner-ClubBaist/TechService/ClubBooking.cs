@@ -15,6 +15,51 @@ namespace SoftwareEnginner_ClubBaist.TechService
             IConfiguration databaseUsersConfiguration = databaseUserBuilder.Build();
             _connectionString = databaseUsersConfiguration.GetConnectionString("BAIST3150");
         }
+        public string IdentifyMembershipType(string username)
+        {
+            string result = "";
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                using (SqlCommand command = new SqlCommand("IdentifyMembershipType", conn))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+                        command.Parameters.AddWithValue("@Username", username);
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+
+                                while (reader.Read())
+                                {
+                                    result = reader["memershipType"].ToString() ?? "";
+                                }
+                            }
+                            else
+                            {
+                                result = "";
+                            }
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error Occurred - {ex.Message}");
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+            return result;
+
+          
+
+        }
         public List<Models.ClubBooking> DisplayTeeTimeList(string bookingDate)
         {
            var teeTimeView = new List<Models.ClubBooking>();

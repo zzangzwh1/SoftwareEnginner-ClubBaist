@@ -8,63 +8,49 @@
     @*  <script src="~/libraries/jquery/jquery.js"> </script>
     <script src="~/libraries/jquery-validate/jquery.validate.js"></script>
     <script src="~/libraries/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
- *@
+    *@
     <script type="text/javascript">
-
+    
         function isValidate(aForm) {
-          
-            let hasValidationError = true;
-            let isSetMemberValid = isSetMemberIDValidate(aForm);
-            let bDate = isBdateValidate(aForm);
-            let numPlayer = isNumPlayerValidate(aForm);
-            if (!isSetMemberValid) {
 
-                return false
-            }
-            else if (!bDate) {
-                return false;
-            }
-            else if (!numPlayer)
-            {
-                return false;
-            }
-           
-            return hasValidationError;
-        }
-        function isSetMemberIDValidate(aForm) {
             let setMemberID = aForm.SetMemberID;
+            let Bdate = aForm.Bdate;
+            let numPlayer = aForm.numPlayer;
+
+            let numCarts = aForm.numCart;
 
             if (setMemberID.value === '') {
                 alert("MemberID is required!");
                 return false;
-            } else if (!/^[0-9]+$/.test(setMemberID.value)) {
-                alert("MemberID must be a number!");
+            }
+            if (!/^[0-9]+$/.test(setMemberID.value)) {
+                alert("MemberID must be a number! ");
                 return false;
-            }           
-
-            return true;
-        }
-        function isBdateValidate(aForm) {
-            let Bdate = aForm.Bdate;
+            }
             if (!Bdate.value) {
                 alert("Date must be a Selected!");
                 return false;
             }
-            return true;
-        }
-        function isNumPlayerValidate(aForm) {
-            let numPlayer = aForm.numPlayer;
-            if (numPlayer.value ==='') {
+
+            if (numPlayer.value === '') {
                 alert("Number of Player Field is required!");
                 return false;
             }
-            else if (!/^[1-4]+$/.test(numPlayer.value)) {
+            if (!/^[1-4]+$/.test(numPlayer.value)) {
                 alert("Must Be Number and Minimum 1 Maximum 4 ");
                 return false;
-            }          
+            }
+            if (numCarts.value === '') {
+                alert("NumCarts fields is Required");
+                return false;
+            }
+            if (!/^[0-4]+$/.test(numCarts.value)) {
+                alert("Must be Number for The Cart. for the Selection :Minimum 0 Maximum 4 ");
+                return false;
+            }
             return true;
         }
-       
+
 
     </script>
 }
@@ -82,44 +68,60 @@
                 {
                     <div class="input-container">
                         <label class="lablesForRservation">Insert MemberID: </label>
-                        <input name="SetMemberID" type="text" value="@Model.SetMemberID" />
+                        <input name="SetMemberID" type="text" value="@Model.SetMemberID" placeholder="Insert MemberID:" />
 
                     </div>
-                  
+
                 }
                 <div class="input-container">
                     <label class="lablesForRservation">Select Date: </label>
-                    <input name="Bdate" type="date" value="@Model.Bdate" />
+                    <input name="Bdate" id="Bdate" type="date" value="@Model.Bdate" />
 
                 </div>
+      
                 <div class="input-container">
                     <label for="mySelect">Choose Time:</label>
                     <select id="mySelect" name="Btime">
 
-                        @for (int i = 7; i < 17; i++)
+                     
+                  @for (int i = 7; i < 18; i++)
                         {
+                            @if (Model.MemberShipType == "Silver" && (i == 15 || i == 16))
+                            {
+                        
+                                continue;
+                            }
+                            @if (Model.MemberShipType == "Bronze" && (i == 15 || i == 16 || i==17))
+                            {
+                                continue;
+                            }
+
                             for (int j = 0; j < 60; j += 8)
                             {
-
-
+                                @if (Model.MemberShipType == "Silver" && (i ==17))
+                                {
+                                    if (j <= 30)
+                                        continue;
+                                }
                                 string time = i.ToString().PadLeft(2, '0');
                                 string mins = j.ToString().PadLeft(2, '0');
 
                                 string results = (i < 12) ? $"{time}:{mins} AM" : $"{time}:{mins} PM";
 
                                 <option value="@results">@results</option>
-
                             }
                         }
+             
 
                     </select>
 
                 </div>
+  
 
                 <div class="input-container">
 
                     <label class="lablesForRservation">Insert Number of Players: </label>
-                    <input namew="numPlayer" type="text" placeholder="Insert Number Of Players" value="@Model.numPlayer" />
+                    <input name="numPlayer" type="text" placeholder="Insert Number Of Players" value="@Model.numPlayer" />
 
                 </div>
                 <div class="input-container">
@@ -134,15 +136,7 @@
                     <h3 style="color:red">@Model.Message</h3>
 
                 </div>
-                @*     <section class="messages">
-        <br />
 
-        <span asp-validation-for="Bdate" class="modelMessage"></span>
-        <span asp-validation-for="Btime" class="modelMessage"></span>
-        <span asp-validation-for="numPlayer" class="modelMessage"></span>
-        <span asp-validation-for="numCart" class="modelMessage"></span>
-
-        </section> *@
 
             </form>
         </section>
