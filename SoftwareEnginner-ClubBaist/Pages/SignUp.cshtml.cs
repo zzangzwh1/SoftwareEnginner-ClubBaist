@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace SoftwareEnginner_ClubBaist.Pages
@@ -9,13 +10,13 @@ namespace SoftwareEnginner_ClubBaist.Pages
     {
         [BindProperty]
         [Required]
+        [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "Invalid Username,Only Letter valid")]
         public string UserName { get; set; } = "";
 
         [BindProperty]
         [Required]
         // [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$", ErrorMessage = "Invalid Password, at least 8 long, at least 1 letter, 1 digit,1 special character, 1 Lowercase, 1 uppercase.")]
         public string Password { get; set; } = "";
-
 
         [BindProperty]
         [Required]
@@ -53,7 +54,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
         [BindProperty]
         [Required]
-        [RegularExpression(@"^\d{4}-\d{2}-\d{2}$", ErrorMessage = "Invalid Date of Birth ex)YYYY-MM-DD")]
+        [RegularExpression(@"^\d{8}$", ErrorMessage = "Invalid Date of Birth ex)19990504")]
         public string DateOfBirth { get; set; } = "";
 
         [BindProperty]
@@ -62,7 +63,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
         public string Phone { get; set; } = "";
 
         [BindProperty]
-        [Required(ErrorMessage = "Please Select Membership")]
+        [Required(ErrorMessage = "Please Select Membership Type")]
         public string MembershipType { get; set; } = "";
 
         public string Message { get; set; } = "";
@@ -70,10 +71,16 @@ namespace SoftwareEnginner_ClubBaist.Pages
         {
             Message = "";
 
-
         }
         public void OnPost()
         {
+
+            string dateOfBirth = "";
+            if (!string.IsNullOrEmpty(DateOfBirth))
+            {
+                dateOfBirth = DateofBirthDate(DateOfBirth);
+
+            }
 
             Models.ClubMember members = new()
             {
@@ -86,13 +93,12 @@ namespace SoftwareEnginner_ClubBaist.Pages
                 Occupation = Occupation,
                 CompanyName = CompanyName,
                 Email = Email,
-                DateOfBirth = DateOfBirth,
+                DateOfBirth = dateOfBirth,
                 MembershipType = MembershipType,
                 Phone = Phone
 
             };
 
-         
 
             if (ModelState.IsValid)
             {
@@ -108,6 +114,22 @@ namespace SoftwareEnginner_ClubBaist.Pages
             }
 
 
+        }
+        private string DateofBirthDate(string date)
+        {
+            StringBuilder dateString = new StringBuilder();
+
+            for (int i = 0; i < DateOfBirth.Length; i++)
+            {
+                if (i == 4 || i == 6)
+                {
+                    dateString.Append('-');
+                }
+
+                dateString.Append(DateOfBirth[i]);
+
+            }
+            return dateString.ToString();
         }
         /*  private bool IsValidPhone(string phone)
           {
@@ -145,6 +167,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
             LastName = "";
             PostalCode = "";
             Address = "";
+            DateOfBirth = "";
             Occupation = "";
             CompanyName = "";
             Email = "";
