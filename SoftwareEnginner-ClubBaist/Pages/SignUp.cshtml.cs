@@ -112,6 +112,8 @@ namespace SoftwareEnginner_ClubBaist.Pages
             {
                 Message = "Member is Not Added Try Again!";
             }
+       
+            //  EmptyStrings();
 
 
         }

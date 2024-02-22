@@ -9,44 +9,37 @@
     <section class="divHeader">
         <form name="form" class="form" method="post">
             <p class="form-title">Sign Up to your account</p>
-            <section class="messages">
-                <br />
-
-                <span asp-validation-for="UserName" class="modelMessage"></span>
-                <span asp-validation-for="Password" class="modelMessage"></span>
-                <span asp-validation-for="ConfirmPassword" class="modelMessage"></span>
-                <span asp-validation-for="FirstName" class="modelMessage"></span>
-                <span asp-validation-for="LastName" class="modelMessage"></span>
-                <span asp-validation-for="PostalCode" class="modelMessage"></span>
-
-                <span asp-validation-for="Email" class="modelMessage"></span>
-                <span asp-validation-for="DateOfBirth" class="modelMessage"></span>
-                <span asp-validation-for="Phone" class="modelMessage"></span>
-                <span asp-validation-for="MembershipType" class="modelMessage"></span>
-            </section>
+ 
             <div class="input-container">
                 <input asp-for="UserName" placeholder="Enter UserName" type="text" value="@Model.UserName">
+              
             </div>
+                <span asp-validation-for="UserName" class="modelMessage"></span>
 
             <div class="input-container">
                 <input asp-for="Password" placeholder="Enter Password" type="password">
 
             </div>
+                <span asp-validation-for="Password" class="modelMessage"></span>
             <div class="input-container">
                 <input asp-for="ConfirmPassword" placeholder="Enter Confirm Password" type="password">
 
             </div>
+                <span asp-validation-for="ConfirmPassword" class="modelMessage"></span>
             <div class="input-container">
                 <input asp-for="FirstName" placeholder="Enter Firstname" type="text" value="@Model.FirstName">
             </div>
+            <span asp-validation-for="FirstName" class="modelMessage"></span>
             <div class="input-container">
                 <input asp-for="LastName" placeholder="Enter Lastname" type="text" value="@Model.LastName">
 
             </div>
+            <span asp-validation-for="LastName" class="modelMessage"></span>
             <div class="input-container">
                 <input asp-for="PostalCode" placeholder="Enter Postal Code" type="text" value="@Model.PostalCode">
 
             </div>
+            <span asp-validation-for="PostalCode" class="modelMessage"></span>
             <div class="input-container">
                 <input asp-for="Address" placeholder="Enter Address" type="text" value="@Model.Address">
 
@@ -55,6 +48,7 @@
                 <input asp-for="Occupation" placeholder="Enter Occupation" type="text" value="@Model.Occupation">
 
             </div>
+
             <div class="input-container">
                 <input asp-for="CompanyName" placeholder="Enter Company Name" type="text" value="@Model.CompanyName">
 
@@ -63,14 +57,16 @@
                 <input asp-for="Email" placeholder="Enter Email" type="text" value="@Model.Email">
 
             </div>
+            <span asp-validation-for="Email" class="modelMessage"></span>
             <div class="input-container">
                 <input asp-for="DateOfBirth" placeholder="Enter Date of Birth ex)19990504" type="text" value="@Model.DateOfBirth">
 
             </div>
+            <span asp-validation-for="DateOfBirth" class="modelMessage"></span>
             <div class="input-container">
                 <input asp-for="Phone" placeholder="Enter Phone" type="text" value="@Model.Phone">
             </div>
-
+            <span asp-validation-for="Phone" class="modelMessage"></span>
             <div class="input-container">
 
                 <select class="customerSelect" name="MembershipType">
@@ -83,6 +79,7 @@
                 </select>
 
             </div>
+            <span asp-validation-for="MembershipType" class="modelMessage"></span>
             <br></br>
 
 
