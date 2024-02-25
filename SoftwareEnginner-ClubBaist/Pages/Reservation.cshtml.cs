@@ -5,13 +5,15 @@ using System.ComponentModel.DataAnnotations;
 using SoftwareEnginner_ClubBaist.Models;
 using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Http;
+using SoftwareEnginner_ClubBaist.Business;
+using Microsoft.Extensions.Primitives;
 
 namespace SoftwareEnginner_ClubBaist.Pages
 {
     public class ReservationModel : PageModel
     {
-
-        //  public string CurrentSessionUser { set; get; } = string.Empty;
+        IBusiness business = new Controller.Business();
+       
         public string IsRegistered { set; get; } = "";
 
         [BindProperty]
@@ -26,30 +28,32 @@ namespace SoftwareEnginner_ClubBaist.Pages
         [BindProperty]
         public int SetMemberID { set; get; }
 
-        public string MemberShipType { set; get; }
+        public string MemberShipType { set; get; } = string.Empty;
 
         public string SetUserName = "";
         public List<Models.ClubBooking> TeeTimeList = null!;
         [BindProperty]
         public DateTime SelectDateForView { set; get; }
-        
 
-        public string CurrentDateDate { set; get; }
+
+        public string CurrentDateDate { set; get; } = string.Empty;
+        public string ReservationStatus { set; get; } = string.Empty;
 
 
         public string Message = "";
         public void OnGet()
         {
             GetSession();
+            ReservationStatus = "Please Select Date For Viewing Reservation"; 
         }
         public void OnPostBook()
         {
             GetSession();
 
             string username = HttpContext.Session.GetString("member")!;
-            int memberID = VeryfyMemberOrAdmin(username);
+            int memberID = business.VeryfyMemberOrAdmin(username,SetMemberID);
 
-            int bookingID = GnerateBookingID();
+            int bookingID = business.GnerateBookingID();
             Models.ClubBooking bookings = new()
             {
                 BookingID = bookingID,
@@ -59,11 +63,11 @@ namespace SoftwareEnginner_ClubBaist.Pages
                 NumOfCarts = numCart
             };
 
-            bool isValidateTime = IsValidateDate(Btime, bookings);
+            bool isValidateTime = business.IsValidateDate(Btime, bookings);
        
 
             string isBooked = "";
-            string weekend = IsWeekDayOrWeekend(Bdate);
+            string weekend = business.IsWeekDayOrWeekend(Bdate);
             bool isWeekendTimeValiedTime = true;
             int selectedDateHour = Convert.ToInt16(Btime.Substring(0, 2));
             if (weekend == "weekend" && MemberShipType == "Silver" && selectedDateHour <= 11)
@@ -76,7 +80,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
             }
             if (isValidateTime && isWeekendTimeValiedTime)
             {
-                isBooked = InsertClubBooking(bookings, memberID);
+                isBooked = business.InsertClubBooking(bookings, memberID);
             }
 
                    
@@ -87,7 +91,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
             }
             else if (!isValidateTime)
             {
-                Message = "Selected Previous Time Please Selec Again!";
+                Message = "Selected Previous Time Please Select Again!";
                 SetDefault();
             }
             else if (!isWeekendTimeValiedTime && MemberShipType == "Silver")
@@ -106,49 +110,17 @@ namespace SoftwareEnginner_ClubBaist.Pages
             }
             GetSession();
         }
-        private string IsWeekDayOrWeekend(string date)
+        public void OnPostViewTeeTime()
         {
-            if (string.IsNullOrEmpty(date))
-            {
-                return "";
-            }
-            else
-            {
-                DateTime dateTime;
-                if (DateTime.TryParse(date, out dateTime))
-                {
-                    DayOfWeek dayOfWeek = dateTime.DayOfWeek;
 
-                    if (dayOfWeek == DayOfWeek.Saturday || dayOfWeek == DayOfWeek.Sunday)
-                    {
-                        return "weekend";
-                      
-                    }
-                  
-                }
-            }
-            return "weekday";
-      
-        }
-        private bool IsValidateDate(string BTime, Models.ClubBooking bookings)
-        {
-            bool isValidate = true;
-            string currentTime = DateTime.Now.ToString("yyyy-MM-dd");
-            int currentHour = DateTime.Now.Hour;
-            int currentMins = DateTime.Now.Minute;
-            int hour = Convert.ToInt32(Btime.Substring(0, 2));
-            int mins = Convert.ToInt32(Btime.Substring(4, 2));
-            if (currentTime == bookings.BookingDate &&
-   (currentHour > hour || (currentHour == hour && currentMins > mins)))
+            string result = SelectDateForView.ToString("yyyy-MM-dd");
+            TeeTimeList = business.ViewTeemTime(result);
+            if(TeeTimeList is null)
             {
-                isValidate = false;
+                ReservationStatus = "No Reservation Exsits Please select other Date";
             }
-            return isValidate;
-        }
-        private int VeryfyMemberOrAdmin(string memberStauts)
-        {
-            return memberStauts != "Admin" ? GetMemberID() : SetMemberID;
-        }
+            GetSession();
+        }     
         private void SetDefault()
         {
             SetMemberID = 0;
@@ -156,43 +128,8 @@ namespace SoftwareEnginner_ClubBaist.Pages
             Btime = "";
             numPlayer = 1;
             numCart = 0;
-        }
-        private void OnPostViewTeeTime()
-        {
+        }     
 
-            string result = SelectDateForView.ToString("yyyy-MM-dd");
-            TeeTimeList = ViewTeemTime(result);
-            GetSession();
-        }
-        private List<Models.ClubBooking> ViewTeemTime(string selectedDate)
-        {
-            TechService.ClubBooking booking = new TechService.ClubBooking();
-
-            List<Models.ClubBooking> bookedItems = booking.DisplayTeeTimeList(selectedDate);
-            return bookedItems;
-
-
-        }
-        private int GnerateBookingID()
-        {
-            Random random = new Random();
-            return random.Next(100000000, 999999999);
-        }
-
-        private string InsertClubBooking(Models.ClubBooking clubBookings, int memberID)
-        {
-            //  string username = HttpContext.Session.GetString("member")!;
-            TechService.ClubBooking booking = new TechService.ClubBooking();
-            return booking.InsertIntoClubBooking(clubBookings, memberID);
-
-        }
-        private int GetMemberID()
-        {
-            TechService.ClubBooking booking = new TechService.ClubBooking();
-            string memberName = HttpContext.Session.GetString("member")!;
-            int memberID = booking.GetMemberID(memberName);
-            return memberID;
-        }
         private void GetSession()
         {
         
@@ -205,11 +142,11 @@ namespace SoftwareEnginner_ClubBaist.Pages
             }
             else
             {
-                TechService.ClubBooking booking = new TechService.ClubBooking();
-                IsRegistered = booking.IsMemberRegistered(SetUserName);
+               
+                IsRegistered = business.IsMemberRegistered(SetUserName);
                 if (IsRegistered == "True")
                 {
-                    MemberShipType = booking.IdentifyMembershipType(SetUserName);
+                    MemberShipType = business.IdentifyMembershipType(SetUserName);
                     CurrentDateDate = DateTime.Now.DayOfWeek.ToString();
                 }
                 else

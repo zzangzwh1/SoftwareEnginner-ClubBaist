@@ -74,5 +74,95 @@ namespace SoftwareEnginner_ClubBaist.Controller
 
         }
         #endregion
+
+        #region Reservation
+
+        public string IsWeekDayOrWeekend(string date)
+        {
+            if (string.IsNullOrEmpty(date))
+            {
+                return "";
+            }
+            else
+            {
+                DateTime dateTime;
+                if (DateTime.TryParse(date, out dateTime))
+                {
+                    DayOfWeek dayOfWeek = dateTime.DayOfWeek;
+
+                    if (dayOfWeek == DayOfWeek.Saturday || dayOfWeek == DayOfWeek.Sunday)
+                    {
+                        return "weekend";
+
+                    }
+
+                }
+            }
+            return "weekday";
+
+        }
+        public bool IsValidateDate(string bTime, Models.ClubBooking bookings)
+        {
+            bool isValidate = true;
+            string currentTime = DateTime.Now.ToString("yyyy-MM-dd");
+            int currentHour = DateTime.Now.Hour;
+            int currentMins = DateTime.Now.Minute;
+            int hour = Convert.ToInt32(bTime.Substring(0, 2));
+            int mins = Convert.ToInt32(bTime.Substring(4, 2));
+            if (currentTime == bookings.BookingDate &&
+   (currentHour > hour || (currentHour == hour && currentMins > mins)))
+            {
+                isValidate = false;
+            }
+            return isValidate;
+        }
+        public int GetMemberID(string memeberName)
+        {
+            TechService.ClubBooking booking = new TechService.ClubBooking();
+            // string memberName = HttpContext.Session.GetString("member")!;
+            int memberID = booking.GetMemberID(memeberName);
+            return memberID;
+        }
+        public int GnerateBookingID()
+        {
+            Random random = new Random();
+            return random.Next(100000000, 999999999);
+        }
+
+        public string InsertClubBooking(Models.ClubBooking clubBookings, int memberID)
+        {
+            //  string username = HttpContext.Session.GetString("member")!;
+            TechService.ClubBooking booking = new TechService.ClubBooking();
+            return booking.InsertIntoClubBooking(clubBookings, memberID);
+
+        }
+        public List<Models.ClubBooking> ViewTeemTime(string selectedDate)
+        {
+            TechService.ClubBooking booking = new TechService.ClubBooking();
+
+            List<Models.ClubBooking> bookedItems = booking.DisplayTeeTimeList(selectedDate);
+            return bookedItems;
+
+
+        }
+        public int VeryfyMemberOrAdmin(string username, int memberID)
+        {
+            return username != "Admin" ? GetMemberID(username) : memberID;
+        }
+        public string IsMemberRegistered(string setUserName)
+        {
+            TechService.ClubBooking booking = new TechService.ClubBooking();
+            string isRegister = booking.IsMemberRegistered(setUserName);
+            return isRegister;
+        }
+
+        public string IdentifyMembershipType(string setUserName)
+        {
+            TechService.ClubBooking booking = new TechService.ClubBooking();
+            string memebershipType = booking.IdentifyMembershipType(setUserName);
+            return memebershipType;
+        }
+
+        #endregion
     }
 }
