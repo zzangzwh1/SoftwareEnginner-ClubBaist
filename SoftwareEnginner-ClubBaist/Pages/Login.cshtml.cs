@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SoftwareEnginner_ClubBaist.Business;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -7,6 +8,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
 {
     public class LoginModel : PageModel
     {
+        IBusiness business = new Controller.Business();
         [BindProperty]
         [Required]
         public string Username { get; set; } = string.Empty;
@@ -32,20 +34,19 @@ namespace SoftwareEnginner_ClubBaist.Pages
             {
                 ModelState.AddModelError("Username", "Username is reuqired ");
             }
-            else if (string.IsNullOrEmpty(Password))
+            if (string.IsNullOrEmpty(Password))
             {
                 ModelState.AddModelError("Password", "Password is reuqired ");
             }
-            else
-            {
-                TechService.ClubMember login = new TechService.ClubMember();
+           
                 Models.ClubMember member = new()
                 {
                     UserName = Username,
                     Password = Password
                 };
 
-                string memberName = login.MemberLogin(member);
+                
+                string memberName = business.MemberLogin(member);
                 if (ModelState.IsValid && !string.IsNullOrEmpty(memberName))
                 {
                     Message = "Success";
@@ -55,10 +56,10 @@ namespace SoftwareEnginner_ClubBaist.Pages
                 }
                 else
                 {
-                    Message = "Please Try Again";
+                Message = "Invalid Username Or Password Try Again!";
 
                 }
-            }
+            
             return Page();
 
         }

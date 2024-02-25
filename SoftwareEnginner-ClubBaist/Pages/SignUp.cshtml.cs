@@ -1,13 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SoftwareEnginner_ClubBaist.Business;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.RegularExpressions;
+
 
 namespace SoftwareEnginner_ClubBaist.Pages
 {
     public class SignUpModel : PageModel
     {
+
+        IBusiness business = new Controller.Business();
         [BindProperty]
         [Required]
         [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "Invalid Username,Only Letter valid")]
@@ -67,6 +71,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
         public string MembershipType { get; set; } = "";
 
         public string Message { get; set; } = "";
+
         public void OnGet()
         {
             Message = "";
@@ -78,8 +83,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
             string dateOfBirth = "";
             if (!string.IsNullOrEmpty(DateOfBirth))
             {
-                dateOfBirth = DateofBirthDate(DateOfBirth);
-
+                dateOfBirth = business.SetDateofBirthDate(DateOfBirth);
             }
 
             Models.ClubMember members = new()
@@ -102,9 +106,8 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
             if (ModelState.IsValid)
             {
-
-                TechService.ClubMember clubMenber = new TechService.ClubMember();
-                bool isRegister = clubMenber.AddClubMember(members);
+               
+                bool isSuccess = business.AddClubMember(members);
                 Message = "Member is Successfully Added!";
                 EmptyStrings();
             }
@@ -112,54 +115,8 @@ namespace SoftwareEnginner_ClubBaist.Pages
             {
                 Message = "Member is Not Added Try Again!";
             }
-       
-            //  EmptyStrings();
 
-
-        }
-        private string DateofBirthDate(string date)
-        {
-            StringBuilder dateString = new StringBuilder();
-
-            for (int i = 0; i < DateOfBirth.Length; i++)
-            {
-                if (i == 4 || i == 6)
-                {
-                    dateString.Append('-');
-                }
-
-                dateString.Append(DateOfBirth[i]);
-
-            }
-            return dateString.ToString();
-        }
-        /*  private bool IsValidPhone(string phone)
-          {
-              if (!Regex.IsMatch(phone, @"^[0-9]+$") || !string.IsNullOrEmpty(phone))
-              {
-                  return false;
-              }
-              else
-              {
-                  return true;
-              }
-          }
-          private bool IsValidDateOfBirth(string dateOfBirth)
-          {
-              return Regex.IsMatch(dateOfBirth, @"^\d{4}-\d{2}-\d{2}$");
-          }
-          private bool IsValidEmail(string email)
-          {
-              return Regex.IsMatch(email, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
-          }
-          private bool IsValidPostalCode(string postalCode)
-          {
-              return Regex.IsMatch(postalCode, @"^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$");
-          }
-          private bool IsValidName(string name)
-          {
-              return Regex.IsMatch(name, @"^[A-Za-z]+$");
-          }*/
+        }  
         private void EmptyStrings()
         {
             UserName = "";
