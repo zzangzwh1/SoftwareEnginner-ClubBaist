@@ -96,11 +96,11 @@ namespace SoftwareEnginner_ClubBaist.Pages
             }
             else if (!isWeekendTimeValiedTime && MemberShipType == "Silver")
             {
-                Message = "Silver is Only valid after 11AM for booking on Weekends";
+                Message = "Silver is Only valid after 11AM for booking on Weekends/Holiday";
             }
             else if (!isWeekendTimeValiedTime && MemberShipType == "Bronze")
             {
-                Message = "Bronze is Only Valid for booking after 1PM on Weekends";
+                Message = "Bronze is Only Valid for booking after 1PM on Weekends/Holiday";
             }
     
             else

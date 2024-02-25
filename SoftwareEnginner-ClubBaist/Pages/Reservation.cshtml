@@ -19,7 +19,7 @@
 
             let numCarts = aForm.numCart;
 
-            if (setMemberID.value === '') {
+            if (setMemberID.value === '' || setMemberID.value === '0') {
                 alert("MemberID is required!");
                 return false;
             }
@@ -37,7 +37,7 @@
                 return false;
             }
             if (!/^[1-4]+$/.test(numPlayer.value)) {
-                alert("Must Be Number and Minimum 1 Maximum 4 ");
+                alert("Number of Player Must Be Number and Minimum 1 Maximum 4 ");
                 return false;
             }
             if (numCarts.value === '') {
@@ -45,7 +45,7 @@
                 return false;
             }
             if (!/^[0-4]+$/.test(numCarts.value)) {
-                alert("Must be Number for The Cart. for the Selection :Minimum 0 Maximum 4 ");
+                alert("Must be Number for The Cart and Must Be Number and Minimum 0 Maximum 4 ");
                 return false;
             }
             return true;

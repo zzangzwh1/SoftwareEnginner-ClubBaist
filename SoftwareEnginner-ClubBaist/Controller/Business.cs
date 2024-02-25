@@ -79,9 +79,15 @@ namespace SoftwareEnginner_ClubBaist.Controller
 
         public string IsWeekDayOrWeekend(string date)
         {
+            string s = "";
+          //  string holidays = date.Substring(5, 5);
             if (string.IsNullOrEmpty(date))
             {
                 return "";
+            }
+            else if (!IsHolday(date))
+            {
+                return "weekend";
             }
             else
             {
@@ -100,6 +106,15 @@ namespace SoftwareEnginner_ClubBaist.Controller
             }
             return "weekday";
 
+        }
+        public bool IsHolday(string selectedDate)
+        {
+            string holiday = selectedDate.Substring(5, 5);
+            if (holiday == "01-01" || holiday == "03-29"  || holiday == "05-20" || holiday =="07-01" || holiday == "08-05" || holiday == "09-02" || holiday =="09-30" || holiday =="10-24"|| holiday == "11-11" ||  holiday =="12-25" )
+            {
+                return false;
+            }
+            return true;
         }
         public bool IsValidateDate(string bTime, Models.ClubBooking bookings)
         {

@@ -19,5 +19,6 @@
         public int VeryfyMemberOrAdmin(string username, int memberID);
         public string IsMemberRegistered(string setUserName);
         public string IdentifyMembershipType(string setUserName);
+        public bool IsHolday(string selectedDate);
     }
 }
