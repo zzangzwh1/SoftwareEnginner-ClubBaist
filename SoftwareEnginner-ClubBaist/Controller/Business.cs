@@ -38,5 +38,41 @@ namespace SoftwareEnginner_ClubBaist.Controller
             return memberName;
         }
         #endregion
+
+
+        #region  Index / Home /Admin
+        public string DisplayStatus(string username)
+        {
+            TechService.ClubMember memeber = new TechService.ClubMember();
+            string status = memeber.MemberStatus(username);
+            return status;
+        }
+        public void RejectMembers(string username)
+        {
+
+            TechService.ClubMember memeber = new TechService.ClubMember();
+            memeber.RejectMember(username);
+        }
+
+        public void ModifyMemberRegister(string username)
+        {
+            TechService.ClubMember memeber = new TechService.ClubMember();
+            memeber.ApproveMember(username);
+
+        }
+        public List<Models.ClubMember> DisplayMember()
+        {
+            TechService.ClubMember memeber = new TechService.ClubMember();
+            List<Models.ClubMember> clubMembers = memeber.GetMemberForApprove();
+            return clubMembers;
+        }
+        public string DisplayMemberFirstName(string username)
+        {
+
+            TechService.ClubMember memeber = new TechService.ClubMember();
+            return memeber.GetMemberName(username);
+
+        }
+        #endregion
     }
 }

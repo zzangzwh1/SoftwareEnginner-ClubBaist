@@ -19,7 +19,7 @@
     {
         <div class="divHeader">
             <h1>Welcome @Model.Username !</h1>
-           
+
         </div>
         <div class="divHeader">
             <h2>Approve Or Reject for New Member</h2>
@@ -72,14 +72,19 @@
         </div>
 
     }
+    else if (Model.clubMembers == null && !string.IsNullOrEmpty(Model.SetUserName))
+    {
+        <div class="divHeader">
+            <h1>Welcome Home  @Model.SetUserName</h1>
+
+            <h5>Status : @Model.Status</h5>
+        </div>
+    }
     else
     {
         <div class="divHeader">
-            <h1>Welcome Home</h1>
-
-            <p>Please Log In! </p>
-
-
+            <h1>Welcome Home  </h1>
+            <h5>Please Log In!</h5>
         </div>
     }
 

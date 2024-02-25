@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SoftwareEnginner_ClubBaist.Business;
 using System.Runtime.InteropServices;
 
 namespace SoftwareEnginner_ClubBaist.Pages
 {
     public class IndexModel : PageModel
     {
+        IBusiness business = new Controller.Business();
         public string Username { set; get; } = string.Empty;
         public List<Models.ClubMember> clubMembers = null!;
         [BindProperty]
@@ -13,7 +15,8 @@ namespace SoftwareEnginner_ClubBaist.Pages
         [BindProperty]
         public string ApproveUserName { set; get; } = string.Empty;
 
-        public string Status { set; get; } = String.Empty;
+        public string SetUserName { set; get; } = string.Empty;
+        public string Status { set; get; } = string.Empty;
         public void OnGet()
         {
             GetSessionStringAndSetMember();
@@ -21,16 +24,16 @@ namespace SoftwareEnginner_ClubBaist.Pages
         }
         public void OnPost()
         {
-
+            
             switch (Submit)
             {
                 case "Approve":
-                    ModifyMemberRegister(ApproveUserName);
+                    business.ModifyMemberRegister(ApproveUserName);
                     GetSessionStringAndSetMember();
                     break;
 
                 case "Reject":
-                    RejectMembers(ApproveUserName);
+                    business.RejectMembers(ApproveUserName);
                     GetSessionStringAndSetMember();
                     break;
 
@@ -42,58 +45,29 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
         public void GetSessionStringAndSetMember()
         {
-            string setUserName = HttpContext.Session.GetString("member")!;
-            ApproveUserName = setUserName;
-            if (setUserName == "Admin")
+             SetUserName = HttpContext.Session.GetString("member")!;
+            ApproveUserName = SetUserName;
+            if (SetUserName == "Admin")
             {
-                Username = setUserName;
-                DisplayMember();
+                Username = SetUserName;
+                clubMembers = business.DisplayMember();
             }
             else
             {
-                Username = DisplayMemberFirstName(setUserName);
-                string statusResult = DisplayStatus(setUserName);
+                Username = business.DisplayMemberFirstName(SetUserName);
+                string statusResult = business.DisplayStatus(SetUserName);
                 if(statusResult.ToUpper() == "TRUE")                
                     Status = "Apporeved";
                 else if(statusResult.ToUpper() == "FALSE")
-                    Status = "Not Approved, Rejected";
+                    Status = "Waiting for Admin/Committee Approval.";
                 else if(statusResult.ToUpper() == "WAITING")
-                    Status = "Waiting On Status";
+                    Status = "Rejected Please Contact Admin";
                 else
                 {
                     Status = string.Empty;
                 }
             }
         }
-        private string DisplayStatus(string username)
-        {
-            TechService.ClubMember memeber = new TechService.ClubMember();
-            string status = memeber.MemberStatus(username);
-            return status;
-        }
-        public void RejectMembers(string username)
-        {
 
-            TechService.ClubMember memeber = new TechService.ClubMember();
-            memeber.RejectMember(username);
-        }
-        public void ModifyMemberRegister(string username)
-        {
-            TechService.ClubMember memeber = new TechService.ClubMember();
-            memeber.ApproveMember(username);
-
-        }
-        public void DisplayMember()
-        {
-            TechService.ClubMember memeber = new TechService.ClubMember();
-            clubMembers = memeber.GetMemberForApprove();
-        }
-        public string DisplayMemberFirstName(string username)
-        {
-
-            TechService.ClubMember memeber = new TechService.ClubMember();
-            return memeber.GetMemberName(username);
-
-        }
     }
 }
