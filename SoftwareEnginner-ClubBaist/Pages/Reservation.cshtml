@@ -155,47 +155,71 @@
             </div>
             <Br />
 
-            @if (Model.TeeTimeList != null)
+        @if (Model.TeeTimeList != null && Model.SetUserName != "Admin")
             {
-
                 <table class="fl-table">
                     <thead>
                         <tr>
                             <th>Member Name</th>
                             <th># Of Player</th>
-                            <th>Phone</th>
+                         
                             <th># Of Carts</th>
                             <th>Date</th>
                             <th>Time</th>
                         </tr>
                     </thead>
                     <tbody>
-
                         @foreach (var item in Model.TeeTimeList)
                         {
                             <tr>
                                 <td>@item.FullName</td>
                                 <td>@item.NumOfPlayer</td>
-                                <td>@item.members.Phone</td>
+                              
                                 <td>@item.NumOfCarts</td>
                                 <td>@item.BookingDate</td>
                                 <td>@item.BookingTime</td>
-
                             </tr>
                         }
-
-                    <tbody>
+                    </tbody>
                 </table>
-
+            }
+            else if (Model.SetUserName == "Admin" && Model.TeeTimeList != null)
+            {
+                <table class="fl-table">
+                    <thead>
+                        <tr>
+                            <th>Member Name</th>
+                            <th># Of Player</th>
+                        
+                            <th># Of Carts</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Update</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.TeeTimeList)
+                        {
+                            <tr>
+                                <td>@item.FullName</td>
+                                <td>@item.NumOfPlayer</td>
+                            
+                                <td>@item.NumOfCarts</td>
+                                <td>@item.BookingDate</td>
+                                <td>@item.BookingTime</td>
+                                <td><input type="button" name="Update" value="Update" /></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             }
             else
             {
                 <div class="divHeader">
                     <p class="form-title">@Model.ReservationStatus</p>
-
-
                 </div>
             }
+
         </form>
         // </div>
 
@@ -209,4 +233,3 @@
     }
 }
 
-}

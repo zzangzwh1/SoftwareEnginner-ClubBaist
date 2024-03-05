@@ -1,0 +1,42 @@
+﻿@page
+@model SoftwareEnginner_ClubBaist.Pages.ViewMemberShipModel
+@{
+    ViewData["Title"] = "View MemberShip";
+}
+@section GetMemberContent
+{
+    <br></br>
+    <table class="fl-table">
+        <thead>
+            <tr>
+                <th>FirstName</th>           
+                <th>LastName</th>
+                <th>Postal Code</th>
+                <th>Address</th>
+                <th>Occupation </th>
+                <th>Company Name</th>
+                <th>Date Of Birth</th>
+                <th>MemberShip Time</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var data in Model.clubMemeber)
+            {
+                <tr>
+                    <td>@data.FirstName</td>
+                    <td>@data.LastName</td>
+                    <td>@data.PostalCode</td>
+                    <td>@data.Address</td>
+                    <td>@data.Occupation</td>
+                    <td>@data.CompanyName</td>
+                    <td>@data.DateOfBirth</td>
+                    <td>@data.MembershipType</td>
+                </tr>
+            }
+
+
+
+        <tbody>
+    </table>
+}

@@ -20,5 +20,6 @@
         public string IsMemberRegistered(string setUserName);
         public string IdentifyMembershipType(string setUserName);
         public bool IsHolday(string selectedDate);
+        public List<Models.ClubMember> GetClubClubMember();
     }
 }

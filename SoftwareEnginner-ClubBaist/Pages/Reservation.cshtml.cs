@@ -41,6 +41,8 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
 
         public string Message = "";
+
+        public string Admin { set; get; }
         public void OnGet()
         {
             GetSession();
@@ -112,13 +114,15 @@ namespace SoftwareEnginner_ClubBaist.Pages
         }
         public void OnPostViewTeeTime()
         {
-
+            SetUserName = HttpContext.Session.GetString("member")!;
+           
             string result = SelectDateForView.ToString("yyyy-MM-dd");
             TeeTimeList = business.ViewTeemTime(result);
             if(TeeTimeList is null)
             {
                 ReservationStatus = "No Reservation Exsits Please select other Date";
             }
+     
             GetSession();
         }     
         private void SetDefault()

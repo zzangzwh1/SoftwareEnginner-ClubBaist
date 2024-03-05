@@ -4,6 +4,17 @@ namespace SoftwareEnginner_ClubBaist.Controller
 {
     public class Business : IBusiness
     {
+
+        #region GetMember
+        public List<Models.ClubMember> GetClubClubMember()
+        {
+            TechService.ClubMember clubMenber = new TechService.ClubMember();
+            List<Models.ClubMember> clubMemebers =  clubMenber.GetMembers();
+            return clubMemebers;
+        }
+
+        #endregion
+
         #region SignUP
         public bool AddClubMember(Models.ClubMember members)
         {
