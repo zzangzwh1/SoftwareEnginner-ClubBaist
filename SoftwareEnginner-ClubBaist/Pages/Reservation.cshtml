@@ -201,13 +201,15 @@
                         @foreach (var item in Model.TeeTimeList)
                         {
                             <tr>
-                                <td>@item.FullName</td>
-                                <td>@item.NumOfPlayer</td>
+                                <td><input asp-for="aFullname" value="@item.FullName" readonly /></td>
+
+                                <td><input asp-for="aNumOfPlayer" value="@item.FullName" /></td>
+                                <td><input asp-for="aNumOfCart" value="@item.NumOfCarts" /></td>
+                                <td><input asp-for="aDate" value="@item.BookingDate" /></td>
+                                <td><input asp-for="aTime" value="@item.BookingTime" /></td>
+                             
                             
-                                <td>@item.NumOfCarts</td>
-                                <td>@item.BookingDate</td>
-                                <td>@item.BookingTime</td>
-                                <td><input type="button" name="Update" value="Update" /></td>
+                                <td> <input type="submit" name="Update" value="Update" class="buttons" asp-page-handler="Update" /></td>
                             </tr>
                         }
                     </tbody>

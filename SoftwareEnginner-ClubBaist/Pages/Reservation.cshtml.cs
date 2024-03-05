@@ -41,6 +41,15 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
 
         public string Message = "";
+        public string aNumOfPlayer { set; get; }
+        public string aNumOfCart { set; get; }
+        public string aDate { set; get; }
+        public string aTime { set; get; }
+        public string aFullname { set; get; }
+
+
+
+
 
         public string Admin { set; get; }
         public void OnGet()
@@ -124,7 +133,20 @@ namespace SoftwareEnginner_ClubBaist.Pages
             }
      
             GetSession();
-        }     
+        }    
+        public void OnPostUpdate()
+        {
+            Models.ClubBooking clubMember = new()
+            {
+                BookingDate = aDate
+
+            };
+
+            string test = "";
+
+            string t = "";     
+        GetSession();
+        }
         private void SetDefault()
         {
             SetMemberID = 0;
