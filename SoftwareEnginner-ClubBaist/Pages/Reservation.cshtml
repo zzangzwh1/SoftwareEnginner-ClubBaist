@@ -160,6 +160,7 @@
                 <table class="fl-table">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Member Name</th>
                             <th># Of Player</th>
                          
@@ -172,6 +173,7 @@
                         @foreach (var item in Model.TeeTimeList)
                         {
                             <tr>
+                                <td>@item.BookingID</td>
                                 <td>@item.FullName</td>
                                 <td>@item.NumOfPlayer</td>
                               
@@ -185,12 +187,13 @@
             }
             else if (Model.SetUserName == "Admin" && Model.TeeTimeList != null)
             {
+            <form name="UpdateSample" method="post">
                 <table class="fl-table">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Member Name</th>
-                            <th># Of Player</th>
-                        
+                            <th># Of Player</th>                        
                             <th># Of Carts</th>
                             <th>Date</th>
                             <th>Time</th>
@@ -201,9 +204,10 @@
                         @foreach (var item in Model.TeeTimeList)
                         {
                             <tr>
-                                <td><input asp-for="aFullname" value="@item.FullName" readonly /></td>
+                                <td><input asp-for="aID" value="@item.BookingID"  readonly/></td>
+                                <td><input asp-for="aFullname" value="@item.FullName"  readonly/></td>
 
-                                <td><input asp-for="aNumOfPlayer" value="@item.FullName" /></td>
+                                <td><input asp-for="aNumOfPlayer" value="@item.NumOfPlayer" /></td>
                                 <td><input asp-for="aNumOfCart" value="@item.NumOfCarts" /></td>
                                 <td><input asp-for="aDate" value="@item.BookingDate" /></td>
                                 <td><input asp-for="aTime" value="@item.BookingTime" /></td>
@@ -214,6 +218,7 @@
                         }
                     </tbody>
                 </table>
+                </form>
             }
             else
             {

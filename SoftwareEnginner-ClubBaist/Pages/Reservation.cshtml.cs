@@ -41,12 +41,18 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
 
         public string Message = "";
-        public string aNumOfPlayer { set; get; }
-        public string aNumOfCart { set; get; }
+        [BindProperty]
+        public int aNumOfPlayer { set; get; }
+        [BindProperty]
+        public int aNumOfCart { set; get; }
+        [BindProperty]
         public string aDate { set; get; }
+        [BindProperty]
         public string aTime { set; get; }
+        [BindProperty]
         public string aFullname { set; get; }
-
+        [BindProperty]
+        public int aID { set; get; }
 
 
 
@@ -138,7 +144,15 @@ namespace SoftwareEnginner_ClubBaist.Pages
         {
             Models.ClubBooking clubMember = new()
             {
-                BookingDate = aDate
+                BookingDate = aDate,
+                 BookingID = aID,
+                  NumOfCarts = aNumOfCart,
+                  NumOfPlayer = aNumOfPlayer,
+                   FullName = aFullname,
+                    BookingTime = aTime
+                    
+                 
+                  
 
             };
 

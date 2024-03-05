@@ -82,6 +82,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
                                 {
                                     Models.ClubBooking teeTimeItems = new Models.ClubBooking();
 
+                                    teeTimeItems.BookingID = (int)reader["BookingID"];
                                     teeTimeItems.FullName = (string)reader["Member Name"];
                                     teeTimeItems.NumOfPlayer = (int)reader["# of Player"];
                                     //string phone = (string)reader["Phone"];
@@ -116,6 +117,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
                     }
                 }
             }
+            string test = "";
             return teeTimeView;
         }
         public string InsertIntoClubBooking(Models.ClubBooking booking, int memberID)
