@@ -9,10 +9,10 @@
     <script src="~/libraries/jquery-validate/jquery.validate.js"></script>
     <script src="~/libraries/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     *@
-    <script type="text/javascript">
-    
+    <script type="text/javascript">        
         function isValidate(aForm) {
 
+      
             let setMemberID = aForm.SetMemberID;
             let Bdate = aForm.Bdate;
             let numPlayer = aForm.numPlayer;
@@ -50,9 +50,9 @@
             }
             return true;
         }
-
-
+      
     </script>
+ 
 }
 @section ReservationContent
 {
@@ -78,27 +78,27 @@
                     <input name="Bdate" id="Bdate" type="date" value="@Model.Bdate" />
 
                 </div>
-      
+
                 <div class="input-container">
                     <label for="mySelect">Choose Time:</label>
                     <select id="mySelect" name="Btime">
 
-                     
-                  @for (int i = 7; i < 18; i++)
+
+                        @for (int i = 7; i < 18; i++)
                         {
                             @if (Model.MemberShipType == "Silver" && (i == 15 || i == 16))
                             {
-                        
+
                                 continue;
                             }
-                            @if (Model.MemberShipType == "Bronze" && (i == 15 || i == 16 || i==17))
+                            @if (Model.MemberShipType == "Bronze" && (i == 15 || i == 16 || i == 17))
                             {
                                 continue;
                             }
 
                             for (int j = 0; j < 60; j += 8)
                             {
-                                @if (Model.MemberShipType == "Silver" && (i ==17))
+                                @if (Model.MemberShipType == "Silver" && (i == 17))
                                 {
                                     if (j <= 30)
                                         continue;
@@ -111,12 +111,12 @@
                                 <option value="@results">@results</option>
                             }
                         }
-             
+
 
                     </select>
 
                 </div>
-  
+
 
                 <div class="input-container">
 
@@ -143,7 +143,7 @@
 
         <br />
 
-        <form name="ViewForm" class="table-wrapper" method="post">
+        <form name="ViewForm" class="table-wrapper" method="post" >
             <div class="divHeader">
                 <p class="form-title">View Tee TimeList</p>
 
@@ -155,7 +155,7 @@
             </div>
             <Br />
 
-        @if (Model.TeeTimeList != null && Model.SetUserName != "Admin")
+            @if (Model.TeeTimeList != null)
             {
                 <table class="fl-table">
                     <thead>
@@ -163,7 +163,6 @@
                             <th>ID</th>
                             <th>Member Name</th>
                             <th># Of Player</th>
-                         
                             <th># Of Carts</th>
                             <th>Date</th>
                             <th>Time</th>
@@ -176,7 +175,7 @@
                                 <td>@item.BookingID</td>
                                 <td>@item.FullName</td>
                                 <td>@item.NumOfPlayer</td>
-                              
+
                                 <td>@item.NumOfCarts</td>
                                 <td>@item.BookingDate</td>
                                 <td>@item.BookingTime</td>
@@ -185,41 +184,7 @@
                     </tbody>
                 </table>
             }
-            else if (Model.SetUserName == "Admin" && Model.TeeTimeList != null)
-            {
-            <form name="UpdateSample" method="post">
-                <table class="fl-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Member Name</th>
-                            <th># Of Player</th>                        
-                            <th># Of Carts</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Update</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.TeeTimeList)
-                        {
-                            <tr>
-                                <td><input asp-for="aID" value="@item.BookingID"  readonly/></td>
-                                <td><input asp-for="aFullname" value="@item.FullName"  readonly/></td>
-
-                                <td><input asp-for="aNumOfPlayer" value="@item.NumOfPlayer" /></td>
-                                <td><input asp-for="aNumOfCart" value="@item.NumOfCarts" /></td>
-                                <td><input asp-for="aDate" value="@item.BookingDate" /></td>
-                                <td><input asp-for="aTime" value="@item.BookingTime" /></td>
-                             
-                            
-                                <td> <input type="submit" name="Update" value="Update" class="buttons" asp-page-handler="Update" /></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-                </form>
-            }
+           
             else
             {
                 <div class="divHeader">

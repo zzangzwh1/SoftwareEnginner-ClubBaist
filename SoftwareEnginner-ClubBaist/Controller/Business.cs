@@ -1,9 +1,21 @@
 ﻿using SoftwareEnginner_ClubBaist.Business;
+using SoftwareEnginner_ClubBaist.Models;
 using System.Text;
 namespace SoftwareEnginner_ClubBaist.Controller
 {
     public class Business : IBusiness
     {
+
+        #region Reservatation
+
+        public List<BookingReservation> GetBookingReservations(int memberID)
+        {
+            TechService.ClubBooking booking = new TechService.ClubBooking();
+            List<BookingReservation> reservations = booking.GetBookingReservations(memberID);
+            return reservations;
+        }
+
+        #endregion
 
         #region GetMember
         public List<Models.ClubMember> GetClubClubMember()
@@ -87,6 +99,15 @@ namespace SoftwareEnginner_ClubBaist.Controller
         #endregion
 
         #region Reservation
+
+        public string UpdateReservation(Models.ClubBooking clubMember)
+        {
+            TechService.ClubBooking booking = new TechService.ClubBooking();
+            string isSuccess = booking.UpdateReservation(clubMember);
+
+            return isSuccess;
+
+        }
 
         public string IsWeekDayOrWeekend(string date)
         {

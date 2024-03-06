@@ -1,0 +1,170 @@
+﻿@page
+@model SoftwareEnginner_ClubBaist.Pages.UpdateMemberModel
+@{
+    ViewData["Title"] = "Update Member";
+}
+@section ReservationScript
+{
+    <script src="~/libraries/jquery/jquery.js"> </script>
+    <script src="~/libraries/jquery-validate/jquery.validate.js"></script>
+    <script src="~/libraries/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+    <script type="text/javascript">
+
+        function isValidate(aForm) {
+
+     
+          
+          
+            let aNumOfPlayer = aForm.aNumOfPlayer;
+
+            let numCarts = aForm.aNumOfCart;
+
+          
+
+            if (aNumOfPlayer.value === '') {
+                alert("Number of Player Field is required!");
+                return false;
+            }
+            if (!/^[1-4]+$/.test(aNumOfPlayer.value)) {
+                alert("Number of Player Must Be Number and Minimum 1 Maximum 4 ");
+                return false;
+            }
+            if (numCarts.value === '') {
+                alert("NumCarts fields is Required");
+                return false;
+            }
+            if (!/^[0-4]+$/.test(numCarts.value)) {
+                alert("Must be Number for The Cart and Must Be Number and Minimum 0 Maximum 4 ");
+                return false;
+            }
+            return true;
+        }
+
+
+    </script>
+
+}
+@section UpdateMemberContent
+{
+    @if (Model.Username == "Admin")
+    {
+        <section class="divHeader">
+            <h1> Update Reservation </h1>
+            <div>
+                <form name="SampleForm" method="post">
+                    <div>
+                        <br />
+                        <p class="modelMessage">Please Insert Member ID </p>
+                        <input asp-for="MemberID" class="inputText" class="inputText" />
+                    </div>
+
+                    <div>
+                        <br />
+                        <input type="submit" name="Submit" value="Find Reservation" asp-page-handler="FindMember" class="buttons">
+                    </div>
+
+                    <section class="messages">
+                        <br />
+                        <span asp-validation-for="MemberID" class="modelMessage"></span>
+
+                    </section>
+
+                </form>
+
+
+            </div>
+        </section>
+
+        if (Model.reservations != null)
+        {
+
+
+            @foreach (var item in Model.reservations)
+            {
+                <form id="updateForm" name="UpdateSample" method="post" onsubmit="return isValidate(this);">
+                    <section class="messages">
+
+                        <h3 class="modelMessage">@Model.UpdateResult</h3>
+                        <span asp-validation-for="aDate" class="modelMessage"></span>
+                        <span asp-validation-for="aNumOfPlayer" class="modelMessage"></span>
+                        
+                    </section>
+                <div class="messages">
+                    <br />
+
+                    <h4 style="color:red">@Model.Message</h4>
+                </div>
+                <table class="fl-table">
+                    <thead>
+                        <tr>
+                            <th>MemberID</th>
+                            <th>Name</th>
+                            <th>Booking ID</th>
+                            <th>Booking Date</th>
+                            <th>Booking Time</th>
+                            <th>Carts</th>
+                            <th>Players</th>
+                            <th>Update</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input name="aID" value="@item.MemberID" readonly height="20px" /></td>
+                            <td><input name="aFullname" value="@item.FirstName @item.LastName" readonly height="20px" /></td>
+                            <td><input name="aBookingID" value="@item.BookingId" readonly height="20px" /></td>
+                                <td><input type="date" name="aDate" value="@item.BookingDate" height="20px" min="@DateTime.Now.ToString("yyyy-MM-dd")" /></td>
+
+                            <td>
+                                <select id="mySelect" asp-for="aTime" height="20px">
+                                    <option value="@item.BookingTime">@item.BookingTime</option>
+                                    @for (int i = 7; i < 18; i++)
+                                    {
+                                        for (int j = 0; j < 60; j += 8)
+                                        {
+                                            string time = i.ToString().PadLeft(2, '0');
+                                            string mins = j.ToString().PadLeft(2, '0');
+                                            string results = (i < 12) ? $"{time}:{mins} AM" : $"{time}:{mins} PM";
+                                            <option value="@results">@results</option>
+                                        }
+                                    }
+                                </select>
+                            </td>
+                                <td><input type="text" name="aNumOfCart" value="@item.NumOfCars" height="20px" /></td>
+                                <td>  <input type="text" name="aNumOfPlayer" value="@item.NumOfPlayer" height="20px" pattern="[0-9]{1,4}" title="Please enter a number with 1 to 4 digits."/></td>
+                            <td>
+                                <input type="submit" name="Submit" id="updateButton" value="Update" class="submit" asp-page-handler="Update" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+         
+
+                </form>
+            }
+        }
+
+
+
+
+        <section class="divHeader">
+            <h1>@Model.Message </h1>
+        </section>
+    }
+      
+
+
+    else
+    {
+
+        <section class="divHeader">
+            <h1>Only Admin is allowed for updating time Please contact Admin </h1>
+        </section>
+    }
+
+}
+
+
+
+
