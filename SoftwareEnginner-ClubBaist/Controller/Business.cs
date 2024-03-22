@@ -111,8 +111,7 @@ namespace SoftwareEnginner_ClubBaist.Controller
 
         public string IsWeekDayOrWeekend(string date)
         {
-            string s = "";
-          //  string holidays = date.Substring(5, 5);
+          
             if (string.IsNullOrEmpty(date))
             {
                 return "";

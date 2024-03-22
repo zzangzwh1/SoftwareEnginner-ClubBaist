@@ -4,15 +4,45 @@
     ViewData["Title"] = "Golf Score";
 }
 @section ScoreScript
- {
+{
 
     <script src="~/libraries/jquery/jquery.js"> </script>
     <script src="~/libraries/jquery-validate/jquery.validate.js"></script>
     <script src="~/libraries/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 
-} 
+}
 
 @section GolfScoreSection
 {
-    <h1>Score</h1>
+    <section class="divHeader">
+        <h1> Gold Score </h1>
+        <div>
+            <form name="ScoreForm" method="post">
+
+                @for (int i = 1; i < 19; i++)
+                {
+
+                   // List<string> inputValueCollection = new List<string>();
+                    string inputValue = $"InputValue{i}";
+                    
+                    <div>
+
+                        <label> Hole @i Score : <input type="text" name="@inputValue" /> </label>
+                    </div>
+                 
+                }                
+
+                <div>
+                    <input type="submit" name="Submit" value="Update" class="submit" />
+
+                </div>
+
+                <section class="messages">
+                </section>
+
+            </form>
+
+
+        </div>
+    </section>
 }

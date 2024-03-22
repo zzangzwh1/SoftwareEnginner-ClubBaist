@@ -431,7 +431,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
                     {
 
                         return false;
-                        Console.WriteLine(ex.Message);
+                       
                     }
                     finally
                     {
