@@ -4,6 +4,7 @@ using System.Data;
 
 namespace SoftwareEnginner_ClubBaist.TechService
 {
+
     public class ClubBooking
     {
         private static string? _connectionString;
