@@ -1,9 +1,32 @@
 ﻿using SoftwareEnginner_ClubBaist.Business;
+using SoftwareEnginner_ClubBaist.Models;
 using System.Text;
 namespace SoftwareEnginner_ClubBaist.Controller
 {
     public class Business : IBusiness
     {
+
+        #region Reservatation
+
+        public List<BookingReservation> GetBookingReservations(int memberID)
+        {
+            TechService.ClubBooking booking = new TechService.ClubBooking();
+            List<BookingReservation> reservations = booking.GetBookingReservations(memberID);
+            return reservations;
+        }
+
+        #endregion
+
+        #region GetMember
+        public List<Models.ClubMember> GetClubClubMember()
+        {
+            TechService.ClubMember clubMenber = new TechService.ClubMember();
+            List<Models.ClubMember> clubMemebers =  clubMenber.GetMembers();
+            return clubMemebers;
+        }
+
+        #endregion
+
         #region SignUP
         public bool AddClubMember(Models.ClubMember members)
         {
@@ -77,9 +100,19 @@ namespace SoftwareEnginner_ClubBaist.Controller
 
         #region Reservation
 
+        public string UpdateReservation(Models.ClubBooking clubMember)
+        {
+            TechService.ClubBooking booking = new TechService.ClubBooking();
+            string isSuccess = booking.UpdateReservation(clubMember);
+
+            return isSuccess;
+
+        }
+
         public string IsWeekDayOrWeekend(string date)
         {
-            
+            string s = "";
+          //  string holidays = date.Substring(5, 5);
             if (string.IsNullOrEmpty(date))
             {
                 return "";

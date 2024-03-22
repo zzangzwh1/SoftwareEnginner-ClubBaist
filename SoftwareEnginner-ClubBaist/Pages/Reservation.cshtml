@@ -9,10 +9,10 @@
     <script src="~/libraries/jquery-validate/jquery.validate.js"></script>
     <script src="~/libraries/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     *@
-    <script type="text/javascript">
-    
+    <script type="text/javascript">        
         function isValidate(aForm) {
 
+      
             let setMemberID = aForm.SetMemberID;
             let Bdate = aForm.Bdate;
             let numPlayer = aForm.numPlayer;
@@ -50,9 +50,9 @@
             }
             return true;
         }
-
-
+      
     </script>
+ 
 }
 @section ReservationContent
 {
@@ -78,27 +78,27 @@
                     <input name="Bdate" id="Bdate" type="date" value="@Model.Bdate" />
 
                 </div>
-      
+
                 <div class="input-container">
                     <label for="mySelect">Choose Time:</label>
                     <select id="mySelect" name="Btime">
 
-                     
-                  @for (int i = 7; i < 18; i++)
+
+                        @for (int i = 7; i < 18; i++)
                         {
                             @if (Model.MemberShipType == "Silver" && (i == 15 || i == 16))
                             {
-                        
+
                                 continue;
                             }
-                            @if (Model.MemberShipType == "Bronze" && (i == 15 || i == 16 || i==17))
+                            @if (Model.MemberShipType == "Bronze" && (i == 15 || i == 16 || i == 17))
                             {
                                 continue;
                             }
 
                             for (int j = 0; j < 60; j += 8)
                             {
-                                @if (Model.MemberShipType == "Silver" && (i ==17))
+                                @if (Model.MemberShipType == "Silver" && (i == 17))
                                 {
                                     if (j <= 30)
                                         continue;
@@ -111,12 +111,12 @@
                                 <option value="@results">@results</option>
                             }
                         }
-             
+
 
                     </select>
 
                 </div>
-  
+
 
                 <div class="input-container">
 
@@ -143,7 +143,7 @@
 
         <br />
 
-        <form name="ViewForm" class="table-wrapper" method="post">
+        <form name="ViewForm" class="table-wrapper" method="post" >
             <div class="divHeader">
                 <p class="form-title">View Tee TimeList</p>
 
@@ -157,45 +157,41 @@
 
             @if (Model.TeeTimeList != null)
             {
-
                 <table class="fl-table">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Member Name</th>
                             <th># Of Player</th>
-                            <th>Phone</th>
                             <th># Of Carts</th>
                             <th>Date</th>
                             <th>Time</th>
                         </tr>
                     </thead>
                     <tbody>
-
                         @foreach (var item in Model.TeeTimeList)
                         {
                             <tr>
+                                <td>@item.BookingID</td>
                                 <td>@item.FullName</td>
                                 <td>@item.NumOfPlayer</td>
-                                <td>@item.members.Phone</td>
+
                                 <td>@item.NumOfCarts</td>
                                 <td>@item.BookingDate</td>
                                 <td>@item.BookingTime</td>
-
                             </tr>
                         }
-
-                    <tbody>
+                    </tbody>
                 </table>
-
             }
+           
             else
             {
                 <div class="divHeader">
                     <p class="form-title">@Model.ReservationStatus</p>
-
-
                 </div>
             }
+
         </form>
         // </div>
 
@@ -209,4 +205,3 @@
     }
 }
 
-}

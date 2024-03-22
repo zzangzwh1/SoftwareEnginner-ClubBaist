@@ -10,7 +10,7 @@
     @RenderSection("HomeContent", required: false)
     @RenderSection("LoginScript", required: false)
     @RenderSection("ReservationScript", required: false)
-
+    @RenderSection("ScoreScript", required: false)
 
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
@@ -54,7 +54,9 @@
                 </a>
             </li>
             <li><a href="~/Reservation">Reservation</a></li>
-           @*  <li><a href="#">Contact</a></li> *@
+            <li><a href="~/ViewMemberShip">ViewMembership</a></li>
+            <li><a href="~/UpdateMember">Update Reservation</a></li>
+            <li><a href="~/Score">Score</a></li>
         </ul>
     </nav>
     <main>
@@ -65,6 +67,10 @@
         @RenderSection("SignUpContent", required: false)
         @RenderSection("ReservationContent", required: false)
         @RenderSection("ReservationContent2", required: false)
+        @RenderSection("GetMemberContent", required: false)
+        @RenderSection("UpdateMemberContent", required: false)
+        @RenderSection("GolfScoreSection", required: false)
+
     </main>
     <footer>
 

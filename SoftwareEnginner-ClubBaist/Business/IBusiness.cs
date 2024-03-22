@@ -1,7 +1,10 @@
-﻿namespace SoftwareEnginner_ClubBaist.Business
+﻿using SoftwareEnginner_ClubBaist.Models;
+
+namespace SoftwareEnginner_ClubBaist.Business
 {
     public interface IBusiness
     {
+        public List<BookingReservation> GetBookingReservations(int memberID);
         public bool AddClubMember(Models.ClubMember members);
         public string SetDateofBirthDate(string date);
         public string MemberLogin(Models.ClubMember members);
@@ -20,5 +23,7 @@
         public string IsMemberRegistered(string setUserName);
         public string IdentifyMembershipType(string setUserName);
         public bool IsHolday(string selectedDate);
+        public List<Models.ClubMember> GetClubClubMember();
+       public string UpdateReservation(Models.ClubBooking clubMember);
     }
 }

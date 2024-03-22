@@ -7,13 +7,14 @@ using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Http;
 using SoftwareEnginner_ClubBaist.Business;
 using Microsoft.Extensions.Primitives;
+using System.Text.RegularExpressions;
 
 namespace SoftwareEnginner_ClubBaist.Pages
 {
     public class ReservationModel : PageModel
     {
         IBusiness business = new Controller.Business();
-       
+
         public string IsRegistered { set; get; } = "";
 
         [BindProperty]
@@ -41,17 +42,18 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
 
         public string Message = "";
+   
         public void OnGet()
         {
             GetSession();
-            ReservationStatus = "Please Select Date For Viewing Reservation"; 
+            ReservationStatus = "Please Select Date For Viewing Reservation";
         }
         public void OnPostBook()
         {
             GetSession();
 
             string username = HttpContext.Session.GetString("member")!;
-            int memberID = business.VeryfyMemberOrAdmin(username,SetMemberID);
+            int memberID = business.VeryfyMemberOrAdmin(username, SetMemberID);
 
             int bookingID = business.GnerateBookingID();
             Models.ClubBooking bookings = new()
@@ -64,7 +66,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
             };
 
             bool isValidateTime = business.IsValidateDate(Btime, bookings);
-       
+
 
             string isBooked = "";
             string weekend = business.IsWeekDayOrWeekend(Bdate);
@@ -83,7 +85,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
                 isBooked = business.InsertClubBooking(bookings, memberID);
             }
 
-                   
+
             if (isBooked == "success" && isValidateTime && isWeekendTimeValiedTime)
             {
                 Message = "Your Reservation is Successfully Booked";
@@ -102,7 +104,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
             {
                 Message = "Bronze is Only Valid for booking after 1PM on Weekends/Holiday";
             }
-    
+
             else
             {
                 Message = isBooked;
@@ -112,15 +114,18 @@ namespace SoftwareEnginner_ClubBaist.Pages
         }
         public void OnPostViewTeeTime()
         {
+            SetUserName = HttpContext.Session.GetString("member")!;
 
             string result = SelectDateForView.ToString("yyyy-MM-dd");
             TeeTimeList = business.ViewTeemTime(result);
-            if(TeeTimeList is null)
+            if (TeeTimeList is null)
             {
                 ReservationStatus = "No Reservation Exsits Please select other Date";
             }
+
             GetSession();
-        }     
+        }
+     
         private void SetDefault()
         {
             SetMemberID = 0;
@@ -128,11 +133,11 @@ namespace SoftwareEnginner_ClubBaist.Pages
             Btime = "";
             numPlayer = 1;
             numCart = 0;
-        }     
+        }
 
         private void GetSession()
         {
-        
+
             SetUserName = HttpContext.Session.GetString("member")!;
 
             if (string.IsNullOrEmpty(SetUserName))
@@ -142,7 +147,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
             }
             else
             {
-               
+
                 IsRegistered = business.IsMemberRegistered(SetUserName);
                 if (IsRegistered == "True")
                 {

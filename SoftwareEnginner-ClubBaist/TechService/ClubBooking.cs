@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using SoftwareEnginner_ClubBaist.Models;
 using System.Data;
 
 
@@ -15,6 +16,112 @@ namespace SoftwareEnginner_ClubBaist.TechService
             databaseUserBuilder.AddJsonFile("appsettings.json");
             IConfiguration databaseUsersConfiguration = databaseUserBuilder.Build();
             _connectionString = databaseUsersConfiguration.GetConnectionString("BAIST3150");
+        }
+        public List<BookingReservation> GetBookingReservations(int memberID)
+        {
+            var viewReservations = new List<BookingReservation>();
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                using (SqlCommand command = new SqlCommand("GetEveryBooking", conn))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+                        command.Parameters.AddWithValue("@MemberId", memberID);
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+
+                                while (reader.Read())
+                                {
+                                    BookingReservation reservation = new BookingReservation
+                                    {
+                                        BookingDate = (string)reader["BookingDate"],
+                                        BookingId = (int)reader["BookingID"],
+                                        BookingTime = (string)reader["BookingTime"],
+                                        FirstName = (string)reader["FirstName"],
+                                        LastName = (string)reader["LastName"],
+                                        MemberID = (int)reader["MemberId"],
+                                        NumOfCars = (int)reader["NumOfCarts"],
+                                        NumOfPlayer = (int)reader["NumOfPalyer"]
+
+
+
+
+                                    };
+
+
+                                    viewReservations.Add(reservation);
+                                }
+
+
+                            }
+                            else
+                            {
+                                viewReservations = null!;
+                            }
+
+
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error Occurred - {ex.Message}");
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+
+            return viewReservations;
+        }
+
+        public string UpdateReservation(Models.ClubBooking booking)
+        {
+            string result = "Sucessfully Reservation is Updated!";
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                using (SqlCommand command = new SqlCommand("UpdateBooking", conn))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    try
+                    {
+                        command.Parameters.AddWithValue("@BookingDate", booking.BookingDate).SqlDbType = SqlDbType.NVarChar;
+                        command.Parameters.AddWithValue("@BookingTime", booking.BookingTime).SqlDbType = SqlDbType.NVarChar;
+                        command.Parameters.AddWithValue("@NumOfPlayer", booking.NumOfPlayer).SqlDbType = SqlDbType.Int;
+                        command.Parameters.AddWithValue("@BookingID", booking.BookingID).SqlDbType = SqlDbType.Int;
+                        command.Parameters.AddWithValue("@NumOfCarts", booking.NumOfCarts).SqlDbType = SqlDbType.Int;
+
+                        command.ExecuteNonQuery();
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        result = ex.Message;
+
+
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+
+
+                }
+
+
+            }
+
+            return result;
         }
         public string IdentifyMembershipType(string username)
         {
@@ -58,13 +165,13 @@ namespace SoftwareEnginner_ClubBaist.TechService
             }
             return result;
 
-          
+
 
         }
         public List<Models.ClubBooking> DisplayTeeTimeList(string bookingDate)
         {
-           var teeTimeView = new List<Models.ClubBooking>();
-           
+            var teeTimeView = new List<Models.ClubBooking>();
+
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
@@ -83,6 +190,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
                                 {
                                     Models.ClubBooking teeTimeItems = new Models.ClubBooking();
 
+                                    teeTimeItems.BookingID = (int)reader["BookingID"];
                                     teeTimeItems.FullName = (string)reader["Member Name"];
                                     teeTimeItems.NumOfPlayer = (int)reader["# of Player"];
                                     //string phone = (string)reader["Phone"];
@@ -117,6 +225,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
                     }
                 }
             }
+
             return teeTimeView;
         }
         public string InsertIntoClubBooking(Models.ClubBooking booking, int memberID)
@@ -140,14 +249,12 @@ namespace SoftwareEnginner_ClubBaist.TechService
                         command.Parameters.AddWithValue("@NumOfCarts", booking.NumOfCarts).SqlDbType = SqlDbType.Int;
 
                         command.ExecuteNonQuery();
-                       
+
 
                     }
                     catch (Exception ex)
                     {
                         result = ex.Message;
-                        Console.WriteLine(ex.Message);
-//                        isBooked = false;
 
                     }
                     finally

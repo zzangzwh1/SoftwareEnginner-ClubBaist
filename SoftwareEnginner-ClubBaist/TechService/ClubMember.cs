@@ -74,6 +74,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
 
         }
         #endregion
+
         #region Reject Member
         public void RejectMember(string username)
         {
@@ -203,6 +204,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
         }
 
         #endregion
+
         #region Get Every Member for Approval
 
         public List<Models.ClubMember> GetMemberForApprove()
@@ -212,6 +214,73 @@ namespace SoftwareEnginner_ClubBaist.TechService
             {
                 conn.Open();
                 using (SqlCommand command = new SqlCommand("GetMemberForApprove", conn))
+                {
+
+                    command.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+
+                                while (reader.Read())
+                                {
+                                    Models.ClubMember member = new Models.ClubMember
+                                    {
+                                        UserName = (string)reader["UserName"],
+                                        FirstName = (string)reader["FirstName"],
+                                        LastName = (string)reader["LastName"],
+                                        PostalCode = (string)reader["PostalCode"],
+                                        Address = (string)reader["Address"],
+                                        Occupation = (string)reader["Occupation"],
+                                        CompanyName = (string)reader["CompanyName"],
+                                        Email = (string)reader["Email"],
+                                        DateOfBirth = (string)reader["DateOfBirth"],
+                                        Phone = (string)reader["Phone"],
+                                        MembershipType = (string)reader["memershipType"]
+
+                                    };
+
+
+                                    beforeApprove.Add(member);
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine($"There are No Student exists with that student ID try other Student ID");
+                            }
+
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error Occurred - {ex.Message}");
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+            return beforeApprove;
+
+
+
+        }
+
+        #endregion
+
+        #region GETMember
+        public List<Models.ClubMember> GetMembers()
+        {
+            List<Models.ClubMember> beforeApprove = new List<Models.ClubMember>();
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                using (SqlCommand command = new SqlCommand("GetMember", conn))
                 {
 
                     command.CommandType = CommandType.StoredProcedure;
