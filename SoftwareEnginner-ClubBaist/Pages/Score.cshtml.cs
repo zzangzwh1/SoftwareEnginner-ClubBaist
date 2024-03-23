@@ -61,14 +61,15 @@ namespace SoftwareEnginner_ClubBaist.Pages
         public string HoleScore18 { get; set; } = "";
       
         public string Message = "";
-
+        public string IsRegistered { set; get; } = "";
         public void OnGet()
         {
-         
+            GetSession();
             Message = "Only Number is Valid for Submitting Score!";
         }
         public void OnPost()
         {
+            GetSession();
             StringBuilder sb = new StringBuilder();
             List<string> GetScoreDatas = business.GetScoreData(HoleScore1, HoleScore2, HoleScore3, HoleScore4, HoleScore5, HoleScore6, HoleScore7, HoleScore8, HoleScore9, HoleScore10, HoleScore11, HoleScore12, HoleScore13, HoleScore14, HoleScore15, HoleScore16, HoleScore17, HoleScore18);
 
@@ -107,6 +108,24 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
 
         }
-      
+        private void GetSession()
+        {
+
+            string setUserName = HttpContext.Session.GetString("member")!;
+
+            if (string.IsNullOrEmpty(setUserName))
+            {
+
+                IsRegistered = "";
+            }
+            else
+            {
+
+                IsRegistered = business.IsMemberRegistered(setUserName);
+               
+            }
+
+        }
+
     }
 }

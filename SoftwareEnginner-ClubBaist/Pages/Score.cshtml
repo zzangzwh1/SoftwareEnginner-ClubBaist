@@ -14,6 +14,8 @@
 
 @section GolfScoreSection
 {
+    @if(!string.IsNullOrEmpty(Model.IsRegistered ))
+    {
     <section class="divHeader">
         <h1> Gold Score </h1>
         <div>
@@ -49,5 +51,13 @@
 
 
         </div>
-    </section>
+        </section>
+    }
+    else
+    {
+        <div class="messages">
+            <br />
+            <h4 style="color:red">Member Status Must Be Approved by Admin</h4>
+        </div>
+    }
 }
