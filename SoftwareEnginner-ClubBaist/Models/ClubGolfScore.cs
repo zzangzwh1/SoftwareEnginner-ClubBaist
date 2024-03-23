@@ -5,6 +5,7 @@
         public int MemberID { set; get; }
         public string Score { set; get; } = "";
         public DateTime ScoreDate { set; get; }
+        public int TotalScore { set; get; }
 
     }
 }

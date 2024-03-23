@@ -18,27 +18,29 @@
         <h1> Gold Score </h1>
         <div>
             <form name="ScoreForm" method="post">
-
+                <div class="messages">
+                    @Model.Message
+                </div>
                 @for (int i = 1; i < 19; i++)
                 {
+                    string inputValue = $"HoleScore{i}";
 
-                   // List<string> inputValueCollection = new List<string>();
-                    string inputValue = $"InputValue{i}";
-                    
                     <div>
 
-                        <label> Hole @i Score : <input type="text" name="@inputValue" /> </label>
+                        <label> Hole @i Score :  <input type="text" name="@inputValue" pattern="[0-9]+" required title="Must Insert the Value and Only Number is Valid" /></label>
+                        <br></br>
+
                     </div>
                  
-                }                
+                  
+                }
 
                 <div>
                     <input type="submit" name="Submit" value="Update" class="submit" />
 
                 </div>
 
-                <section class="messages">
-                </section>
+                
 
             </form>
 

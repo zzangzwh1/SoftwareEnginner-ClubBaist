@@ -210,5 +210,39 @@ namespace SoftwareEnginner_ClubBaist.Controller
         }
 
         #endregion
+
+        #region Score
+        public List<string> GetScoreData(string Test1, string Test2, string Test3, string Test4, string Test5, string Test6, string Test7, string Test8, string Test9, string Test10, string Test11, string Test12, string Test13, string Test14, string Test15, string Test16, string Test17, string Test18)
+        {
+            List<string> sb = new List<string>();
+            int total = 0;
+            total = (Convert.ToInt32(Test1) + Convert.ToInt32(Test2) + Convert.ToInt32(Test3) + Convert.ToInt32(Test4) + Convert.ToInt32(Test5) + Convert.ToInt32(Test6) + Convert.ToInt32(Test7) + Convert.ToInt32(Test8) + Convert.ToInt32(Test9) + Convert.ToInt32(Test10)
+                        + Convert.ToInt32(Test11) + Convert.ToInt32(Test12) + Convert.ToInt32(Test13) + Convert.ToInt32(Test14) + Convert.ToInt32(Test15) + Convert.ToInt32(Test16) + Convert.ToInt32(Test17) + Convert.ToInt32(Test18));
+
+
+            sb.Add(Test1);
+            sb.Add(Test2);
+            sb.Add(Test3);
+            sb.Add(Test4);
+            sb.Add(Test5);
+            sb.Add(Test6);
+            sb.Add(Test7);
+            sb.Add(Test8);
+            sb.Add(Test9);
+            sb.Add(Test10);
+            sb.Add(Test11);
+            sb.Add(Test12);
+            sb.Add(Test13);
+            sb.Add(Test14);
+            sb.Add(Test15);
+            sb.Add(Test16);
+            sb.Add(Test17);
+            sb.Add(Test18);
+            sb.Add(total.ToString());
+            return sb;
+
+        }
+
+        #endregion
     }
 }
