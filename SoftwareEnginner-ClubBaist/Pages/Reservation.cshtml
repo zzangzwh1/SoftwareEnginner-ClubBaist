@@ -68,14 +68,14 @@
                 {
                     <div class="input-container">
                         <label class="lablesForRservation">Insert MemberID: </label>
-                        <input name="SetMemberID" type="text" value="@Model.SetMemberID" placeholder="Insert MemberID:" />
+                        <input name="SetMemberID" type="text" value="@Model.SetMemberID" placeholder="Insert MemberID:" class="form-control" />
 
                     </div>
 
                 }
                 <div class="input-container">
                     <label class="lablesForRservation">Select Date: </label>
-                    <input name="Bdate" id="Bdate" type="date" value="@Model.Bdate" />
+                    <input name="Bdate" id="Bdate" type="date" value="@Model.Bdate" class="form-control" />
 
                 </div>
 
@@ -121,12 +121,12 @@
                 <div class="input-container">
 
                     <label class="lablesForRservation">Insert Number of Players: </label>
-                    <input name="numPlayer" type="text" placeholder="Insert Number Of Players" value="@Model.numPlayer" />
+                    <input name="numPlayer" type="text" placeholder="Insert Number Of Players" value="@Model.numPlayer" class="form-control" />
 
                 </div>
                 <div class="input-container">
                     <label class="lablesForRservation">Insert Number of Carts: </label>
-                    <input name="numCart" type="text" placeholder="Insert Number Of Carts" value="@Model.numCart" />
+                    <input name="numCart" type="text" placeholder="Insert Number Of Carts" value="@Model.numCart" class="form-control" />
 
                 </div>
                 <input type="submit" value="Book" asp-page-handler="Book" class="submit" />

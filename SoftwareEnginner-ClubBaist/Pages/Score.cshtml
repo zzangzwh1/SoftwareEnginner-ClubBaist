@@ -19,28 +19,31 @@
         <div>
             <form name="ScoreForm" method="post">
                 <div class="messages">
-                    @Model.Message
+                    <br />
+                    <h4 style="color:red">@Model.Message</h4>
                 </div>
-                @for (int i = 1; i < 19; i++)
-                {
-                    string inputValue = $"HoleScore{i}";
+                <div class="container">
+                    <div class="row g-3">
+                        @for (int i = 1; i < 19; i++)
+                        {
+                            string inputValue = $"HoleScore{i}";
 
-                    <div>
+                            <div class="col-12 col-mid-6 col-lg-6">
+                                <label> Hole @i Score :  <input type="text" name="@inputValue" pattern="[0-9]+" required title="Must Insert the Value and Only Number is Valid" class="form-control" /></label>
 
-                        <label> Hole @i Score :  <input type="text" name="@inputValue" pattern="[0-9]+" required title="Must Insert the Value and Only Number is Valid" /></label>
-                        <br></br>
+                            </div>
 
+                            <br />
+                        }
                     </div>
-                 
-                  
-                }
-
-                <div>
-                    <input type="submit" name="Submit" value="Update" class="submit" />
+                </div>
+                <br />
+                <div class="btn-class">
+                    <input type="submit" name="Submit" value="Update" class="submitBtn" />
 
                 </div>
 
-                
+
 
             </form>
 

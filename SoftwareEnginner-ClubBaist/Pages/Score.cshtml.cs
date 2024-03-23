@@ -59,14 +59,12 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
         [BindProperty]
         public string HoleScore18 { get; set; } = "";
-
-        [BindProperty]
-        public List<string> InputValueCollection { set; get; }
+      
         public string Message = "";
 
         public void OnGet()
         {
-            // InputValueCollection = GetScoreData();
+         
             Message = "Only Number is Valid for Submitting Score!";
         }
         public void OnPost()
@@ -77,13 +75,10 @@ namespace SoftwareEnginner_ClubBaist.Pages
             int totalScore = Convert.ToInt32(GetScoreDatas[GetScoreDatas.Count - 1]);
             GetScoreDatas.Remove(GetScoreDatas[GetScoreDatas.Count - 1]);
             string username = HttpContext.Session.GetString("member")!;
-            int memberID = 0;
-           
+            int memberID = 0;           
             foreach (string value in GetScoreDatas)
-            {
-                
-                sb.Append(value + ',');
-             
+            {                
+                sb.Append(value + ',');             
             }
             if (sb.Length > 0)
             {
@@ -104,11 +99,11 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
 
             };
-/*            if(golfScore != null)
+            if(golfScore != null)
             {
-                business.InsertClubSCore(golfScore);
+                Message =  business.InsertClubScore(golfScore);
 
-            }*/
+            }
 
 
         }

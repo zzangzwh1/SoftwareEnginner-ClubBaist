@@ -88,7 +88,7 @@
 
     .submit:hover {
         /*       // background-color: #ffffff;*/
-        border: 1px solid red;
+      
         color: red;
         cursor: pointer;
     }
@@ -190,18 +190,21 @@
     cursor: text;
     outline: none;
     text-align:center
+    
 }
-#mySelect {
-    background-color: #fff;
-    padding: 1rem;
-    padding-right: 3rem;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    width: 300px;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    text-align:center;
-}
+  
+
+    #mySelect {
+        background-color: #fff;
+        padding: 1rem;
+        padding-right: 3rem;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        width: 300px;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        text-align: center;
+    }
 /* Table Style */
 .table-wrapper {
     margin: 10px 70px 70px;
@@ -245,8 +248,35 @@
         background: #F8F8F8;
     }
 
-/* Responsive */
+.btn-class {
+    display: grid;
+    justify-content: center;
 
+    align-items: center;
+    
+}
+.submitBtn {
+    display: block;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    background-color: #4F46E5;
+    color: #ffffff;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    width: 300px;
+    border-radius: 0.5rem;
+    text-transform: uppercase;
+}
+    .submitBtn:hover {
+        /*       // background-color: #ffffff;*/
+        
+        color: red;
+        cursor: pointer;
+    }
+/* Responsive */
 @media (max-width: 767px) {
     .fl-table {
         display: block;

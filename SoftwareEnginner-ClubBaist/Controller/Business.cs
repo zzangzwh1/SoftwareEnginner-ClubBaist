@@ -212,6 +212,14 @@ namespace SoftwareEnginner_ClubBaist.Controller
         #endregion
 
         #region Score
+
+        public string InsertClubScore(ClubGolfScore golfScore)
+        {
+            TechService.ClubScore clubScore = new TechService.ClubScore();
+            string success = clubScore.InsertClubScore(golfScore);
+            return success;
+        }
+
         public List<string> GetScoreData(string Test1, string Test2, string Test3, string Test4, string Test5, string Test6, string Test7, string Test8, string Test9, string Test10, string Test11, string Test12, string Test13, string Test14, string Test15, string Test16, string Test17, string Test18)
         {
             List<string> sb = new List<string>();

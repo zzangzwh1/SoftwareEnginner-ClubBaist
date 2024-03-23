@@ -24,7 +24,8 @@ namespace SoftwareEnginner_ClubBaist.Business
         public string IdentifyMembershipType(string setUserName);
         public bool IsHolday(string selectedDate);
         public List<Models.ClubMember> GetClubClubMember();
-       public string UpdateReservation(Models.ClubBooking clubMember);
+        public string UpdateReservation(Models.ClubBooking clubMember);
         public List<string> GetScoreData(string Test1, string Test2, string Test3, string Test4, string Test5, string Test6, string Test7, string Test8, string Test9, string Test10, string Test11, string Test12, string Test13, string Test14, string Test15, string Test16, string Test17, string Test18);
+        public string InsertClubScore(ClubGolfScore golfScore);
     }
 }
