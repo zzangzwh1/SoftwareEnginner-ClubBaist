@@ -66,7 +66,43 @@
 
 
             </div>
-        </section>
+    </section>
+    if (Model.golfScore != null && Model.SplitScore != null)
+        {
+
+            <Section class="divHeader">
+                <h1>View Score</h1>
+
+                <table class="fl-table">
+                    <thead>
+                        <tr>
+                            <th>MemberID</th>
+                        @for (int i = 1; i < 19; i++)
+                        {
+                            <th>Hole Score @i</th>
+                        }
+                            <th>Handicap</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+
+                        <tr>
+                            <td>@Model.golfScore.MemberID</td>
+                            @for (int i = 0; i < Model.SplitScore.Length; i++ )
+                            {
+                                <td> @Model.SplitScore[i]</td>
+                            }
+                           
+                           
+                            <td>@Model.golfScore.TotalScore</td>
+                            <td>@Model.golfScore.ScoreDate</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </Section>
+        }
     }
     else
     {
@@ -77,10 +113,3 @@
     }
 }
 
-@section GolfScoreViewSection
-{
-    <div class="divHeader">
-        <h1>View Score</h1>
-
-    </div>
-}

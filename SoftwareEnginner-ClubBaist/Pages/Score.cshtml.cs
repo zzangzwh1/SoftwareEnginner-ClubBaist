@@ -67,6 +67,8 @@ namespace SoftwareEnginner_ClubBaist.Pages
         public string Message = "";
         public string IsRegistered { set; get; } = "";
         public string UserName = "";
+        public ClubGolfScore golfScore = null!;
+        public string[] SplitScore = null!;
         public void OnGet()
         {
             GetSession();
@@ -106,9 +108,9 @@ namespace SoftwareEnginner_ClubBaist.Pages
                 isValid = false;
             }
 
-          
 
-            ClubGolfScore golfScore = new()
+
+            golfScore = new()
             {
                 MemberID = memberId,
                 Score = sb.ToString(),
@@ -117,8 +119,11 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
 
             };
-            if(golfScore != null && isValid)
+          
+
+            if (golfScore != null && isValid)
             {
+                SplitScore = sb.ToString().Split(',');
                 Message =  business.InsertClubScore(golfScore);
 
             }
