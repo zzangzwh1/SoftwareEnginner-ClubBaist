@@ -1,6 +1,7 @@
 ﻿using SoftwareEnginner_ClubBaist.Business;
 using SoftwareEnginner_ClubBaist.Models;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace SoftwareEnginner_ClubBaist.Controller
 {
     public class Business : IBusiness
@@ -21,7 +22,7 @@ namespace SoftwareEnginner_ClubBaist.Controller
         public List<Models.ClubMember> GetClubClubMember()
         {
             TechService.ClubMember clubMenber = new TechService.ClubMember();
-            List<Models.ClubMember> clubMemebers =  clubMenber.GetMembers();
+            List<Models.ClubMember> clubMemebers = clubMenber.GetMembers();
             return clubMemebers;
         }
 
@@ -111,7 +112,7 @@ namespace SoftwareEnginner_ClubBaist.Controller
 
         public string IsWeekDayOrWeekend(string date)
         {
-          
+
             if (string.IsNullOrEmpty(date))
             {
                 return "";
@@ -141,7 +142,7 @@ namespace SoftwareEnginner_ClubBaist.Controller
         public bool IsHolday(string selectedDate)
         {
             string holiday = selectedDate.Substring(5, 5);
-            if (holiday == "01-01" || holiday == "03-29"  || holiday == "05-20" || holiday =="07-01" || holiday == "08-05" || holiday == "09-02" || holiday =="09-30" || holiday =="10-24"|| holiday == "11-11" ||  holiday =="12-25" )
+            if (holiday == "01-01" || holiday == "03-29" || holiday == "05-20" || holiday == "07-01" || holiday == "08-05" || holiday == "09-02" || holiday == "09-30" || holiday == "10-24" || holiday == "11-11" || holiday == "12-25")
             {
                 return false;
             }
@@ -212,6 +213,20 @@ namespace SoftwareEnginner_ClubBaist.Controller
         #endregion
 
         #region Score
+        
+
+        public List<Models.ViewEveryReservation> ViewEveryReservations(DateTime FromDate, DateTime ToDate, int memberId)
+        {
+            TechService.ClubScore clubScore = new TechService.ClubScore();
+            List<Models.ViewEveryReservation> reservations = clubScore.ViewEveryReservations(FromDate, ToDate, memberId);
+            return reservations;
+        }
+        public List<Models.ViewEveryScore> ViewEveryScores(DateTime FromDate, DateTime ToDate, int memberId)
+        {
+            TechService.ClubScore clubScore = new TechService.ClubScore();
+            List<Models.ViewEveryScore> reservations = clubScore.ViewEveryScores(FromDate, ToDate, memberId);
+            return reservations;
+        }
         public int IsMemberIDApprovedAndRegister(int memberID)
         {
             TechService.ClubScore clubScore = new TechService.ClubScore();

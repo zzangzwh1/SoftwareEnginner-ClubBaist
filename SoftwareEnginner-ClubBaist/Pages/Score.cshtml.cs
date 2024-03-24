@@ -65,40 +65,55 @@ namespace SoftwareEnginner_ClubBaist.Pages
         public DateTime Bdate { get; set; }
 
         public string Message = "";
-        public string IsRegistered { set; get; } = "";
+        public string IsRegisteredAndBooked { set; get; } = "";
         public string UserName = "";
         public ClubGolfScore golfScore = null!;
         public string[] SplitScore = null!;
+
+        [BindProperty]
+        public DateTime FromDate { set; get; }
+        [BindProperty]
+        public DateTime ToDate { set; get; }
+        public List<ViewEveryScore> ViewEveryScore = null!;
+        public List<ViewEveryReservation> ViewEveryReservation = null!;
+        public string[] ViewScoreArr = null!;
+
+        public string ViewMessage = "";
+        public string ViewScoreMessage = "";
+        public string ViewReservationMessage = "";
         public void OnGet()
         {
             GetSession();
             Message = "Only Number is Valid for Submitting Score!";
+            ViewMessage = "";
+           
         }
-        public void OnPost()
+        public void OnPostUpdate()
         {
+
             GetSession();
             StringBuilder sb = new StringBuilder();
             List<string> GetScoreDatas = business.GetScoreData(HoleScore1, HoleScore2, HoleScore3, HoleScore4, HoleScore5, HoleScore6, HoleScore7, HoleScore8, HoleScore9, HoleScore10, HoleScore11, HoleScore12, HoleScore13, HoleScore14, HoleScore15, HoleScore16, HoleScore17, HoleScore18);
 
             int totalScore = Convert.ToInt32(GetScoreDatas[GetScoreDatas.Count - 1]);
-            GetScoreDatas.Remove(GetScoreDatas[GetScoreDatas.Count - 1]);           
-            int memberId = 0;    
-            
+            GetScoreDatas.Remove(GetScoreDatas[GetScoreDatas.Count - 1]);
+            int memberId = 0;
+
             foreach (string value in GetScoreDatas)
-            {                
-                sb.Append(value + ',');             
+            {
+                sb.Append(value + ',');
             }
             if (sb.Length > 0)
             {
                 sb.Remove(sb.Length - 1, 1); // Remove the last character (which is the comma)
             }
             bool isValid = true;
-            if(UserName == "Admin")
+            if (UserName == "Admin")
             {
                 memberId = business.IsMemberIDApprovedAndRegister(MemberID);
                 if (memberId <= 0)
                     isValid = false;
-            }         
+            }
             else if (!string.IsNullOrEmpty(UserName) && UserName != "Admin")
             {
                 memberId = business.GetMemberID(UserName);
@@ -108,8 +123,6 @@ namespace SoftwareEnginner_ClubBaist.Pages
                 isValid = false;
             }
 
-
-
             golfScore = new()
             {
                 MemberID = memberId,
@@ -117,14 +130,12 @@ namespace SoftwareEnginner_ClubBaist.Pages
                 ScoreDate = Bdate,
                 TotalScore = totalScore
 
-
             };
-          
 
             if (golfScore != null && isValid)
             {
                 SplitScore = sb.ToString().Split(',');
-                Message =  business.InsertClubScore(golfScore);
+                Message = business.InsertClubScore(golfScore);
 
             }
             else
@@ -134,6 +145,54 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
 
         }
+        public void OnPostView()
+        {
+            GetSession();
+            bool isValid = true;
+            int memberId = 0;
+            if (UserName == "Admin")
+            {
+                memberId = business.IsMemberIDApprovedAndRegister(MemberID);
+                if (memberId <= 0)
+                    isValid = false;
+            }
+            else if (!string.IsNullOrEmpty(UserName) && UserName != "Admin")
+            {
+                memberId = business.GetMemberID(UserName);
+            }
+            else
+            {
+                isValid = false;
+            }
+
+            if (isValid  )
+            {
+                ViewEveryScore = business.ViewEveryScores(FromDate, ToDate, memberId);
+                if(ViewEveryScore != null)
+                {
+                    foreach (var a in ViewEveryScore)
+                    {
+                        ViewScoreArr = a.Score.Split(",");
+                    }
+                }
+                else
+                {
+                    ViewScoreMessage = "Socre List is not exists";
+                }
+                
+                ViewEveryReservation = business.ViewEveryReservations(FromDate, ToDate, memberId);
+                if(ViewEveryReservation == null)
+                {
+                    ViewReservationMessage = "Reservation List not Exists";
+                }
+                
+
+            }
+            else
+            {
+                ViewMessage = "Resrvation and View List is not exists";
+            }
+        }
         private void GetSession()
         {
 
@@ -142,13 +201,13 @@ namespace SoftwareEnginner_ClubBaist.Pages
             if (string.IsNullOrEmpty(UserName))
             {
 
-                IsRegistered = "";
+                IsRegisteredAndBooked = "";
             }
             else
             {
 
-                IsRegistered = business.IsMemberApproved(UserName);
-               
+                IsRegisteredAndBooked = business.IsMemberApproved(UserName);
+
             }
 
         }

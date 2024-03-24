@@ -29,5 +29,8 @@ namespace SoftwareEnginner_ClubBaist.Business
         public string InsertClubScore(ClubGolfScore golfScore);
         public string IsMemberApproved(string username);
         public int IsMemberIDApprovedAndRegister(int memberID);
+        public List<Models.ViewEveryScore> ViewEveryScores(DateTime FromDate, DateTime ToDate, int memberId);
+        public List<Models.ViewEveryReservation> ViewEveryReservations(DateTime FromDate, DateTime ToDate, int memberId);
+
     }
 }

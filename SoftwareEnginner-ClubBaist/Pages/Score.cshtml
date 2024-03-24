@@ -15,7 +15,7 @@
 @section GolfScoreSection
 {
 
-    @if (!string.IsNullOrEmpty(Model.IsRegistered))
+    @if (!string.IsNullOrEmpty(Model.IsRegisteredAndBooked))
     {
         <section class="divHeader">
             <h1> GOLF SCORE </h1>
@@ -58,7 +58,7 @@
                     </div>
                     <br />
                     <div class="btn-class">
-                        <input type="submit" name="Submit" value="Update" class="submitBtn" />
+                        <input type="submit" name="Submit" value="Update" class="submitBtn" asp-page-handler="Update" />
 
                     </div>
 
@@ -66,8 +66,9 @@
 
 
             </div>
-    </section>
-    if (Model.golfScore != null && Model.SplitScore != null)
+        </section>
+        <br />
+        if (Model.golfScore != null && Model.SplitScore != null)
         {
 
             <Section class="divHeader">
@@ -77,25 +78,23 @@
                     <thead>
                         <tr>
                             <th>MemberID</th>
-                        @for (int i = 1; i < 19; i++)
-                        {
-                            <th>Hole Score @i</th>
-                        }
+                            @for (int i = 1; i <= Model.SplitScore.Length; i++)
+                            {
+                                <th>Hole Score @i</th>
+                            }
                             <th>Handicap</th>
                             <th>Date</th>
                         </tr>
                     </thead>
                     <tbody>
-                       
 
                         <tr>
                             <td>@Model.golfScore.MemberID</td>
-                            @for (int i = 0; i < Model.SplitScore.Length; i++ )
+                            @for (int i = 0; i < Model.SplitScore.Length; i++)
                             {
                                 <td> @Model.SplitScore[i]</td>
                             }
-                           
-                           
+
                             <td>@Model.golfScore.TotalScore</td>
                             <td>@Model.golfScore.ScoreDate</td>
                         </tr>
@@ -103,12 +102,139 @@
                 </table>
             </Section>
         }
+        <br />
+        <hr />
+        <section class="divHeader">
+            <h4> View Score and View Reservation </h4>
+            <div>
+                <form name="ScoreReservationForm" method="post">
+
+                    @if (Model.UserName == "Admin")
+                    {
+                        <div class="btn-class">
+                            <br />
+                            <h6 class="modelMessage">Please Insert Member ID for View Score/Reservation </h6>
+                            <input type="text" name="MemberID" class="form-control" pattern="[0-9]+" required title="Must Insert the Value and Only Number is Valid" />
+                        </div>
+                    }
+                    <hr />
+
+
+                    <div class="btn-class">
+                        <h6 class="modelMessage">Please Select Date</h6>
+                        <label class="lablesForRservation">From Date: </label>
+                        <input name="FromDate" type="date" class="form-control" required title="Must Select Date" />
+                        <label class="lablesForRservation">To Date: </label>
+                        <input name="ToDate" type="date" class="form-control" required title="Must Select Date" />
+                    </div>
+
+                    <br />
+                    <div class="btn-class">
+                        <input type="submit" name="Submit" value="View" class="submitBtn" asp-page-handler="View" />
+
+                    </div>
+
+                </form>
+
+
+            </div>
+        </section>
+        if (Model.ViewEveryScore != null)
+        {
+            <Section class="divHeader">
+                <h1>VIEW EVERY SCORE</h1>
+
+                <table class="fl-table">
+                    <thead>
+                        <tr>
+                            <th>MemberID</th>
+                            <th>FullName</th>
+                            <th>DateOfBirth</th>
+                            @for (int i = 1; i <= Model.ViewScoreArr.Length; i++)
+                            {
+                                <th>Hole Score @i</th>
+                            }
+                            <th>ScoreDate</th>
+                            <th>TotalScore</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var val in Model.ViewEveryScore)
+                        {
+                            <tr>
+                                <td>@val.MemberID</td>
+                                <td>@val.FullName</td>
+                                <td>@val.DateofBirth</td>
+                                @for (int i = 0; i < Model.ViewScoreArr.Length; i++)
+                                {
+                                    <td>@Model.ViewScoreArr[i]</td>
+                                }
+                                <td>@val.ScoreDate</td>
+                                <td>@val.TotalScore</td>
+
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </Section>
+        }
+        else
+        {
+             <Section class="divHeader">
+                <h4>@Model.ViewScoreMessage  </h4>
+            </section>
+        }
+        if (Model.ViewEveryReservation != null)
+        {
+            <Section class="divHeader">
+                <h1>VIEW EVERY RESERVATION</h1>
+
+                <table class="fl-table">
+                    <thead>
+                        <tr>
+                            <th>Member ID</th>
+                            <th>BookingDate</th>
+                            <th>Number Of Player</th>
+                            <th>Number Of Carts</th>
+                            <th>BookingTime</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var val in Model.ViewEveryReservation)
+                        {
+                            <tr>
+                                <td>@val.MemberID</td>
+                                <td>@val.BookingDate</td>
+                                <td>@val.NumOfPlayer</td>
+                                <td>@val.NumOfCarts</td>
+                                <td>@val.BookingTime</td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </Section>
+
+
+
+        }
+        else
+        {
+            <Section class="divHeader">
+                <h4>@Model.ViewReservationMessage  </h4>
+            </section>
+        }
+
     }
     else
     {
         <div class="messages">
             <br />
-            <h4 style="color:red">Member Status Must Be Approved by Admin</h4>
+            <h4 style="color:red">You must Book reservation before update the score</h4>
         </div>
     }
 }

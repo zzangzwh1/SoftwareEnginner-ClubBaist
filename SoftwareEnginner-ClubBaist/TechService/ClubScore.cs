@@ -18,6 +18,127 @@ namespace SoftwareEnginner_ClubBaist.TechService
         }
         #region MemberApproved
 
+        public List<Models.ViewEveryScore> ViewEveryScores(DateTime FromDate, DateTime ToDate, int memberId)
+        {
+            List<Models.ViewEveryScore> viewScore = new List<Models.ViewEveryScore>();
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                using (SqlCommand command = new SqlCommand("ViewEveryScore", conn))
+                {
+
+                    command.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+                        command.Parameters.AddWithValue("@DateFrom", FromDate).SqlDbType = SqlDbType.DateTime;
+                        command.Parameters.AddWithValue("@DateTo", ToDate).SqlDbType = SqlDbType.DateTime;
+                        command.Parameters.AddWithValue("@MemberID", memberId).SqlDbType = SqlDbType.Int;
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                              
+                                while (reader.Read())
+                                {
+                                    Models.ViewEveryScore reservation = new Models.ViewEveryScore
+                                    {
+                                        FullName = (string)reader["FullName"],
+                                        DateofBirth = (string)reader["DateOfBirth"],
+                                        Score = (string)reader["Score"],
+                                        ScoreDate = (DateTime)reader["ScoreDate"],
+                                        TotalScore = (int)reader["TotalScore"],
+                                        MemberID = (int)reader["MemberID"],
+
+
+                                    };
+
+
+                                    viewScore.Add(reservation);
+                                }
+                            }
+                            else
+                            {
+                                viewScore = null!;
+                            }
+
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        viewScore = null!;
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+            return viewScore;
+
+
+        }
+        public List<Models.ViewEveryReservation> ViewEveryReservations(DateTime FromDate, DateTime ToDate, int memberId)
+        {
+            List<Models.ViewEveryReservation> viewReservations = new List<Models.ViewEveryReservation>();
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                using (SqlCommand command = new SqlCommand("ViewEveryReservation", conn))
+                {
+
+                    command.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+                        command.Parameters.AddWithValue("@DateFrom", FromDate).SqlDbType = SqlDbType.DateTime;
+                        command.Parameters.AddWithValue("@DateTo", ToDate).SqlDbType = SqlDbType.DateTime;
+                        command.Parameters.AddWithValue("@MemberID", memberId).SqlDbType = SqlDbType.Int;
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                string d = "";
+                                while (reader.Read())
+                                {
+                                    Models.ViewEveryReservation reservation = new Models.ViewEveryReservation
+                                    {
+                                        BookingDate = (string)reader["BookingDate"],
+                                        NumOfCarts = (int)reader["NumOfCarts"],
+                                        BookingTime = (string)reader["BookingTime"],
+                                        NumOfPlayer = (int)reader["NumOfPalyer"],
+                                        MemberID = (int)reader["MemberID"]
+
+
+
+                                    };
+
+
+                                    viewReservations.Add(reservation);
+                                }
+                            }
+                            else
+                            {
+                                viewReservations = null!;
+                            }
+
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        viewReservations = null!;
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+            return viewReservations;
+
+
+        }
+
         public int IsMemberIDApprovedAndRegister(int memberID)
         {
             int status = 0;
@@ -41,7 +162,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
                                 while (reader.Read())
                                 {
                                     status = (int)reader["MemberID"];
-                                   
+
 
                                 }
                             }
@@ -93,7 +214,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
                                     status = reader["MemberId"].ToString()!;
                                     if (status == "")
                                         status = "Approved";
-                                   
+
                                 }
                             }
                             else
@@ -161,6 +282,6 @@ namespace SoftwareEnginner_ClubBaist.TechService
             }
             return result;
         }
-#endregion
+        #endregion
     }
 }
