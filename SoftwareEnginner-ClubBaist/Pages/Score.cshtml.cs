@@ -59,9 +59,14 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
         [BindProperty]
         public string HoleScore18 { get; set; } = "";
-      
+        [BindProperty]
+        public int MemberID { set; get; }
+        [BindProperty]
+        public DateTime Bdate { get; set; }
+
         public string Message = "";
         public string IsRegistered { set; get; } = "";
+        public string UserName = "";
         public void OnGet()
         {
             GetSession();
@@ -74,9 +79,9 @@ namespace SoftwareEnginner_ClubBaist.Pages
             List<string> GetScoreDatas = business.GetScoreData(HoleScore1, HoleScore2, HoleScore3, HoleScore4, HoleScore5, HoleScore6, HoleScore7, HoleScore8, HoleScore9, HoleScore10, HoleScore11, HoleScore12, HoleScore13, HoleScore14, HoleScore15, HoleScore16, HoleScore17, HoleScore18);
 
             int totalScore = Convert.ToInt32(GetScoreDatas[GetScoreDatas.Count - 1]);
-            GetScoreDatas.Remove(GetScoreDatas[GetScoreDatas.Count - 1]);
-            string username = HttpContext.Session.GetString("member")!;
-            int memberID = 0;           
+            GetScoreDatas.Remove(GetScoreDatas[GetScoreDatas.Count - 1]);           
+            int memberId = 0;    
+            
             foreach (string value in GetScoreDatas)
             {                
                 sb.Append(value + ',');             
@@ -85,25 +90,41 @@ namespace SoftwareEnginner_ClubBaist.Pages
             {
                 sb.Remove(sb.Length - 1, 1); // Remove the last character (which is the comma)
             }
-         
-            if (!string.IsNullOrEmpty(username))
+            bool isValid = true;
+            if(UserName == "Admin")
             {
-                memberID = business.GetMemberID(username);
+                memberId = business.IsMemberIDApprovedAndRegister(MemberID);
+                if (memberId <= 0)
+                    isValid = false;
+            }         
+            else if (!string.IsNullOrEmpty(UserName) && UserName != "Admin")
+            {
+                memberId = business.GetMemberID(UserName);
             }
+            else
+            {
+                isValid = false;
+            }
+
+          
 
             ClubGolfScore golfScore = new()
             {
-                MemberID = memberID,
+                MemberID = memberId,
                 Score = sb.ToString(),
-                ScoreDate = DateTime.Now,
+                ScoreDate = Bdate,
                 TotalScore = totalScore
 
 
             };
-            if(golfScore != null)
+            if(golfScore != null && isValid)
             {
                 Message =  business.InsertClubScore(golfScore);
 
+            }
+            else
+            {
+                Message = "Not Valid Please Try Again!!";
             }
 
 
@@ -111,9 +132,9 @@ namespace SoftwareEnginner_ClubBaist.Pages
         private void GetSession()
         {
 
-            string setUserName = HttpContext.Session.GetString("member")!;
+            UserName = HttpContext.Session.GetString("member")!;
 
-            if (string.IsNullOrEmpty(setUserName))
+            if (string.IsNullOrEmpty(UserName))
             {
 
                 IsRegistered = "";
@@ -121,7 +142,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
             else
             {
 
-                IsRegistered = business.IsMemberRegistered(setUserName);
+                IsRegistered = business.IsMemberApproved(UserName);
                
             }
 

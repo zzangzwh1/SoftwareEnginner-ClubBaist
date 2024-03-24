@@ -212,7 +212,18 @@ namespace SoftwareEnginner_ClubBaist.Controller
         #endregion
 
         #region Score
-
+        public int IsMemberIDApprovedAndRegister(int memberID)
+        {
+            TechService.ClubScore clubScore = new TechService.ClubScore();
+            int id = clubScore.IsMemberIDApprovedAndRegister(memberID);
+            return id;
+        }
+        public string IsMemberApproved(string username)
+        {
+            TechService.ClubScore clubScore = new TechService.ClubScore();
+            string memberApprove = clubScore.IsMemberApproved(username);
+            return memberApprove;
+        }
         public string InsertClubScore(ClubGolfScore golfScore)
         {
             TechService.ClubScore clubScore = new TechService.ClubScore();

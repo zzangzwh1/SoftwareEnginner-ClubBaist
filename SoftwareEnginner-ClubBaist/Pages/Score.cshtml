@@ -14,43 +14,58 @@
 
 @section GolfScoreSection
 {
-    @if(!string.IsNullOrEmpty(Model.IsRegistered ))
+
+    @if (!string.IsNullOrEmpty(Model.IsRegistered))
     {
-    <section class="divHeader">
-        <h1> Gold Score </h1>
-        <div>
-            <form name="ScoreForm" method="post">
-                <div class="messages">
-                    <br />
-                    <h4 style="color:red">@Model.Message</h4>
-                </div>
-                <div class="container">
-                    <div class="row g-3">
-                        @for (int i = 1; i < 19; i++)
-                        {
-                            string inputValue = $"HoleScore{i}";
+        <section class="divHeader">
+            <h1> GOLF SCORE </h1>
+            <div>
+                <form name="ScoreForm" method="post">
 
-                            <div class="col-12 col-mid-6 col-lg-6">
-                                <label> Hole @i Score :  <input type="text" name="@inputValue" pattern="[0-9]+" required title="Must Insert the Value and Only Number is Valid" class="form-control" /></label>
-
-                            </div>
-
+                    @if (Model.UserName == "Admin")
+                    {
+                        <div class="btn-class">
                             <br />
-                        }
+                            <h4 class="modelMessage">Please Insert Member ID for the Golf Score </h4>
+                            <input type="text" name="MemberID" class="form-control" pattern="[0-9]+" required title="Must Insert the Value and Only Number is Valid" />
+                        </div>
+                    }
+                    <hr />
+                    <div class="messages">
+                        <br />
+                        <h4 style="color:red">@Model.Message</h4>
                     </div>
-                </div>
-                <br />
-                <div class="btn-class">
-                    <input type="submit" name="Submit" value="Update" class="submitBtn" />
 
-                </div>
+                    <div class="btn-class">
+                        <label class="lablesForRservation">Select Date: </label>
+                        <input name="Bdate" id="Bdate" type="date" class="form-control" max="@DateTime.Today.ToString("yyyy-MM-dd")" required title="Must Select Date" />
+
+                    </div>
+                    <div class="container">
+                        <div class="row g-3">
+                            @for (int i = 1; i < 19; i++)
+                            {
+                                string inputValue = $"HoleScore{i}";
+
+                                <div class="col-12 col-mid-6 col-lg-6">
+                                    <label> Hole @i Score :  <input type="text" name="@inputValue" pattern="[0-9]+" required title="Must Insert the Value and Only Number is Valid" class="form-control" /></label>
+
+                                </div>
+
+                                <br />
+                            }
+                        </div>
+                    </div>
+                    <br />
+                    <div class="btn-class">
+                        <input type="submit" name="Submit" value="Update" class="submitBtn" />
+
+                    </div>
+
+                </form>
 
 
-
-            </form>
-
-
-        </div>
+            </div>
         </section>
     }
     else
@@ -60,4 +75,12 @@
             <h4 style="color:red">Member Status Must Be Approved by Admin</h4>
         </div>
     }
+}
+
+@section GolfScoreViewSection
+{
+    <div class="divHeader">
+        <h1>View Score</h1>
+
+    </div>
 }

@@ -48,8 +48,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
         {
             reservations = business.GetBookingReservations(Convert.ToInt16(MemberID));
             Username = HttpContext.Session.GetString("member")!;
-                       
-           
+                                  
             if (reservations == null)
             {
                 Message = "Not Exists";
