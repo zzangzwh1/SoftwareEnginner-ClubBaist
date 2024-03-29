@@ -159,11 +159,10 @@ namespace SoftwareEnginner_ClubBaist.Pages
             else if (MemberID == 0 && (FromDate != DateTime.MinValue && ToDate != DateTime.MinValue))
             {
                 GetEveryMemberWithRangeDate();
-
             }
             else if (MemberID == 0 && (FromDate == DateTime.MinValue || ToDate == DateTime.MinValue))
             {                
-                GetEveryMemberWithNoMemberIDAndDate();
+                GetEveryMemberWithNoMemberIDAndDate();           
 
             }
 
