@@ -114,7 +114,7 @@
                         <div class="btn-class">
                             <br />
                             <h6 class="modelMessage">Please Insert Member ID for View Score/Reservation </h6>
-                            <input type="text" name="MemberID" class="form-control" pattern="[0-9]+" required title="Must Insert the Value and Only Number is Valid" />
+                            <input type="text" name="MemberID" class="form-control" pattern="[0-9]+"/>
                         </div>
                     }
                     <hr />
@@ -123,9 +123,9 @@
                     <div class="btn-class">
                         <h6 class="modelMessage">Please Select Date</h6>
                         <label class="lablesForRservation">From Date: </label>
-                        <input name="FromDate" type="date" class="form-control" required title="Must Select Date" />
+                        <input name="FromDate" type="date" class="form-control"  />
                         <label class="lablesForRservation">To Date: </label>
-                        <input name="ToDate" type="date" class="form-control" required title="Must Select Date" />
+                        <input name="ToDate" type="date" class="form-control" />
                     </div>
 
                     <br />
@@ -149,7 +149,7 @@
                         <tr>
                             <th>MemberID</th>
                             <th>FullName</th>
-                            <th>DateOfBirth</th>
+                            <th>Date OfBirth</th>
                             @for (int i = 1; i <= Model.ViewScoreArr.Length; i++)
                             {
                                 <th>Hole Score @i</th>

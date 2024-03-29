@@ -86,7 +86,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
             GetSession();
             Message = "Only Number is Valid for Submitting Score!";
             ViewMessage = "";
-           
+
         }
         public void OnPostUpdate()
         {
@@ -147,7 +147,73 @@ namespace SoftwareEnginner_ClubBaist.Pages
         }
         public void OnPostView()
         {
+            string s = "";
             GetSession();
+
+
+           
+            if (MemberID != 0 && (FromDate != DateTime.MinValue || ToDate != DateTime.MinValue))
+            {
+                RegularResult();
+            }
+            else if (MemberID != 0 && (FromDate == DateTime.MinValue || ToDate == DateTime.MinValue))
+            {
+                WhenDateIsMinValue();
+            }
+            else if(MemberID == 0 && (FromDate != DateTime.MinValue && ToDate != DateTime.MinValue))
+            {
+                GetEveryMemberWithRangeDate();
+
+            }
+         
+
+
+        }
+        private void GetEveryMemberWithRangeDate()
+        {
+            ViewEveryScore = business.GetEveryMemberWithRangeDate(FromDate,ToDate);
+            if (ViewEveryScore != null)
+            {
+                foreach (var a in ViewEveryScore)
+                {
+                    ViewScoreArr = a.Score.Split(",");
+                }
+            }
+            else
+            {
+                ViewScoreMessage = "Socre List is not exists";
+            }
+
+            ViewEveryReservation = business.ViewEveryReservationsWithRange(FromDate, ToDate);
+            if (ViewEveryReservation == null)
+            {
+                ViewReservationMessage = "Reservation List not Exists";
+            }
+        }
+        private void WhenDateIsMinValue()
+        {
+            ViewEveryScore = business.ViewEveryScoresWithNoRangeDate(MemberID);
+
+            if (ViewEveryScore != null)
+            {
+                foreach (var a in ViewEveryScore)
+                {
+                    ViewScoreArr = a.Score.Split(",");
+                }
+            }
+            else
+            {
+                ViewScoreMessage = "Socre List is not exists";
+            }
+
+            ViewEveryReservation = business.ViewEveryReservationsNoRange(MemberID);
+            if (ViewEveryReservation == null)
+            {
+                ViewReservationMessage = "Reservation List not Exists";
+            }
+        }
+        private void RegularResult()
+        {
             bool isValid = true;
             int memberId = 0;
             if (UserName == "Admin")
@@ -156,6 +222,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
                 if (memberId <= 0)
                     isValid = false;
             }
+
             else if (!string.IsNullOrEmpty(UserName) && UserName != "Admin")
             {
                 memberId = business.GetMemberID(UserName);
@@ -165,10 +232,12 @@ namespace SoftwareEnginner_ClubBaist.Pages
                 isValid = false;
             }
 
-            if (isValid  )
+            if (isValid)
             {
                 ViewEveryScore = business.ViewEveryScores(FromDate, ToDate, memberId);
-                if(ViewEveryScore != null)
+
+
+                if (ViewEveryScore != null)
                 {
                     foreach (var a in ViewEveryScore)
                     {
@@ -179,13 +248,13 @@ namespace SoftwareEnginner_ClubBaist.Pages
                 {
                     ViewScoreMessage = "Socre List is not exists";
                 }
-                
+
                 ViewEveryReservation = business.ViewEveryReservations(FromDate, ToDate, memberId);
-                if(ViewEveryReservation == null)
+                if (ViewEveryReservation == null)
                 {
                     ViewReservationMessage = "Reservation List not Exists";
                 }
-                
+
 
             }
             else

@@ -31,6 +31,9 @@ namespace SoftwareEnginner_ClubBaist.Business
         public int IsMemberIDApprovedAndRegister(int memberID);
         public List<Models.ViewEveryScore> ViewEveryScores(DateTime FromDate, DateTime ToDate, int memberId);
         public List<Models.ViewEveryReservation> ViewEveryReservations(DateTime FromDate, DateTime ToDate, int memberId);
-
+        public List<Models.ViewEveryScore> ViewEveryScoresWithNoRangeDate(int memberID);
+        public List<Models.ViewEveryReservation> ViewEveryReservationsNoRange(int memberId);
+        public List<Models.ViewEveryScore> GetEveryMemberWithRangeDate(DateTime FromDate, DateTime ToDate);
+        public List<Models.ViewEveryReservation> ViewEveryReservationsWithRange(DateTime FromDate, DateTime ToDate);
     }
 }

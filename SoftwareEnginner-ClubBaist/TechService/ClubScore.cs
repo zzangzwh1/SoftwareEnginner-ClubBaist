@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using SoftwareEnginner_ClubBaist.Models;
 using System.Data;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SoftwareEnginner_ClubBaist.TechService
 {
@@ -16,6 +17,253 @@ namespace SoftwareEnginner_ClubBaist.TechService
             _connectionString = databaseUsersConfiguration.GetConnectionString("BAIST3150");
 
         }
+
+        #region ViewEveryReservationsWithRange
+        public List<Models.ViewEveryReservation> ViewEveryReservationsWithRange(DateTime FromDate, DateTime ToDate)
+        {
+            List<Models.ViewEveryReservation> viewReservations = new List<Models.ViewEveryReservation>();
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                using (SqlCommand command = new SqlCommand("ViewEveryReservationsWithRange", conn))
+                {
+
+                    command.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+
+                        command.Parameters.AddWithValue("@DateFrom", FromDate).SqlDbType = SqlDbType.DateTime;
+                        command.Parameters.AddWithValue("@DateTo", ToDate).SqlDbType = SqlDbType.DateTime;
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                string d = "";
+                                while (reader.Read())
+                                {
+                                    Models.ViewEveryReservation reservation = new Models.ViewEveryReservation
+                                    {
+                                        BookingDate = (string)reader["BookingDate"],
+                                        NumOfCarts = (int)reader["NumOfCarts"],
+                                        BookingTime = (string)reader["BookingTime"],
+                                        NumOfPlayer = (int)reader["NumOfPalyer"],
+                                        MemberID = (int)reader["MemberID"]
+
+
+
+                                    };
+
+
+                                    viewReservations.Add(reservation);
+                                }
+                            }
+                            else
+                            {
+                                viewReservations = null!;
+                            }
+
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        viewReservations = null!;
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+            return viewReservations;
+        }
+
+        #endregion region
+
+        #region GetEveryMemberWithRangeDate()
+        public List<Models.ViewEveryScore> GetEveryMemberWithRangeDate(DateTime FromDate, DateTime ToDate)
+        {
+            List<Models.ViewEveryScore> viewReservations = new List<Models.ViewEveryScore>();
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                using (SqlCommand command = new SqlCommand("GetEveryMemberWithRangeDate", conn))
+                {
+
+                    command.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+                        command.Parameters.AddWithValue("@DateFrom", FromDate).SqlDbType = SqlDbType.DateTime;
+                        command.Parameters.AddWithValue("@DateTo", ToDate).SqlDbType = SqlDbType.DateTime;
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                string d = "";
+                                while (reader.Read())
+                                {
+                                    Models.ViewEveryScore reservation = new Models.ViewEveryScore
+                                    {
+                                        FullName = (string)reader["FullName"],
+                                        DateofBirth = (string)reader["DateOfBirth"],
+                                        Score = (string)reader["Score"],
+                                        ScoreDate = (DateTime)reader["ScoreDate"],
+                                        TotalScore = (int)reader["TotalScore"],
+                                        MemberID = (int)reader["MemberID"],
+
+
+                                    };
+
+
+                                    viewReservations.Add(reservation);
+                                }
+                            }
+                            else
+                            {
+                                viewReservations = null!;
+                            }
+
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        viewReservations = null!;
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+            return viewReservations;
+        }
+
+        #endregion
+
+        #region ViewEveryReservationsNoRang
+
+        public List<Models.ViewEveryReservation> ViewEveryReservationsNoRange(int memberId)
+        {
+            List<Models.ViewEveryReservation> viewReservations = new List<Models.ViewEveryReservation>();
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                using (SqlCommand command = new SqlCommand("ViewEveryReservationNoRange", conn))
+                {
+
+                    command.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+                      
+                        command.Parameters.AddWithValue("@MemberID", memberId).SqlDbType = SqlDbType.Int;
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                string d = "";
+                                while (reader.Read())
+                                {
+                                    Models.ViewEveryReservation reservation = new Models.ViewEveryReservation
+                                    {
+                                        BookingDate = (string)reader["BookingDate"],
+                                        NumOfCarts = (int)reader["NumOfCarts"],
+                                        BookingTime = (string)reader["BookingTime"],
+                                        NumOfPlayer = (int)reader["NumOfPalyer"],
+                                        MemberID = (int)reader["MemberID"]
+
+
+
+                                    };
+
+
+                                    viewReservations.Add(reservation);
+                                }
+                            }
+                            else
+                            {
+                                viewReservations = null!;
+                            }
+
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        viewReservations = null!;
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+            return viewReservations;
+        }
+
+        #endregion 
+        #region  ViewEveryScoresWithNoRangeDate
+
+        public List<Models.ViewEveryScore> ViewEveryScoresWithNoRangeDate(int memberID)
+        {
+            List<Models.ViewEveryScore> viewReservations = new List<Models.ViewEveryScore>();
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                using (SqlCommand command = new SqlCommand("ViewEveryScoresWithNoRangeDate", conn))
+                {
+
+                    command.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+                       
+                        command.Parameters.AddWithValue("@MemberID", memberID).SqlDbType = SqlDbType.Int;
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                string d = "";
+                                while (reader.Read())
+                                {
+                                    Models.ViewEveryScore reservation = new Models.ViewEveryScore
+                                    {
+                                        FullName = (string)reader["FullName"],
+                                        DateofBirth = (string)reader["DateOfBirth"],
+                                        Score = (string)reader["Score"],
+                                        ScoreDate = (DateTime)reader["ScoreDate"],
+                                        TotalScore = (int)reader["TotalScore"],
+                                        MemberID = (int)reader["MemberID"],
+
+
+                                    };
+
+
+                                    viewReservations.Add(reservation);
+                                }
+                            }
+                            else
+                            {
+                                viewReservations = null!;
+                            }
+
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        viewReservations = null!;
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+            return viewReservations;
+        }
+
+        #endregion
+
         #region MemberApproved
 
         public List<Models.ViewEveryScore> ViewEveryScores(DateTime FromDate, DateTime ToDate, int memberId)

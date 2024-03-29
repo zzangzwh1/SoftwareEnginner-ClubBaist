@@ -213,8 +213,34 @@ namespace SoftwareEnginner_ClubBaist.Controller
         #endregion
 
         #region Score
-        
+ 
+       public List<Models.ViewEveryReservation> ViewEveryReservationsWithRange(DateTime FromDate, DateTime ToDate)
+        {
+            TechService.ClubScore clubScore = new TechService.ClubScore();
+            List<Models.ViewEveryReservation> reservations = clubScore.ViewEveryReservationsWithRange(FromDate,ToDate);
+            return reservations;
+        }
+        public List<Models.ViewEveryScore> GetEveryMemberWithRangeDate(DateTime FromDate, DateTime ToDate)
+        {
+            TechService.ClubScore clubScore = new TechService.ClubScore();
+            List<Models.ViewEveryScore> reservations = clubScore.GetEveryMemberWithRangeDate(FromDate,ToDate);
+            return reservations;
+        }
 
+        public List<Models.ViewEveryReservation> ViewEveryReservationsNoRange(int memberId)
+        {
+            TechService.ClubScore clubScore = new TechService.ClubScore();
+            List<Models.ViewEveryReservation> reservations = clubScore.ViewEveryReservationsNoRange(memberId);
+            return reservations;
+        }
+  
+
+        public List<Models.ViewEveryScore> ViewEveryScoresWithNoRangeDate(int memberID)
+        {
+            TechService.ClubScore clubScore = new TechService.ClubScore();
+            List<Models.ViewEveryScore> reservations = clubScore.ViewEveryScoresWithNoRangeDate(memberID);
+            return reservations;
+        }
         public List<Models.ViewEveryReservation> ViewEveryReservations(DateTime FromDate, DateTime ToDate, int memberId)
         {
             TechService.ClubScore clubScore = new TechService.ClubScore();
