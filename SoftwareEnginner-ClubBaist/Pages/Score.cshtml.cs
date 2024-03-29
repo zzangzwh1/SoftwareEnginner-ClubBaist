@@ -2,9 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SoftwareEnginner_ClubBaist.Business;
 using SoftwareEnginner_ClubBaist.Models;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace SoftwareEnginner_ClubBaist.Pages
 {
@@ -147,12 +145,10 @@ namespace SoftwareEnginner_ClubBaist.Pages
         }
         public void OnPostView()
         {
-            string s = "";
+
             GetSession();
 
-
-           
-            if (MemberID != 0 && (FromDate != DateTime.MinValue || ToDate != DateTime.MinValue))
+            if (MemberID != 0 && (FromDate != DateTime.MinValue && ToDate != DateTime.MinValue))
             {
                 RegularResult();
             }
@@ -160,18 +156,43 @@ namespace SoftwareEnginner_ClubBaist.Pages
             {
                 WhenDateIsMinValue();
             }
-            else if(MemberID == 0 && (FromDate != DateTime.MinValue && ToDate != DateTime.MinValue))
+            else if (MemberID == 0 && (FromDate != DateTime.MinValue && ToDate != DateTime.MinValue))
             {
                 GetEveryMemberWithRangeDate();
 
             }
-         
+            else if (MemberID == 0 && (FromDate == DateTime.MinValue || ToDate == DateTime.MinValue))
+            {                
+                GetEveryMemberWithNoMemberIDAndDate();
 
+            }
+
+
+        }
+        private void GetEveryMemberWithNoMemberIDAndDate()
+        {
+            ViewEveryScore = business.GetEveryMemberScoreWithNoIdAndNoRangeDate();
+            if (ViewEveryScore != null)
+            {
+                foreach (var a in ViewEveryScore)
+                {
+                    ViewScoreArr = a.Score.Split(",");
+                }
+            }
+            else
+            {
+                ViewScoreMessage = "Socre  List is not exists";
+            }
+            ViewEveryReservation = business.ViewEveryReservationsWithNoRange();
+            if (ViewEveryReservation == null)
+            {
+                ViewReservationMessage = "Reservation List not Exists";
+            }
 
         }
         private void GetEveryMemberWithRangeDate()
         {
-            ViewEveryScore = business.GetEveryMemberWithRangeDate(FromDate,ToDate);
+            ViewEveryScore = business.GetEveryMemberScoreWithRangeDate(FromDate, ToDate);
             if (ViewEveryScore != null)
             {
                 foreach (var a in ViewEveryScore)

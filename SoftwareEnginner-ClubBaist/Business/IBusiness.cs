@@ -33,7 +33,10 @@ namespace SoftwareEnginner_ClubBaist.Business
         public List<Models.ViewEveryReservation> ViewEveryReservations(DateTime FromDate, DateTime ToDate, int memberId);
         public List<Models.ViewEveryScore> ViewEveryScoresWithNoRangeDate(int memberID);
         public List<Models.ViewEveryReservation> ViewEveryReservationsNoRange(int memberId);
-        public List<Models.ViewEveryScore> GetEveryMemberWithRangeDate(DateTime FromDate, DateTime ToDate);
+ 
         public List<Models.ViewEveryReservation> ViewEveryReservationsWithRange(DateTime FromDate, DateTime ToDate);
+        public List<Models.ViewEveryScore> GetEveryMemberScoreWithRangeDate(DateTime FromDate, DateTime ToDate);
+        public List<Models.ViewEveryScore> GetEveryMemberScoreWithNoIdAndNoRangeDate();
+        public List<Models.ViewEveryReservation> ViewEveryReservationsWithNoRange();
     }
 }

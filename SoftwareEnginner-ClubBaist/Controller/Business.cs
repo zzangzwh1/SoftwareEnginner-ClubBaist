@@ -214,16 +214,31 @@ namespace SoftwareEnginner_ClubBaist.Controller
 
         #region Score
  
-       public List<Models.ViewEveryReservation> ViewEveryReservationsWithRange(DateTime FromDate, DateTime ToDate)
+
+        public List<Models.ViewEveryReservation> ViewEveryReservationsWithNoRange()
         {
             TechService.ClubScore clubScore = new TechService.ClubScore();
-            List<Models.ViewEveryReservation> reservations = clubScore.ViewEveryReservationsWithRange(FromDate,ToDate);
+            List<Models.ViewEveryReservation> reservations = clubScore.ViewEveryReservationsWithNoRange();
             return reservations;
         }
-        public List<Models.ViewEveryScore> GetEveryMemberWithRangeDate(DateTime FromDate, DateTime ToDate)
+
+        public List<Models.ViewEveryScore> GetEveryMemberScoreWithNoIdAndNoRangeDate()
         {
             TechService.ClubScore clubScore = new TechService.ClubScore();
-            List<Models.ViewEveryScore> reservations = clubScore.GetEveryMemberWithRangeDate(FromDate,ToDate);
+            List<Models.ViewEveryScore> reservations = clubScore.GetEveryMemberScoreWithNoIdAndNoRangeDate();
+            return reservations;
+        }
+
+        public List<Models.ViewEveryReservation> ViewEveryReservationsWithRange(DateTime FromDate, DateTime ToDate)
+        {
+            TechService.ClubScore clubScore = new TechService.ClubScore();
+            List<Models.ViewEveryReservation> reservations = clubScore.ViewEveryReservationsWithRange(FromDate, ToDate);
+            return reservations;
+        }
+        public List<Models.ViewEveryScore> GetEveryMemberScoreWithRangeDate(DateTime FromDate, DateTime ToDate)
+        {
+            TechService.ClubScore clubScore = new TechService.ClubScore();
+            List<Models.ViewEveryScore> reservations = clubScore.GetEveryMemberScoreWithRangeDate(FromDate, ToDate);
             return reservations;
         }
 
@@ -233,7 +248,7 @@ namespace SoftwareEnginner_ClubBaist.Controller
             List<Models.ViewEveryReservation> reservations = clubScore.ViewEveryReservationsNoRange(memberId);
             return reservations;
         }
-  
+
 
         public List<Models.ViewEveryScore> ViewEveryScoresWithNoRangeDate(int memberID)
         {
