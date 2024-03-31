@@ -144,20 +144,24 @@
             </div>
         </section>
         if (Model.ViewEveryScore != null)
-        {
-            <Section class="container">
+        { 
+            //<Section class="container" style="max-height: 600px; overflow-y: auto;">
+                <section class="divHeader">
                 <h1>VIEW EVERY SCORE</h1>
 
-                <table class="table-responsivend-0 table-responsive-md">
+             @*    <table class="table-responsivend-0 table-responsive-md"  > *@
+
+                 <table class="fl-table">
                     <thead>
                         <tr>
                             <th>MemberID</th>
                             <th>FullName</th>
-                            <th>Date OfBirth</th>                            
+                            <th>DateOfBirth</th>                            
                                
                             @for (int i = 1; i <= Model.ViewScoreArr.Length; i++)
                             {
-                                <th>Hole @i</th>
+                                string result = $"Hole{i}";
+                                <th>@result</th>
                             } 
                             <th>ScoreDate</th>
                             <th>TotalScore</th>
@@ -188,7 +192,8 @@
 
                     </tbody>
                 </table>
-            </Section>
+            </Section> 
+           
         }
         else
         {

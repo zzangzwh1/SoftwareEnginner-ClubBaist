@@ -213,14 +213,16 @@
 
 .fl-table {
     border-radius: 5px;
-    font-size: 8px;
+    font-size: 12px;
     font-weight: normal;
     border: none;
     border-collapse: collapse;
     width: 100%;
-    max-width: 100%;
+   max-width: 100%;
     white-space: nowrap;
     background-color: white;
+    overflow-x: auto;
+    max-width :650px;
 }
 
     .fl-table td, .fl-table th {
@@ -230,7 +232,7 @@
 
     .fl-table td {
         border-right: 1px solid #f8f8f8;
-        font-size: 12px;
+        font-size: 14px;
     }
 
     .fl-table thead th {
@@ -277,7 +279,7 @@
         cursor: pointer;
     }
 /* Responsive */
-@media (max-width: 650px) {
+@media (max-width: 1600px) {
     .fl-table {
         display: block;
         width: 100%;
