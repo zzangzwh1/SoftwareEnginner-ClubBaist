@@ -82,6 +82,7 @@
                             {
                                 <th>Hole Score @i</th>
                             }
+                           
                             <th>Handicap</th>
                             <th>Date</th>
                         </tr>
@@ -94,8 +95,11 @@
                             {
                                 <td> @Model.SplitScore[i]</td>
                             }
-
-                            <td>@Model.golfScore.TotalScore</td>
+                            @{
+                                int handicap = Model.golfScore.TotalScore - 75;
+                            }
+                            <td>@handicap</td>
+                            
                             <td>@Model.golfScore.ScoreDate</td>
                         </tr>
                     </tbody>
@@ -154,14 +158,16 @@
                             @for (int i = 1; i <= Model.ViewScoreArr.Length; i++)
                             {
                                 <th>Hole Score @i</th>
-                            }
+                            } 
                             <th>ScoreDate</th>
                             <th>TotalScore</th>
+                            <th>HandiCap</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var val in Model.ViewEveryScore)
                         {
+                            int handicap = val.TotalScore - 75;
                             <tr>
                                 <td>@val.MemberID</td>
                                 <td>@val.FullName</td>
@@ -170,8 +176,11 @@
                                 {
                                     <td>@Model.ViewScoreArr[i]</td>
                                 }
+                                
                                 <td>@val.ScoreDate</td>
                                 <td>@val.TotalScore</td>
+                                
+                                <td>@handicap</td>
 
 
                             </tr>

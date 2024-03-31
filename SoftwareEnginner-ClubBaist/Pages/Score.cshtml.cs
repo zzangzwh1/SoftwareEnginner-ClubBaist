@@ -148,28 +148,39 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
             GetSession();
 
-            if (MemberID != 0 && (FromDate != DateTime.MinValue && ToDate != DateTime.MinValue))
+            switch (UserName)
             {
-                RegularResult();
-            }
-            else if (MemberID != 0 && (FromDate == DateTime.MinValue || ToDate == DateTime.MinValue))
-            {
-                WhenDateIsMinValue();
-            }
-            else if (MemberID == 0 && (FromDate != DateTime.MinValue && ToDate != DateTime.MinValue))
-            {
-                GetEveryMemberWithRangeDate();
-            }
-            else if (MemberID == 0 && (FromDate == DateTime.MinValue || ToDate == DateTime.MinValue))
-            {                
-                GetEveryMemberWithNoMemberIDAndDate();           
+                case "Admin":
+                    if (FromDate != DateTime.MinValue && ToDate != DateTime.MinValue)
+                    {
+                        RegularResult();
+                    }
+                    else
+                    {
+                        GetEveryMemberWithNoMemberIDAndDate();
+                    }
+                    break;
+                default:
+                    MemberID = business.GetMemberID(UserName);
+                    if (FromDate != DateTime.MinValue && ToDate != DateTime.MinValue)
+                    {
+                        RegularResult();
+                    }
+                    else
+                    {
+                        WhenDateIsMinValue();
+                    }
 
+                    break;
             }
+
+
 
 
         }
         private void GetEveryMemberWithNoMemberIDAndDate()
         {
+
             ViewEveryScore = business.GetEveryMemberScoreWithNoIdAndNoRangeDate();
             if (ViewEveryScore != null)
             {
@@ -234,26 +245,18 @@ namespace SoftwareEnginner_ClubBaist.Pages
         }
         private void RegularResult()
         {
-            bool isValid = true;
-            int memberId = 0;
-            if (UserName == "Admin")
-            {
-                memberId = business.IsMemberIDApprovedAndRegister(MemberID);
-                if (memberId <= 0)
-                    isValid = false;
-            }
 
-            else if (!string.IsNullOrEmpty(UserName) && UserName != "Admin")
+            int memberId = 0;
+
+
+            if (MemberID == 0)
             {
-                memberId = business.GetMemberID(UserName);
+                GetEveryMemberWithRangeDate();
+
             }
             else
             {
-                isValid = false;
-            }
-
-            if (isValid)
-            {
+                memberId = business.IsMemberIDApprovedAndRegister(MemberID);
                 ViewEveryScore = business.ViewEveryScores(FromDate, ToDate, memberId);
 
 
@@ -274,14 +277,10 @@ namespace SoftwareEnginner_ClubBaist.Pages
                 {
                     ViewReservationMessage = "Reservation List not Exists";
                 }
-
-
             }
-            else
-            {
-                ViewMessage = "Resrvation and View List is not exists";
-            }
+
         }
+
         private void GetSession()
         {
 

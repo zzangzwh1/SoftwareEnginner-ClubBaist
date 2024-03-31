@@ -213,7 +213,7 @@
 
 .fl-table {
     border-radius: 5px;
-    font-size: 12px;
+    font-size: 8px;
     font-weight: normal;
     border: none;
     border-collapse: collapse;
@@ -277,7 +277,7 @@
         cursor: pointer;
     }
 /* Responsive */
-@media (max-width: 767px) {
+@media (max-width: 650px) {
     .fl-table {
         display: block;
         width: 100%;
