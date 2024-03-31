@@ -145,19 +145,19 @@
         </section>
         if (Model.ViewEveryScore != null)
         {
-            <Section class="divHeader">
+            <Section class="container">
                 <h1>VIEW EVERY SCORE</h1>
 
-                <table class="fl-table">
+                <table class="table-responsivend-0 table-responsive-md">
                     <thead>
                         <tr>
                             <th>MemberID</th>
                             <th>FullName</th>
-                            <th>Date OfBirth   </th>                            
+                            <th>Date OfBirth</th>                            
                                
                             @for (int i = 1; i <= Model.ViewScoreArr.Length; i++)
                             {
-                                <th>Hole Score @i</th>
+                                <th>Hole @i</th>
                             } 
                             <th>ScoreDate</th>
                             <th>TotalScore</th>
