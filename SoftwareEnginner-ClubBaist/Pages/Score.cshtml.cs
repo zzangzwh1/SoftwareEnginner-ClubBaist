@@ -170,7 +170,6 @@ namespace SoftwareEnginner_ClubBaist.Pages
                     {
                         WhenDateIsMinValue();
                     }
-
                     break;
             }
 
@@ -180,24 +179,32 @@ namespace SoftwareEnginner_ClubBaist.Pages
         }
         private void GetEveryMemberWithNoMemberIDAndDate()
         {
-
-            ViewEveryScore = business.GetEveryMemberScoreWithNoIdAndNoRangeDate();
-            if (ViewEveryScore != null)
+           int memberId = business.IsMemberIDApprovedAndRegister(MemberID);
+            if(memberId == 0)
             {
-                foreach (var a in ViewEveryScore)
+                ViewEveryScore = business.GetEveryMemberScoreWithNoIdAndNoRangeDate();
+                if (ViewEveryScore != null)
                 {
-                    ViewScoreArr = a.Score.Split(",");
+                    foreach (var a in ViewEveryScore)
+                    {
+                        ViewScoreArr = a.Score.Split(",");
+                    }
+                }
+                else
+                {
+                    ViewScoreMessage = "Socre  List is not exists";
+                }
+                ViewEveryReservation = business.ViewEveryReservationsWithNoRange();
+                if (ViewEveryReservation == null)
+                {
+                    ViewReservationMessage = "Reservation List not Exists";
                 }
             }
             else
-            {
-                ViewScoreMessage = "Socre  List is not exists";
+            { 
+                WhenDateIsMinValue();
             }
-            ViewEveryReservation = business.ViewEveryReservationsWithNoRange();
-            if (ViewEveryReservation == null)
-            {
-                ViewReservationMessage = "Reservation List not Exists";
-            }
+           
 
         }
         private void GetEveryMemberWithRangeDate()
