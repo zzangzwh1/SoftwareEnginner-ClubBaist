@@ -36,8 +36,8 @@ namespace SoftwareEnginner_ClubBaist.Pages
         public string Admin { set; get; } = "";
         public string Message { set; get; } = "";
 
-        public List<BookingReservation> reservations = null;
-        public Models.ClubBooking clubMember = null;
+        public List<BookingReservation> reservations = null!;
+        public Models.ClubBooking clubMember = null!;
 
 
         public void OnGet()
@@ -61,7 +61,7 @@ namespace SoftwareEnginner_ClubBaist.Pages
         }
         public void OnPostUpdate()
         {
-            int n = 0;
+           
             reservations = business.GetBookingReservations(Convert.ToInt16(aID));
             Username = HttpContext.Session.GetString("member")!;
         

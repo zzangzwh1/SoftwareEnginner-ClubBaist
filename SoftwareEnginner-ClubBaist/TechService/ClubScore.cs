@@ -37,7 +37,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
                         {
                             if (reader.HasRows)
                             {
-                                string d = "";
+                               
                                 while (reader.Read())
                                 {
                                     Models.ViewEveryReservation reservation = new Models.ViewEveryReservation
@@ -156,7 +156,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
                         {
                             if (reader.HasRows)
                             {
-                                string d = "";
+                          
                                 while (reader.Read())
                                 {
                                     Models.ViewEveryReservation reservation = new Models.ViewEveryReservation
@@ -217,7 +217,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
                         {
                             if (reader.HasRows)
                             {
-                                string d = "";
+                             
                                 while (reader.Read())
                                 {
                                     Models.ViewEveryScore reservation = new Models.ViewEveryScore
@@ -276,7 +276,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
                         {
                             if (reader.HasRows)
                             {
-                                string d = "";
+                                
                                 while (reader.Read())
                                 {
                                     Models.ViewEveryReservation reservation = new Models.ViewEveryReservation
@@ -337,7 +337,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
                         {
                             if (reader.HasRows)
                             {
-                                string d = "";
+                                
                                 while (reader.Read())
                                 {
                                     Models.ViewEveryScore reservation = new Models.ViewEveryScore
@@ -460,7 +460,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
                         {
                             if (reader.HasRows)
                             {
-                                string d = "";
+                               
                                 while (reader.Read())
                                 {
                                     Models.ViewEveryReservation reservation = new Models.ViewEveryReservation

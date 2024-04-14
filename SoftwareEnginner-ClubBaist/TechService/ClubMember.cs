@@ -155,7 +155,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
         public string GetMemberName(string username)
         {
             string firstName = "";
-            string lastName = "";
+         
 
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
@@ -175,7 +175,7 @@ namespace SoftwareEnginner_ClubBaist.TechService
                                 while (reader.Read())
                                 {
                                     firstName = (string)reader["firstname"];
-                                    //lastName = (string)reader["LastName"];
+                                   
                                 }
                             }
                             else
