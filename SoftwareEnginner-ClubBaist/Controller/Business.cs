@@ -101,6 +101,13 @@ namespace SoftwareEnginner_ClubBaist.Controller
 
         #region Reservation
 
+        public string RemoveBookingReservation(int bookingId)
+        {
+            TechService.ClubBooking booking = new TechService.ClubBooking();
+            string result = booking.RemoveBookingReservation(bookingId);
+            return result;
+        }
+
         public string UpdateReservation(Models.ClubBooking clubMember)
         {
             TechService.ClubBooking booking = new TechService.ClubBooking();

@@ -95,6 +95,7 @@
 
                         <h4 style="color:red">@Model.Message</h4>
                     </div>
+                    <Section class="divHeader">
                     <table class="fl-table">
                         <thead>
                             <tr>
@@ -106,14 +107,14 @@
                                 <th>Carts</th>
                                 <th>Players</th>
                                 <th>Update</th>
+                                <th>Delete</th>
 
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-
                                 <td><input name="aID" value="@item.MemberID" readonly class="form-control" /></td>
-                                <td><input name="aFullname" value="@item.FirstName @item.LastName" readonly class="form-control" /></td>
+                                <td><input name="aFullname" value="@item.FirstName @item.LastName" readonly class="form-control" style="width:150px;"/></td>
                                 <td><input name="aBookingID" value="@item.BookingId" readonly class="form-control" /></td>
                                 <td><input type="date" name="aDate" value="@item.BookingDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" /></td>
 
@@ -132,16 +133,21 @@
                                         }
                                     </select>
                                 </td>
-                                <td><input type="text" name="aNumOfCart" value="@item.NumOfCars" class="form-control" /></td>
+                                <td><input type="text" name="aNumOfCart" value="@item.NumOfCars" class="form-control" style="width:50px;" /></td>
                                 <td> <input type="text" name="aNumOfPlayer" value="@item.NumOfPlayer" pattern="[0-9]{1,4}" title="Please enter a number with 1 to 4 digits." class="form-control" /></td>
                                 <td>
                                     <input type="submit" name="Submit" id="updateButton" value="Update" class="submit" asp-page-handler="Update" />
                                 </td>
+                                    <td>
+                                    <input type="submit" name="Submit" id="DeleteButton" value="Delete" class="submit" asp-page-handler="Delete" />
+                                </td>
+
+
                             </tr>
                         </tbody>
                     </table>
 
-
+                    </section>
                 </form>
             }
         }

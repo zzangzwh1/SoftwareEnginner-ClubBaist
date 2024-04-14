@@ -61,7 +61,8 @@ namespace SoftwareEnginner_ClubBaist.Pages
         }
         public void OnPostUpdate()
         {
-            reservations = business.GetBookingReservations(Convert.ToInt16(MemberID));
+            int n = 0;
+            reservations = business.GetBookingReservations(Convert.ToInt16(aID));
             Username = HttpContext.Session.GetString("member")!;
         
             clubMember = new()
@@ -79,6 +80,16 @@ namespace SoftwareEnginner_ClubBaist.Pages
 
 
             Username = HttpContext.Session.GetString("member")!;
+        }
+        public void OnPostDelete()
+        {
+
+            int bookingId = aBookingID;
+            string result =  business.RemoveBookingReservation(bookingId);
+
+            Message = result;
+            Username = HttpContext.Session.GetString("member")!;
+
         }
     }
 }

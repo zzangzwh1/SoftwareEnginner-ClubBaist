@@ -17,6 +17,44 @@ namespace SoftwareEnginner_ClubBaist.TechService
             IConfiguration databaseUsersConfiguration = databaseUserBuilder.Build();
             _connectionString = databaseUsersConfiguration.GetConnectionString("BAIST3150");
         }
+
+        public string RemoveBookingReservation(int bookingId)
+        {
+            string result = "Sucessfully Reservation is Deleted!";
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                using (SqlCommand command = new SqlCommand("DeleteBooking", conn))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    try
+                    {
+                        command.Parameters.AddWithValue("@BookingID", bookingId).SqlDbType = SqlDbType.Int;
+                       
+                        command.ExecuteNonQuery();
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        result = ex.Message;
+
+
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+
+
+                }
+
+
+            }
+
+            return result;
+        }
         public List<BookingReservation> GetBookingReservations(int memberID)
         {
             var viewReservations = new List<BookingReservation>();

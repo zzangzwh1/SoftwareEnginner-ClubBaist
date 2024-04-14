@@ -38,5 +38,6 @@ namespace SoftwareEnginner_ClubBaist.Business
         public List<Models.ViewEveryScore> GetEveryMemberScoreWithRangeDate(DateTime FromDate, DateTime ToDate);
         public List<Models.ViewEveryScore> GetEveryMemberScoreWithNoIdAndNoRangeDate();
         public List<Models.ViewEveryReservation> ViewEveryReservationsWithNoRange();
+        public string RemoveBookingReservation(int bookingId);
     }
 }
